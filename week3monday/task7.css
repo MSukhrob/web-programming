@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f0fdf4;
+  padding: 40px 16px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 350px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #15803d;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #15803d;
+  margin-bottom: 6px;
+}
+
+.role {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 18px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin-bottom: 18px;
+}
+
+.skills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge {
+  background-color: #dcfce7;
+  color: #15803d;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
