@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>javascript basics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8fafc;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      color: #334155;
+    }
+    h1 {
+      color: #0f172a;
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+    p.intro {
+      margin-bottom: 24px;
+      color: #64748b;
+    }
+    section {
+      background-color: #ffffff;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+    }
+    h2 {
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #1e293b;
+    }
+    input {
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    button {
+      padding: 7px 12px;
+      border: 1px solid #cbd5e1;
+      background-color: #f1f5f9;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button:hover {
+      background-color: #e2e8f0;
+    }
+    .result {
+      margin-top: 10px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>javascript basics</h1>
+  <p class="intro">practice with dom manipulation, conditions, loops and local storage.</p>
+
+  <section>
+    <h2>changing content</h2>
+    <p id="message">initial text</p>
+    <button onclick="changeText()">update text</button>
+  </section>
+
+  <section>
+    <h2>reading user input</h2>
+    <input type="text" id="nameInput" placeholder="enter your name">
+    <button onclick="greet()">greet</button>
+    <p id="output" class="result"></p>
+  </section>
+
+  <section>
+    <h2>condition (if / else)</h2>
+    <p>enter a score:</p>
+    <input type="number" id="scoreInput" placeholder="score">
+    <button onclick="checkScore()">check</button>
+    <p id="grade" class="result"></p>
+  </section>
+
+  <section>
+    <h2>loop (for)</h2>
+    <p>enter a number:</p>
+    <input type="number" id="loopInput" placeholder="number">
+    <button onclick="runLoop()">run</button>
+    <p id="loop" class="result"></p>
+  </section>
+
+  <section>
+    <h2>loop through an array</h2>
+    <p id="courses" class="result"></p>
+  </section>
+
+  <section>
+    <h2>localStorage</h2>
+    <p id="saved" class="result"></p>
+  </section>
+
+  <script>
+    let studentName = 'Sukhrob';
+    const limit = 100;
+
+    console.log(studentName);
+
+    function changeText() {
+      let el = document.getElementById('message');
+      el.textContent = 'text has been updated';
+      el.style.color = '#2563eb';
+    }
+
+    function greet() {
+      let name = document.getElementById('nameInput').value;
+      document.getElementById('output').textContent = 'hello, ' + name;
+      localStorage.setItem('name', name);
+    }
+
+    function checkScore() {
+      let score = document.getElementById('scoreInput').value;
+      localStorage.setItem('score', score);
+
+      if (score >= 90) {
+        document.getElementById('grade').textContent = 'grade: a';
+      } else if (score >= 80) {
+        document.getElementById('grade').textContent = 'grade: b';
+      } else if (score >= 70) {
+        document.getElementById('grade').textContent = 'grade: c';
+      } else {
+        document.getElementById('grade').textContent = 'grade: f';
+      }
+    }
+
+    function runLoop() {
+      let number = document.getElementById('loopInput').value;
+      localStorage.setItem('loopNumber', number);
+
+      let result = '';
+      for (let i = 1; i <= number; i++) {
+        result += 'step ' + i + '<br>';
+      }
+      document.getElementById('loop').innerHTML = result;
+    }
+
+    let items = ['web programming', 'database systems', 'data structures'];
+    let itemsText = '';
+    for (let item of items) {
+      itemsText += item + '<br>';
+    }
+    document.getElementById('courses').innerHTML = itemsText;
+
+    let savedName = localStorage.getItem('name');
+    let savedScore = localStorage.getItem('score');
+    let savedLoopNumber = localStorage.getItem('loopNumber');
+
+    if (savedName !== null) {
+      document.getElementById('nameInput').value = savedName;
+      document.getElementById('output').textContent = 'hello, ' + savedName;
+    }
+
+    if (savedScore !== null) {
+      document.getElementById('scoreInput').value = savedScore;
+      if (savedScore >= 90) {
+        document.getElementById('grade').textContent = 'grade: a';
+      } else if (savedScore >= 80) {
+        document.getElementById('grade').textContent = 'grade: b';
+      } else if (savedScore >= 70) {
+        document.getElementById('grade').textContent = 'grade: c';
+      } else {
+        document.getElementById('grade').textContent = 'grade: f';
+      }
+    }
+
+    if (savedLoopNumber !== null) {
+      document.getElementById('loopInput').value = savedLoopNumber;
+      let savedResult = '';
+      for (let i = 1; i <= savedLoopNumber; i++) {
+        savedResult += 'step ' + i + '<br>';
+      }
+      document.getElementById('loop').innerHTML = savedResult;
+    }
+
+    localStorage.setItem('username', studentName);
+    document.getElementById('saved').textContent = 'saved name: ' + localStorage.getItem('username');
+  </script>
+
+</body>
+</html>
