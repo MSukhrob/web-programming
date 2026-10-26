@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>login form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+    }
+    .form-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    h1 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    p.desc {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .checkbox-group input {
+      width: 16px;
+      height: 16px;
+      accent-color: #2563eb;
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      margin-bottom: 0;
+      font-size: 0.85rem;
+      color: #475569;
+      cursor: pointer;
+      font-weight: 400;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 11px;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+    button[type="submit"]:hover {
+      background-color: #1d4ed8;
+    }
+    .message {
+      margin-top: 16px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      text-align: center;
+      display: none;
+    }
+    .message.success {
+      display: block;
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-card">
+    <h1>sign in</h1>
+    <p class="desc">enter your account credentials</p>
+
+    <form method="post" action="#" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="email">email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="name@example.com"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          placeholder="enter your password"
+        >
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="remember" name="remember">
+        <label for="remember">remember me on this device</label>
+      </div>
+
+      <button type="submit">sign in</button>
+      <div id="submitMsg" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const msg = document.getElementById('submitMsg');
+      const email = document.getElementById('email').value;
+      msg.className = 'message success';
+      msg.textContent = 'login submitted for ' + email;
+    }
+  </script>
+</body>
+</html>

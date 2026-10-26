@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>book search app</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.5;
+      padding: 30px 20px 60px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    p.subtitle {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+    .search-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .search-form {
+      display: flex;
+      gap: 10px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus {
+      border-color: #2563eb;
+    }
+    button.search-btn {
+      padding: 12px 22px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+    button.search-btn:hover {
+      background-color: #1d4ed8;
+    }
+    button.search-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .status-bar {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: #64748b;
+      min-height: 24px;
+    }
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #cbd5e1;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .error-text {
+      color: #dc2626;
+      font-weight: 500;
+    }
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .book-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .book-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+    .cover-wrap {
+      width: 100%;
+      height: 240px;
+      background-color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .no-cover {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 12px;
+    }
+    .book-info {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .book-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+    .book-author {
+      font-size: 0.85rem;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+    .book-year {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: auto;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>book search</h1>
+      <p class="subtitle">search books using the open library api</p>
+    </header>
+
+    <div class="search-card">
+      <form id="searchForm" class="search-form" onsubmit="handleSearch(event)">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="enter a book title or author..."
+          autocomplete="off"
+        >
+        <button type="submit" id="searchBtn" class="search-btn">search</button>
+      </form>
+      <div class="status-bar">
+        <div id="spinner" class="spinner"></div>
+        <span id="statusMessage">enter a keyword to begin search</span>
+      </div>
+    </div>
+
+    <div id="booksGrid" class="books-grid"></div>
+  </div>
+
+  <script>
+    async function handleSearch(event) {
+      event.preventDefault();
+      const input = document.getElementById('searchInput');
+      const query = input.value.trim();
+      const status = document.getElementById('statusMessage');
+      const spinner = document.getElementById('spinner');
+      const grid = document.getElementById('booksGrid');
+      const btn = document.getElementById('searchBtn');
+
+      if (!query) {
+        status.className = 'error-text';
+        status.textContent = 'please enter a title or author keyword';
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.style.display = 'block';
+      status.className = '';
+      status.textContent = 'searching open library for "' + query + '"...';
+      grid.innerHTML = '';
+
+      try {
+        const url = 'https://openlibrary.org/search.json?q=' + encodeURIComponent(query) + '&limit=20';
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error('http error ' + response.status);
+        }
+
+        const data = await response.json();
+        const books = Array.isArray(data.docs) ? data.docs : [];
+
+        if (books.length === 0) {
+          status.textContent = 'no books found for "' + query + '"';
+          grid.innerHTML = '<div class="empty-state">try searching with different keywords</div>';
+          return;
+        }
+
+        status.textContent = 'showing ' + books.length + ' results for "' + query + '"';
+        renderBooks(books, grid);
+      } catch (err) {
+        status.className = 'error-text';
+        status.textContent = 'error loading books: ' + err.message;
+      } finally {
+        spinner.style.display = 'none';
+        btn.disabled = false;
+      }
+    }
+
+    function renderBooks(books, container) {
+      container.innerHTML = '';
+
+      books.forEach(book => {
+        const card = document.createElement('div');
+        card.className = 'book-card';
+
+        const coverWrap = document.createElement('div');
+        coverWrap.className = 'cover-wrap';
+
+        if (book.cover_i) {
+          const img = document.createElement('img');
+          img.src = 'https://covers.openlibrary.org/b/id/' + book.cover_i + '-M.jpg';
+          img.alt = book.title || 'book cover';
+          img.loading = 'lazy';
+          coverWrap.appendChild(img);
+        } else {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'no-cover';
+          placeholder.textContent = 'cover not available';
+          coverWrap.appendChild(placeholder);
+        }
+
+        const info = document.createElement('div');
+        info.className = 'book-info';
+
+        const title = document.createElement('div');
+        title.className = 'book-title';
+        title.textContent = book.title || 'untitled';
+
+        const author = document.createElement('div');
+        author.className = 'book-author';
+        author.textContent = book.author_name ? book.author_name.slice(0, 2).join(', ') : 'author unknown';
+
+        const year = document.createElement('div');
+        year.className = 'book-year';
+        year.textContent = book.first_publish_year ? 'first published: ' + book.first_publish_year : '';
+
+        info.appendChild(title);
+        info.appendChild(author);
+        if (book.first_publish_year) {
+          info.appendChild(year);
+        }
+
+        card.appendChild(coverWrap);
+        card.appendChild(info);
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
