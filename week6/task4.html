@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>weather forecast</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 16px;
+      line-height: 1.5;
+    }
+    .weather-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 440px;
+      padding: 28px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+    header {
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    p.subtitle {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    .search-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: #2563eb;
+    }
+    button.btn-search {
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button.btn-search:hover {
+      background-color: #1d4ed8;
+    }
+    button.btn-search:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .quick-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .chip {
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      color: #475569;
+      cursor: pointer;
+    }
+    .chip:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+    .status-area {
+      font-size: 0.85rem;
+      color: #64748b;
+      min-height: 20px;
+      margin-bottom: 16px;
+    }
+    .error-msg {
+      color: #dc2626;
+      font-weight: 500;
+    }
+    .weather-info {
+      display: none;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .city-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .temp-display {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #2563eb;
+      margin: 8px 0;
+    }
+    .grid-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    .metric-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .metric-label {
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+    .metric-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="weather-card">
+    <header>
+      <h1>city weather</h1>
+      <p class="subtitle">live weather data powered by open-meteo</p>
+    </header>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="cityInput"
+        placeholder="enter city name..."
+        value="Seoul"
+      >
+      <button id="searchBtn" class="btn-search" onclick="fetchWeather()">search</button>
+    </div>
+
+    <div class="quick-chips">
+      <span class="chip" onclick="setCity('Seoul')">Seoul</span>
+      <span class="chip" onclick="setCity('Tashkent')">Tashkent</span>
+      <span class="chip" onclick="setCity('Tokyo')">Tokyo</span>
+      <span class="chip" onclick="setCity('London')">London</span>
+    </div>
+
+    <div id="statusMessage" class="status-area">ready</div>
+
+    <div id="weatherDisplay" class="weather-info">
+      <div id="locationName" class="city-title">—</div>
+      <div id="tempVal" class="temp-display">—°C</div>
+      <div class="grid-metrics">
+        <div class="metric-card">
+          <div class="metric-label">feels like</div>
+          <div id="apparentTemp" class="metric-val">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">humidity</div>
+          <div id="humidityVal" class="metric-val">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">wind speed</div>
+          <div id="windVal" class="metric-val">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">updated</div>
+          <div id="timeVal" class="metric-val">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setCity(name) {
+      document.getElementById('cityInput').value = name;
+      fetchWeather();
+    }
+
+    async function fetchWeather() {
+      const input = document.getElementById('cityInput');
+      const city = input.value.trim();
+      const status = document.getElementById('statusMessage');
+      const display = document.getElementById('weatherDisplay');
+      const btn = document.getElementById('searchBtn');
+
+      if (!city) {
+        status.className = 'status-area error-msg';
+        status.textContent = 'please enter a city name';
+        return;
+      }
+
+      btn.disabled = true;
+      status.className = 'status-area';
+      status.textContent = 'looking up location for ' + city + '...';
+      display.style.display = 'none';
+
+      try {
+        const geoUrl = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(city) + '&count=1';
+        const geoRes = await fetch(geoUrl);
+        if (!geoRes.ok) {
+          throw new Error('geocoding error ' + geoRes.status);
+        }
+
+        const geoData = await geoRes.json();
+        if (!geoData.results || geoData.results.length === 0) {
+          status.className = 'status-area error-msg';
+          status.textContent = 'city "' + city + '" not found';
+          return;
+        }
+
+        const loc = geoData.results[0];
+        status.textContent = 'fetching weather data...';
+
+        const weatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + loc.latitude + '&longitude=' + loc.longitude + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m';
+        const weatherRes = await fetch(weatherUrl);
+        if (!weatherRes.ok) {
+          throw new Error('forecast error ' + weatherRes.status);
+        }
+
+        const weatherData = await weatherRes.json();
+        const current = weatherData.current;
+        const units = weatherData.current_units || {};
+
+        document.getElementById('locationName').textContent = loc.name + (loc.country ? ', ' + loc.country : '');
+        document.getElementById('tempVal').textContent = current.temperature_2m + (units.temperature_2m || '°C');
+        document.getElementById('apparentTemp').textContent = current.apparent_temperature + (units.apparent_temperature || '°C');
+        document.getElementById('humidityVal').textContent = current.relative_humidity_2m + (units.relative_humidity_2m || '%');
+        document.getElementById('windVal').textContent = current.wind_speed_10m + ' ' + (units.wind_speed_10m || 'km/h');
+        document.getElementById('timeVal').textContent = current.time ? current.time.replace('T', ' ') : 'just now';
+
+        status.textContent = '';
+        display.style.display = 'block';
+      } catch (err) {
+        status.className = 'status-area error-msg';
+        status.textContent = 'failed to load weather: ' + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    document.getElementById('cityInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        fetchWeather();
+      }
+    });
+
+    fetchWeather();
+  </script>
+</body>
+</html>

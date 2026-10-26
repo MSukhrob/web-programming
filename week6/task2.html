@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>latest posts</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      padding: 36px 16px 64px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #0f172a;
+    }
+    button.btn-refresh {
+      padding: 9px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+    button.btn-refresh:hover {
+      background-color: #1d4ed8;
+    }
+    button.btn-refresh:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .status-box {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 16px;
+      min-height: 20px;
+    }
+    .error-msg {
+      color: #dc2626;
+      font-weight: 500;
+    }
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .post-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .post-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #2563eb;
+      background-color: #eff6ff;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .post-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .post-body {
+      font-size: 0.9rem;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>latest posts</h1>
+      </div>
+      <button id="refreshBtn" class="btn-refresh" onclick="loadPosts()">refresh posts</button>
+    </header>
+
+    <div id="statusMessage" class="status-box">loading posts from api...</div>
+    <div id="postsList" class="posts-list"></div>
+  </div>
+
+  <script>
+    async function loadPosts() {
+      const status = document.getElementById('statusMessage');
+      const list = document.getElementById('postsList');
+      const btn = document.getElementById('refreshBtn');
+
+      btn.disabled = true;
+      status.className = 'status-box';
+      status.textContent = 'fetching posts from jsonplaceholder...';
+      list.innerHTML = '';
+
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        if (!response.ok) {
+          throw new Error('http error ' + response.status);
+        }
+
+        const posts = await response.json();
+        if (!Array.isArray(posts) || posts.length === 0) {
+          status.textContent = 'no posts found';
+          return;
+        }
+
+        status.textContent = 'displaying ' + posts.length + ' latest posts';
+        posts.forEach(post => {
+          const card = document.createElement('div');
+          card.className = 'post-card';
+
+          const header = document.createElement('div');
+          header.className = 'post-header';
+
+          const badge = document.createElement('span');
+          badge.className = 'post-badge';
+          badge.textContent = 'post #' + post.id;
+          header.appendChild(badge);
+
+          const title = document.createElement('div');
+          title.className = 'post-title';
+          title.textContent = post.title;
+
+          const body = document.createElement('div');
+          body.className = 'post-body';
+          body.textContent = post.body;
+
+          card.appendChild(header);
+          card.appendChild(title);
+          card.appendChild(body);
+          list.appendChild(card);
+        });
+      } catch (err) {
+        status.className = 'status-box error-msg';
+        status.textContent = 'failed to load posts: ' + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>

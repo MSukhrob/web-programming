@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>interactive color palette</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 32px 20px 60px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+    p.intro {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    input[type="text"] {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-family: monospace;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      background-color: #1e293b;
+      color: #f8fafc;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: #3b82f6;
+    }
+    button {
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.15s, transform 0.1s;
+    }
+    button.btn-add {
+      background-color: #3b82f6;
+      color: #ffffff;
+    }
+    button.btn-add:hover {
+      background-color: #2563eb;
+    }
+    button.btn-export {
+      background-color: #10b981;
+      color: #ffffff;
+    }
+    button.btn-export:hover {
+      background-color: #059669;
+    }
+    button.btn-reset {
+      background-color: #334155;
+      color: #cbd5e1;
+    }
+    button.btn-reset:hover {
+      background-color: #475569;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    .message {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      min-height: 20px;
+      margin-bottom: 20px;
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .color-card {
+      height: 160px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      user-select: none;
+      transition: height 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .color-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    .color-card.expanded {
+      height: 220px;
+    }
+    .hint-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      font-weight: 400;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>interactive color palette</h1>
+      <p class="intro">click a color to reveal its hex code, double-click to remove it</p>
+    </header>
+
+    <div class="controls">
+      <input
+        type="text"
+        id="hexInput"
+        placeholder="#3B82F6"
+        maxlength="7"
+      >
+      <button class="btn-add" onclick="addColor()">add color</button>
+      <button class="btn-export" onclick="exportPalette()">export png</button>
+      <button class="btn-reset" onclick="resetDefault()">reset</button>
+    </div>
+
+    <div id="statusMessage" class="message">ready</div>
+
+    <div id="paletteGrid" class="palette-grid"></div>
+  </div>
+
+  <script>
+    const defaultColors = ['#2563EB', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+    let colors = loadColors();
+
+    function loadColors() {
+      try {
+        const stored = localStorage.getItem('user_color_palette');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed;
+          }
+        }
+      } catch (e) {}
+      return [...defaultColors];
+    }
+
+    function saveColors() {
+      try {
+        localStorage.setItem('user_color_palette', JSON.stringify(colors));
+      } catch (e) {}
+    }
+
+    function renderPalette() {
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      colors.forEach((color, index) => {
+        const card = document.createElement('div');
+        card.className = 'color-card';
+        card.style.backgroundColor = color;
+        card.title = 'click to expand, double-click to delete';
+
+        const codeSpan = document.createElement('span');
+        codeSpan.textContent = '';
+
+        const hintSpan = document.createElement('span');
+        hintSpan.className = 'hint-label';
+        hintSpan.textContent = '';
+
+        card.addEventListener('click', () => {
+          card.classList.toggle('expanded');
+          if (card.classList.contains('expanded')) {
+            codeSpan.textContent = color;
+            hintSpan.textContent = 'double-click to delete';
+          } else {
+            codeSpan.textContent = '';
+            hintSpan.textContent = '';
+          }
+        });
+
+        card.addEventListener('dblclick', () => {
+          colors.splice(index, 1);
+          saveColors();
+          renderPalette();
+          showMessage('color ' + color + ' removed');
+        });
+
+        card.appendChild(codeSpan);
+        card.appendChild(hintSpan);
+        grid.appendChild(card);
+      });
+    }
+
+    function addColor() {
+      const input = document.getElementById('hexInput');
+      let val = input.value.trim().toUpperCase();
+
+      if (!val.startsWith('#')) {
+        val = '#' + val;
+      }
+
+      const hexRegex = /^#[0-9A-F]{6}$/;
+      if (!hexRegex.test(val)) {
+        showMessage('please enter a valid 6-digit hex code, e.g. #3B82F6');
+        return;
+      }
+
+      if (colors.includes(val)) {
+        showMessage('color ' + val + ' already exists in the palette');
+        return;
+      }
+
+      colors.push(val);
+      saveColors();
+      renderPalette();
+      input.value = '';
+      showMessage('color ' + val + ' added to palette');
+    }
+
+    function resetDefault() {
+      colors = [...defaultColors];
+      saveColors();
+      renderPalette();
+      showMessage('palette reset to default colors');
+    }
+
+    function showMessage(text) {
+      document.getElementById('statusMessage').textContent = text;
+    }
+
+    function exportPalette() {
+      if (colors.length === 0) {
+        showMessage('no colors to export');
+        return;
+      }
+
+      const cols = Math.min(3, colors.length);
+      const rows = Math.ceil(colors.length / cols);
+      const cardWidth = 200;
+      const cardHeight = 120;
+      const gap = 16;
+      const padding = 24;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = padding * 2 + cols * cardWidth + (cols - 1) * gap;
+      canvas.height = padding * 2 + rows * cardHeight + (rows - 1) * gap;
+
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      colors.forEach((col, i) => {
+        const c = i % cols;
+        const r = Math.floor(i / cols);
+        const x = padding + c * (cardWidth + gap);
+        const y = padding + r * (cardHeight + gap);
+
+        ctx.fillStyle = col;
+        ctx.fillRect(x, y, cardWidth, cardHeight);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 16px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(col, x + cardWidth / 2, y + cardHeight / 2);
+      });
+
+      const link = document.createElement('a');
+      link.download = 'palette.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showMessage('palette exported as palette.png');
+    }
+
+    document.getElementById('hexInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        addColor();
+      }
+    });
+
+    renderPalette();
+  </script>
+</body>
+</html>
