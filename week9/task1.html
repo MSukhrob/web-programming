@@ -3,445 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>javascript form validation</title>
+  <title>JavaScript Form Validation – Course Enrolment</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --paper: #fbf6ec;
+      --ink: #1f2a44;
+      --muted: #6b6a63;
+      --lapis: #1d4e89;
+      --turquoise: #2a9d8f;
+      --saffron: #e9a23b;
+      --brick: #b83a2e;
+      --line: #e4d9c3;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f8fafc;
-      color: #1e293b;
-      padding: 40px 16px 80px;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 28px 16px 48px;
       line-height: 1.5;
     }
-    .wrapper {
-      max-width: 520px;
-      margin: 0 auto;
+    .page { max-width: 540px; margin: 0 auto; }
+    .band {
+      height: 10px;
+      border-radius: 10px 10px 0 0;
+      background: repeating-linear-gradient(45deg, var(--lapis) 0 10px, var(--turquoise) 10px 20px, var(--saffron) 20px 30px);
     }
-    header {
-      text-align: center;
-      margin-bottom: 24px;
+    .sheet {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-top: 0;
+      border-radius: 0 0 16px 16px;
+      padding: 26px 28px 30px;
+      box-shadow: 0 14px 34px rgba(31, 42, 68, .1);
     }
-    h1 {
-      font-size: 1.5rem;
-      color: #0f172a;
-      margin-bottom: 6px;
-    }
-    p.subtitle {
-      font-size: 0.9rem;
-      color: #64748b;
-    }
-    .form-box {
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 32px 28px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-    }
-    fieldset {
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 16px 18px 20px;
-      margin-bottom: 20px;
-    }
-    legend {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #2563eb;
-      padding: 0 8px;
-    }
-    .field-group {
-      margin-top: 14px;
-    }
-    .field-group:first-of-type {
-      margin-top: 4px;
-    }
-    label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 4px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    select {
+    h1 { font-family: Georgia, serif; font-size: 1.6rem; }
+    .lead { color: var(--muted); font-size: .9rem; margin: 4px 0 20px; }
+
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: .83rem; font-weight: 600; margin-bottom: 5px; }
+    input:not([type="checkbox"]), select {
       width: 100%;
-      padding: 10px 13px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      background-color: #ffffff;
-      outline: none;
-      transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+      font: inherit;
+      font-size: .93rem;
+      padding: 10px 12px;
+      border: 2px solid var(--line);
+      border-radius: 9px;
+      background: #fffdf8;
+      transition: border-color .2s, background .2s;
     }
-    input:focus,
-    select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    input:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(29, 78, 137, .22);
+      outline-offset: 1px;
+      border-color: var(--lapis);
     }
-    input.is-valid,
-    select.is-valid {
-      border-color: #16a34a;
-      background-color: #f0fdf4;
-    }
-    input.is-invalid,
-    select.is-invalid {
-      border-color: #dc2626;
-      background-color: #fef2f2;
-    }
-    .error-msg {
-      display: block;
-      color: #dc2626;
-      font-size: 0.8rem;
-      margin-top: 4px;
-      min-height: 18px;
-    }
-    .checkbox-wrap {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin: 18px 0 24px;
-    }
-    .checkbox-wrap input {
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-      accent-color: #2563eb;
-      cursor: pointer;
-    }
-    .checkbox-wrap label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #475569;
-      cursor: pointer;
-      line-height: 1.4;
-    }
-    button[type="submit"] {
+    [aria-invalid="true"] { border-color: var(--brick) !important; background: #fdf3f1 !important; }
+    [aria-invalid="false"] { border-color: var(--turquoise) !important; background: #f1faf7 !important; }
+    .error { min-height: 1.1em; margin-top: 4px; font-size: .78rem; color: var(--brick); }
+
+    .strength { display: flex; gap: 4px; margin-top: 6px; }
+    .strength span { flex: 1; height: 5px; border-radius: 4px; background: #efe7d5; transition: background .2s; }
+    .strength[data-level="1"] span:nth-child(-n+1) { background: var(--brick); }
+    .strength[data-level="2"] span:nth-child(-n+2) { background: var(--saffron); }
+    .strength[data-level="3"] span:nth-child(-n+3) { background: #8fbf5a; }
+    .strength[data-level="4"] span:nth-child(-n+4) { background: var(--turquoise); }
+    .strength-text { font-size: .75rem; color: var(--muted); margin-top: 3px; }
+
+    .terms { display: flex; gap: 10px; align-items: flex-start; font-size: .87rem; }
+    .terms input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--lapis); }
+
+    #submitBtn {
       width: 100%;
+      margin-top: 8px;
       padding: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      background-color: #2563eb;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
+      font: inherit;
+      font-weight: 700;
+      border: 0;
+      border-radius: 9px;
+      color: #fff;
       cursor: pointer;
-      transition: background-color 0.15s;
+      transition: background .2s;
     }
-    button[type="submit"]:hover {
-      background-color: #1d4ed8;
-    }
-    .success-card {
+    #submitBtn:enabled { background: var(--lapis); }
+    #submitBtn:enabled:hover { background: #163e6e; }
+    #submitBtn:disabled { background: #aab4c4; cursor: not-allowed; opacity: .8; }
+    .note { font-size: .76rem; color: var(--muted); text-align: center; margin-top: 8px; }
+
+    #success {
       display: none;
-      background-color: #ffffff;
-      border: 1px solid #86efac;
-      border-radius: 14px;
-      padding: 36px 28px;
-      text-align: center;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: #e5f5ef;
+      border: 1px solid #a8dcc9;
+      color: #1b6b52;
+      font-size: .9rem;
     }
-    .success-card h2 {
-      color: #16a34a;
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-    }
-    .success-card p {
-      color: #64748b;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-    }
-    .summary-box {
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 16px;
-      text-align: left;
-      font-size: 0.85rem;
-      line-height: 1.8;
-      margin-bottom: 20px;
-    }
-    .summary-box strong {
-      color: #0f172a;
-    }
-    .btn-reset {
-      padding: 10px 18px;
-      font-size: 0.85rem;
-      background-color: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+    #success.show { display: block; }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <header>
-      <h1>student registration</h1>
-      <p class="subtitle">real-time javascript form validation</p>
-    </header>
+  <div class="page">
+    <div class="band"></div>
+    <div class="sheet">
+      <h1>Course Enrolment</h1>
+      <p class="lead">Every field is checked live with JavaScript while you type.</p>
 
-    <div id="formContainer" class="form-box">
-      <form id="regForm" novalidate onsubmit="validateAndSubmit(event)">
-        <fieldset>
-          <legend>student profile</legend>
-
-          <div class="field-group">
-            <label for="studentId">student id (9 digits)</label>
-            <input
-              type="text"
-              id="studentId"
-              placeholder="e.g. 202612345"
-              aria-describedby="idError"
-            >
-            <span id="idError" class="error-msg" role="alert"></span>
-          </div>
-
-          <div class="field-group">
-            <label for="fullName">full name</label>
-            <input
-              type="text"
-              id="fullName"
-              placeholder="enter your full name"
-              aria-describedby="nameError"
-            >
-            <span id="nameError" class="error-msg" role="alert"></span>
-          </div>
-
-          <div class="field-group">
-            <label for="major">major</label>
-            <select id="major" aria-describedby="majorError">
-              <option value="">-- select your major --</option>
-              <option value="Computer Science">computer science</option>
-              <option value="Software Engineering">software engineering</option>
-              <option value="Information Technology">information technology</option>
-              <option value="Artificial Intelligence">artificial intelligence</option>
-            </select>
-            <span id="majorError" class="error-msg" role="alert"></span>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>credentials</legend>
-
-          <div class="field-group">
-            <label for="email">email address</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="name@example.com"
-              aria-describedby="emailError"
-            >
-            <span id="emailError" class="error-msg" role="alert"></span>
-          </div>
-
-          <div class="field-group">
-            <label for="password">password (min 8 characters)</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="at least 8 characters"
-              aria-describedby="passwordError"
-            >
-            <span id="passwordError" class="error-msg" role="alert"></span>
-          </div>
-
-          <div class="field-group">
-            <label for="confirmPassword">confirm password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="re-enter password"
-              aria-describedby="confirmError"
-            >
-            <span id="confirmError" class="error-msg" role="alert"></span>
-          </div>
-        </fieldset>
-
-        <div class="checkbox-wrap">
-          <input type="checkbox" id="agreeTerms" aria-describedby="termsError">
-          <label for="agreeTerms">i agree to the course registration guidelines</label>
+      <form id="enrolForm" novalidate>
+        <div class="field">
+          <label for="sid">Student ID</label>
+          <input type="text" id="sid" name="sid" inputmode="numeric" placeholder="9 digits, e.g. 202612345"
+                 required pattern="[0-9]{9}" aria-describedby="sid-err" autocomplete="off">
+          <div class="error" id="sid-err" role="alert"></div>
         </div>
-        <span id="termsError" class="error-msg" role="alert" style="margin-top: -16px; margin-bottom: 12px;"></span>
 
-        <button type="submit" id="submitBtn">submit registration</button>
+        <div class="field">
+          <label for="fullname">Full name</label>
+          <input type="text" id="fullname" name="fullname" placeholder="Your full name"
+                 required minlength="3" aria-describedby="fullname-err">
+          <div class="error" id="fullname-err" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label for="mail">Email</label>
+          <input type="email" id="mail" name="mail" placeholder="name@example.com"
+                 required aria-describedby="mail-err">
+          <div class="error" id="mail-err" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label for="track">Track</label>
+          <select id="track" name="track" required aria-describedby="track-err">
+            <option value="">Select a track</option>
+            <option>Front-end</option>
+            <option>Back-end</option>
+            <option>UI / UX design</option>
+            <option>Data and AI</option>
+          </select>
+          <div class="error" id="track-err" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label for="pass">Password</label>
+          <input type="password" id="pass" name="pass" placeholder="Minimum 8 characters"
+                 required minlength="8" aria-describedby="pass-err pass-meter">
+          <div class="strength" id="strength" data-level="0" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="strength-text" id="pass-meter">Strength: –</div>
+          <div class="error" id="pass-err" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label for="pass2">Repeat password</label>
+          <input type="password" id="pass2" name="pass2" placeholder="Type the same password"
+                 required aria-describedby="pass2-err">
+          <div class="error" id="pass2-err" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <div class="terms">
+            <input type="checkbox" id="agree" name="agree" required aria-describedby="agree-err">
+            <label for="agree" style="font-weight:400;margin:0">I accept the course rules and the academic honesty policy.</label>
+          </div>
+          <div class="error" id="agree-err" role="alert"></div>
+        </div>
+
+        <button type="submit" id="submitBtn" disabled>Enrol now</button>
+        <p class="note">The button unlocks when every field is valid.</p>
       </form>
-    </div>
 
-    <div id="successCard" class="success-card">
-      <h2>registration successful</h2>
-      <p>your registration details have been verified and processed</p>
-      <div id="summaryDetails" class="summary-box"></div>
-      <button class="btn-reset" onclick="resetForm()">register another student</button>
+      <div id="success" role="status" aria-live="polite"></div>
     </div>
   </div>
 
   <script>
-    const idInput = document.getElementById('studentId');
-    const nameInput = document.getElementById('fullName');
-    const majorInput = document.getElementById('major');
-    const emailInput = document.getElementById('email');
-    const passInput = document.getElementById('password');
-    const confirmInput = document.getElementById('confirmPassword');
-    const termsInput = document.getElementById('agreeTerms');
+    const form = document.getElementById('enrolForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const success = document.getElementById('success');
+    const pass = document.getElementById('pass');
+    const pass2 = document.getElementById('pass2');
+    const controls = [...form.elements].filter(el => el.name);
 
-    function markValid(el, errId) {
-      el.classList.remove('is-invalid');
-      el.classList.add('is-valid');
-      el.setAttribute('aria-invalid', 'false');
-      document.getElementById(errId).textContent = '';
-      return true;
+    // friendly message for the first broken constraint of a field
+    const messages = {
+      sid:      { valueMissing: 'Please enter your student ID.', patternMismatch: 'The ID must be exactly 9 digits.' },
+      fullname: { valueMissing: 'Please enter your name.', tooShort: 'Name needs at least 3 characters.' },
+      mail:     { valueMissing: 'Please enter your email.', typeMismatch: 'That does not look like an email address.' },
+      track:    { valueMissing: 'Pick one of the tracks.' },
+      pass:     { valueMissing: 'Please choose a password.', tooShort: 'Use at least 8 characters.' },
+      pass2:    { valueMissing: 'Please repeat the password.' },
+      agree:    { valueMissing: 'You need to accept the rules to continue.' }
+    };
+
+    function describe(el) {
+      if (el.validity.customError) return el.validationMessage;
+      const table = messages[el.name] || {};
+      const key = Object.keys(table).find(k => el.validity[k]);
+      return key ? table[key] : '';
     }
 
-    function markInvalid(el, errId, msg) {
-      el.classList.remove('is-valid');
-      el.classList.add('is-invalid');
-      el.setAttribute('aria-invalid', 'true');
-      document.getElementById(errId).textContent = msg;
-      return false;
+    function paint(el) {
+      const box = document.getElementById(el.id + '-err');
+      const problem = el.validity.valid ? '' : describe(el);
+      box.textContent = problem;
+      el.setAttribute('aria-invalid', String(!el.validity.valid));
     }
 
-    function checkId() {
-      const val = idInput.value.trim();
-      if (!val) {
-        return markInvalid(idInput, 'idError', 'student id is required');
-      }
-      if (!/^\d{9}$/.test(val)) {
-        return markInvalid(idInput, 'idError', 'must be exactly 9 digits');
-      }
-      return markValid(idInput, 'idError');
+    // password confirmation uses setCustomValidity(); an empty string means "valid again"
+    function syncConfirm() {
+      pass2.setCustomValidity(pass2.value && pass2.value !== pass.value ? 'The two passwords do not match.' : '');
     }
 
-    function checkName() {
-      const val = nameInput.value.trim();
-      if (!val) {
-        return markInvalid(nameInput, 'nameError', 'full name is required');
-      }
-      if (val.length < 2) {
-        return markInvalid(nameInput, 'nameError', 'name must be at least 2 characters');
-      }
-      return markValid(nameInput, 'nameError');
+    function strengthOf(value) {
+      let score = 0;
+      if (value.length >= 8) score++;
+      if (/[a-z]/.test(value) && /[A-Z]/.test(value)) score++;
+      if (/\d/.test(value)) score++;
+      if (/[^A-Za-z0-9]/.test(value)) score++;
+      return value ? Math.max(score, 1) : 0;
     }
 
-    function checkMajor() {
-      if (!majorInput.value) {
-        return markInvalid(majorInput, 'majorError', 'please select your major');
-      }
-      return markValid(majorInput, 'majorError');
+    function updateStrength() {
+      const level = strengthOf(pass.value);
+      document.getElementById('strength').dataset.level = level;
+      document.getElementById('pass-meter').textContent =
+        'Strength: ' + ['–', 'weak', 'fair', 'good', 'strong'][level];
     }
 
-    function checkEmail() {
-      const val = emailInput.value.trim();
-      if (!val) {
-        return markInvalid(emailInput, 'emailError', 'email is required');
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(val)) {
-        return markInvalid(emailInput, 'emailError', 'enter a valid email address');
-      }
-      return markValid(emailInput, 'emailError');
+    function refreshButton() {
+      submitBtn.disabled = !form.checkValidity();
     }
 
-    function checkPassword() {
-      const val = passInput.value;
-      if (!val) {
-        return markInvalid(passInput, 'passwordError', 'password is required');
-      }
-      if (val.length < 8) {
-        return markInvalid(passInput, 'passwordError', 'password must be at least 8 characters');
-      }
-      markValid(passInput, 'passwordError');
-      if (confirmInput.value) {
-        checkConfirm();
-      }
-      return true;
-    }
+    controls.forEach(el => {
+      const evt = (el.tagName === 'SELECT' || el.type === 'checkbox') ? 'change' : 'input';
+      el.addEventListener(evt, () => {
+        if (el === pass) { updateStrength(); syncConfirm(); if (pass2.value) paint(pass2); }
+        if (el === pass2) syncConfirm();
+        paint(el);
+        refreshButton();
+      });
+    });
 
-    function checkConfirm() {
-      const val = confirmInput.value;
-      if (!val) {
-        return markInvalid(confirmInput, 'confirmError', 'please confirm your password');
-      }
-      if (val !== passInput.value) {
-        return markInvalid(confirmInput, 'confirmError', 'passwords do not match');
-      }
-      return markValid(confirmInput, 'confirmError');
-    }
-
-    function checkTerms() {
-      const err = document.getElementById('termsError');
-      if (!termsInput.checked) {
-        err.textContent = 'you must agree to the terms to proceed';
-        return false;
-      }
-      err.textContent = '';
-      return true;
-    }
-
-    idInput.addEventListener('input', checkId);
-    nameInput.addEventListener('input', checkName);
-    majorInput.addEventListener('change', checkMajor);
-    emailInput.addEventListener('input', checkEmail);
-    passInput.addEventListener('input', checkPassword);
-    confirmInput.addEventListener('input', checkConfirm);
-    termsInput.addEventListener('change', checkTerms);
-
-    idInput.addEventListener('blur', checkId);
-    nameInput.addEventListener('blur', checkName);
-    majorInput.addEventListener('blur', checkMajor);
-    emailInput.addEventListener('blur', checkEmail);
-    passInput.addEventListener('blur', checkPassword);
-    confirmInput.addEventListener('blur', checkConfirm);
-
-    function validateAndSubmit(event) {
+    form.addEventListener('submit', (event) => {
       event.preventDefault();
-
-      const isIdValid = checkId();
-      const isNameValid = checkName();
-      const isMajorValid = checkMajor();
-      const isEmailValid = checkEmail();
-      const isPassValid = checkPassword();
-      const isConfirmValid = checkConfirm();
-      const isTermsValid = checkTerms();
-
-      const allValid = isIdValid && isNameValid && isMajorValid && isEmailValid && isPassValid && isConfirmValid && isTermsValid;
-
-      if (!allValid) {
-        const firstInvalid = document.querySelector('.is-invalid');
-        if (firstInvalid) {
-          firstInvalid.focus();
-        }
+      syncConfirm();
+      controls.forEach(paint);
+      refreshButton();
+      if (!form.checkValidity()) {
+        form.querySelector('[aria-invalid="true"]').focus();   // jump to the first problem
         return;
       }
-
-      document.getElementById('summaryDetails').innerHTML =
-        '<strong>student id:</strong> ' + idInput.value.trim() + '<br>' +
-        '<strong>name:</strong> ' + nameInput.value.trim() + '<br>' +
-        '<strong>major:</strong> ' + majorInput.value + '<br>' +
-        '<strong>email:</strong> ' + emailInput.value.trim();
-
-      document.getElementById('formContainer').style.display = 'none';
-      document.getElementById('successCard').style.display = 'block';
-    }
-
-    function resetForm() {
-      document.getElementById('regForm').reset();
-      const fields = [idInput, nameInput, majorInput, emailInput, passInput, confirmInput];
-      fields.forEach(f => {
-        f.classList.remove('is-valid', 'is-invalid');
-        f.removeAttribute('aria-invalid');
-      });
-      document.getElementById('termsError').textContent = '';
-      document.getElementById('successCard').style.display = 'none';
-      document.getElementById('formContainer').style.display = 'block';
-    }
+      success.textContent = 'Welcome, ' + form.fullname.value.trim() + '! Enrolment in the “' +
+        form.track.value + '” track is confirmed. A message was sent to ' + form.mail.value.trim() + '.';
+      success.classList.add('show');
+      form.reset();
+      controls.forEach(el => el.removeAttribute('aria-invalid'));
+      document.querySelectorAll('.error').forEach(e => { e.textContent = ''; });
+      updateStrength();
+      refreshButton();
+    });
   </script>
 </body>
 </html>

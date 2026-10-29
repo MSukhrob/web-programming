@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Putting CSS Advanced Together</title>
+<style>
+  :root {
+    --brand: #0f766e;
+    --brand-light: #14b8a6;
+    --sun: #f59e0b;
+    --bg: #f0fdfa;
+    --card: #ffffff;
+    --text: #1e293b;
+    --radius: 14px;
+    --shadow: 0 6px 18px rgba(15, 118, 110, .15);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #04201d; --card: #0b332f; --text: #d9f3ef; --shadow: 0 6px 18px rgba(0, 0, 0, .45); }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+
+  /* sticky header: position */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--brand);
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 { font-size: 1.15rem; }
+  header span { font-size: .85rem; opacity: .85; }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 32px 20px 48px; }
+  .intro { margin-bottom: 24px; }
+
+  /* responsive grid: 1 / 2 / 3 columns */
+  .courses { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  @media (min-width: 600px) { .courses { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .courses { grid-template-columns: repeat(3, 1fr); } }
+
+  /* the component */
+  .course {
+    position: relative;
+    overflow: hidden;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 26px 22px 22px;
+    box-shadow: var(--shadow);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .course:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(15, 118, 110, .28); }
+
+  /* pseudo-element: coloured strip that grows on hover */
+  .course::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 5px;
+    background: linear-gradient(90deg, var(--brand), var(--brand-light));
+    transform-origin: left;
+    transform: scaleX(.3);
+    transition: transform .35s ease;
+  }
+  .course:hover::before { transform: scaleX(1); }
+
+  /* absolutely positioned badge + keyframe animation */
+  .badge {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: var(--sun);
+    color: #3b2300;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  .course h2 { font-size: 1.2rem; margin: 6px 0 8px; color: var(--brand); }
+  @media (prefers-color-scheme: dark) { .course h2 { color: var(--brand-light); } }
+  .course p { font-size: .92rem; opacity: .9; }
+  .meta { display: flex; gap: 10px; margin: 14px 0 18px; font-size: .8rem; }
+  .meta li { list-style: none; background: rgba(20, 184, 166, .14); padding: 3px 10px; border-radius: 8px; }
+
+  .btn {
+    display: inline-block;
+    background: var(--brand);
+    color: #fff;
+    text-decoration: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--brand-light); transform: translateY(-2px); }
+  .btn:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+
+  /* required-field style asterisk idea with ::after on a link */
+  .btn::after { content: " →"; }
+
+  /* loading dots – animation only */
+  .live { margin-top: 36px; text-align: center; font-size: .9rem; }
+  .live i {
+    display: inline-block;
+    width: 9px; height: 9px;
+    margin: 0 3px;
+    border-radius: 50%;
+    background: var(--brand-light);
+    animation: bounce 1s infinite;
+  }
+  .live i:nth-child(2) { animation-delay: .15s; }
+  .live i:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>WebPro Academy</h1>
+    <span>CSS Advanced – Friday</span>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Pick your next course</h2>
+      <p>One card component built with variables, positioning, pseudo-elements, transitions, keyframes, media queries and grid.</p>
+    </section>
+
+    <div class="courses">
+      <article class="course">
+        <span class="badge">NEW</span>
+        <h2>HTML &amp; CSS</h2>
+        <p>Build semantic pages and style them with the box model, flexbox and grid.</p>
+        <ul class="meta"><li>4 weeks</li><li>Beginner</li></ul>
+        <a class="btn" href="#">Enroll</a>
+      </article>
+
+      <article class="course">
+        <h2>JavaScript DOM</h2>
+        <p>Select elements, listen to events and update the page without reloading.</p>
+        <ul class="meta"><li>3 weeks</li><li>Intermediate</li></ul>
+        <a class="btn" href="#">Enroll</a>
+      </article>
+
+      <article class="course">
+        <span class="badge">HOT</span>
+        <h2>Fetch &amp; APIs</h2>
+        <p>Load real data with fetch, async/await and show it in cards.</p>
+        <ul class="meta"><li>2 weeks</li><li>Intermediate</li></ul>
+        <a class="btn" href="#">Enroll</a>
+      </article>
+    </div>
+
+    <p class="live" aria-hidden="true"><i></i><i></i><i></i></p>
+  </main>
+</body>
+</html>

@@ -3,183 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>contact form</title>
+  <title>Contact Form – Personal Site</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --paper: #fbf6ec;
+      --ink: #1f2a44;
+      --muted: #6b6a63;
+      --lapis: #1d4e89;
+      --turquoise: #2a9d8f;
+      --saffron: #e9a23b;
+      --brick: #b83a2e;
+      --line: #e4d9c3;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f8fafc;
-      color: #1e293b;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 16px;
-      line-height: 1.5;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 32px 16px;
+      line-height: 1.55;
     }
-    .contact-card {
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
+    .wrap { max-width: 560px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 22px; }
+    header h1 { font-family: Georgia, serif; font-size: 1.8rem; }
+    header p { color: var(--muted); font-size: .93rem; margin-top: 4px; }
+    form {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--saffron);
       border-radius: 14px;
+      padding: 26px 26px 24px;
+      box-shadow: 0 12px 30px rgba(31, 42, 68, .09);
+    }
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: .84rem; font-weight: 600; margin-bottom: 5px; }
+    .req::after { content: " *"; color: var(--brick); }
+    input, select, textarea {
       width: 100%;
-      max-width: 480px;
-      padding: 32px 28px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      font: inherit;
+      font-size: .93rem;
+      padding: 10px 12px;
+      border: 2px solid var(--line);
+      border-radius: 9px;
+      background: #fffdf8;
+      transition: border-color .2s, background .2s;
     }
-    header {
-      margin-bottom: 22px;
+    textarea { min-height: 120px; resize: vertical; }
+    input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(29, 78, 137, .22);
+      outline-offset: 1px;
+      border-color: var(--lapis);
     }
-    h1 {
-      font-size: 1.45rem;
-      color: #0f172a;
-      margin-bottom: 4px;
-    }
-    p.intro {
-      font-size: 0.9rem;
-      color: #64748b;
-    }
-    .form-group {
-      margin-bottom: 16px;
-    }
-    label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 5px;
-    }
-    input[type="text"],
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 10px 14px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      background-color: #ffffff;
-      outline: none;
-      transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-    input:focus,
-    textarea:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-    input:valid:not(:placeholder-shown),
-    textarea:valid:not(:placeholder-shown) {
-      border-color: #16a34a;
-      background-color: #f0fdf4;
-    }
-    input:invalid:not(:placeholder-shown),
-    textarea:invalid:not(:placeholder-shown) {
-      border-color: #dc2626;
-      background-color: #fef2f2;
-    }
-    button[type="submit"] {
+    /* :valid / :invalid styling – shown only once the field has some text */
+    input:not(:placeholder-shown):valid,
+    textarea:not(:placeholder-shown):valid { border-color: var(--turquoise); background: #f1faf7; }
+    input:not(:placeholder-shown):invalid,
+    textarea:not(:placeholder-shown):invalid { border-color: var(--brick); background: #fdf3f1; }
+    select:valid { border-color: var(--turquoise); }
+
+    .counter { display: flex; justify-content: space-between; font-size: .76rem; color: var(--muted); margin-top: 4px; }
+    .counter.low { color: var(--brick); }
+    button {
       width: 100%;
       padding: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      background-color: #2563eb;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
+      font: inherit;
+      font-weight: 700;
+      color: #fff;
+      background: var(--lapis);
+      border: 0;
+      border-radius: 9px;
       cursor: pointer;
-      transition: background-color 0.15s;
+      transition: background .2s;
     }
-    button[type="submit"]:hover {
-      background-color: #1d4ed8;
-    }
-    .alert-success {
+    button:hover { background: #163e6e; }
+    .sent {
       display: none;
       margin-top: 16px;
-      padding: 12px;
-      border-radius: 8px;
-      background-color: #dcfce7;
-      border: 1px solid #86efac;
-      color: #166534;
-      font-size: 0.85rem;
-      text-align: center;
+      padding: 13px 15px;
+      border-radius: 10px;
+      background: #e5f5ef;
+      border: 1px solid #a8dcc9;
+      color: #1b6b52;
+      font-size: .9rem;
     }
   </style>
 </head>
 <body>
-  <div class="contact-card">
+  <div class="wrap">
     <header>
-      <h1>contact form</h1>
-      <p class="intro">send a message with html5 form validation</p>
+      <h1>Get in touch</h1>
+      <p>Questions about my projects? Send me a note.</p>
     </header>
 
-    <form method="post" action="#" onsubmit="handleSubmit(event)">
-      <div class="form-group">
-        <label for="senderName">your name</label>
-        <input
-          type="text"
-          id="senderName"
-          name="name"
-          required
-          minlength="2"
-          placeholder="enter your full name"
-        >
+    <form id="contactForm" method="post" action="#">
+      <div class="field">
+        <label for="who" class="req">Your name</label>
+        <input type="text" id="who" name="who" placeholder="Jane Doe" required minlength="2" maxlength="40">
       </div>
 
-      <div class="form-group">
-        <label for="senderEmail">email address</label>
-        <input
-          type="email"
-          id="senderEmail"
-          name="email"
-          required
-          placeholder="name@example.com"
-        >
+      <div class="field">
+        <label for="reply" class="req">Email</label>
+        <input type="email" id="reply" name="reply" placeholder="jane@example.com" required>
       </div>
 
-      <div class="form-group">
-        <label for="subject">subject</label>
-        <input
-          type="text"
-          id="subject"
-          name="subject"
-          required
-          minlength="3"
-          placeholder="message topic"
-        >
+      <div class="field">
+        <label for="topic" class="req">Subject</label>
+        <input type="text" id="topic" name="topic" placeholder="What is this about?" required minlength="4" maxlength="80">
       </div>
 
-      <div class="form-group">
-        <label for="message">message</label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          minlength="10"
-          rows="4"
-          placeholder="write your message here (min 10 characters)..."
-        ></textarea>
+      <div class="field">
+        <label for="body" class="req">Message</label>
+        <textarea id="body" name="body" placeholder="Write at least 20 characters…" required minlength="20" maxlength="500"></textarea>
+        <div class="counter" id="counter"><span id="need">20 more characters needed</span><span id="count">0 / 500</span></div>
       </div>
 
-      <button type="submit">send message</button>
-      <div id="successMsg" class="alert-success"></div>
+      <button type="submit">Send message</button>
+      <p class="sent" id="sent" role="status"></p>
     </form>
   </div>
 
   <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      const alert = document.getElementById('successMsg');
-      const name = document.getElementById('senderName').value;
-      alert.style.display = 'block';
-      alert.textContent = 'thank you, ' + name + '! your message has been sent successfully.';
+    const form = document.getElementById('contactForm');
+    const msg = document.getElementById('body');
+    const need = document.getElementById('need');
+    const count = document.getElementById('count');
+    const counter = document.getElementById('counter');
+    const sent = document.getElementById('sent');
+
+    function updateCounter() {
+      const len = msg.value.length;
+      const left = msg.minLength - len;
+      count.textContent = len + ' / ' + msg.maxLength;
+      need.textContent = left > 0 ? left + ' more characters needed' : 'Looks good';
+      counter.classList.toggle('low', left > 0 && len > 0);
     }
+    msg.addEventListener('input', updateCounter);
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      sent.style.display = 'block';
+      sent.textContent = 'Thanks, ' + form.who.value.trim() + '! Your message “' + form.topic.value.trim() + '” was sent.';
+      form.reset();
+      updateCounter();
+    });
+    updateCounter();
   </script>
 </body>
 </html>

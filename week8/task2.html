@@ -3,294 +3,239 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>student registration</title>
+  <title>Student Registration – HTML5 Validation</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --paper: #fbf6ec;
+      --ink: #1f2a44;
+      --muted: #6b6a63;
+      --lapis: #1d4e89;
+      --turquoise: #2a9d8f;
+      --saffron: #e9a23b;
+      --brick: #b83a2e;
+      --line: #e4d9c3;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f8fafc;
-      color: #1e293b;
-      padding: 40px 16px 80px;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 28px 16px 48px;
       line-height: 1.5;
     }
-    .card {
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 32px 28px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    .page { max-width: 640px; margin: 0 auto; }
+    .band {
+      height: 10px;
+      border-radius: 10px 10px 0 0;
+      background: repeating-linear-gradient(45deg, var(--lapis) 0 10px, var(--turquoise) 10px 20px, var(--saffron) 20px 30px);
     }
-    header {
-      margin-bottom: 24px;
+    .sheet {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-top: 0;
+      border-radius: 0 0 16px 16px;
+      padding: 28px 30px 32px;
+      box-shadow: 0 14px 34px rgba(31, 42, 68, .1);
     }
-    h1 {
-      font-size: 1.5rem;
-      color: #0f172a;
-      margin-bottom: 4px;
+    h1 { font-family: Georgia, serif; font-size: 1.7rem; }
+    .lead { color: var(--muted); font-size: .92rem; margin: 4px 0 18px; }
+
+    .meter { margin-bottom: 22px; }
+    .meter-top { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted); margin-bottom: 6px; }
+    .track { height: 8px; background: #efe7d5; border-radius: 8px; overflow: hidden; }
+    .fill { height: 100%; width: 0; background: var(--turquoise); transition: width .3s; }
+
+    fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px 6px; margin-bottom: 18px; }
+    legend { padding: 0 8px; font-weight: 700; color: var(--lapis); font-size: .9rem; letter-spacing: .02em; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+    .item { margin-bottom: 14px; }
+    .item.wide { grid-column: 1 / -1; }
+    label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 5px; }
+    label small { font-weight: 400; color: var(--muted); }
+
+    input:not([type="checkbox"]):not([type="range"]), select {
+      width: 100%;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: .92rem;
+      border: 2px solid var(--line);
+      border-radius: 9px;
+      background: #fffdf8;
+      transition: border-color .2s, background .2s;
     }
-    p.intro {
-      font-size: 0.9rem;
-      color: #64748b;
+    input:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(29, 78, 137, .25);
+      outline-offset: 1px;
+      border-color: var(--lapis);
     }
-    fieldset {
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 18px 20px 22px;
-      margin-bottom: 20px;
-    }
-    legend {
-      font-size: 0.85rem;
+    /* validity styling: only after the user typed something */
+    input:not(:placeholder-shown):valid { border-color: var(--turquoise); background: #f1faf7; }
+    input:not(:placeholder-shown):invalid { border-color: var(--brick); background: #fdf3f1; }
+    input[type="date"]:valid { border-color: var(--turquoise); }
+    select:valid { border-color: var(--turquoise); }
+    select:invalid { color: var(--muted); }
+
+    .slider { display: flex; align-items: center; gap: 12px; }
+    .slider input { flex: 1; accent-color: var(--saffron); }
+    output { min-width: 3.4em; text-align: right; font-weight: 700; color: var(--lapis); }
+
+    .terms { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 20px; font-size: .88rem; }
+    .terms input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--lapis); }
+    .actions { display: flex; gap: 10px; }
+    button {
+      font: inherit;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #2563eb;
-      padding: 0 8px;
-    }
-    .field {
-      margin-top: 14px;
-    }
-    .field:first-of-type {
-      margin-top: 4px;
-    }
-    label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 5px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="date"],
-    input[type="tel"],
-    select {
-      width: 100%;
-      padding: 10px 13px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      background-color: #ffffff;
-      outline: none;
-      transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
-    }
-    input:focus,
-    select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-    input:valid:not(:placeholder-shown) {
-      border-color: #16a34a;
-      background-color: #f0fdf4;
-    }
-    input:invalid:not(:placeholder-shown) {
-      border-color: #dc2626;
-      background-color: #fef2f2;
-    }
-    select:valid {
-      border-color: #16a34a;
-    }
-    .range-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 6px;
-    }
-    input[type="range"] {
-      flex: 1;
-      accent-color: #2563eb;
+      padding: 11px 20px;
+      border-radius: 9px;
       cursor: pointer;
+      border: 2px solid var(--lapis);
     }
-    .range-val {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #2563eb;
-      min-width: 45px;
-    }
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 20px 0 24px;
-    }
-    .checkbox-row input {
-      width: 18px;
-      height: 18px;
-      accent-color: #2563eb;
-      cursor: pointer;
-    }
-    .checkbox-row label {
-      margin-bottom: 0;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #475569;
-      cursor: pointer;
-    }
-    button[type="submit"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      background-color: #2563eb;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.15s;
-    }
-    button[type="submit"]:hover {
-      background-color: #1d4ed8;
-    }
-    .success-alert {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 8px;
-      background-color: #dcfce7;
-      border: 1px solid #86efac;
-      color: #166534;
-      font-size: 0.9rem;
-      text-align: center;
-      display: none;
+    .primary { background: var(--lapis); color: #fff; flex: 1; }
+    .primary:hover { background: #163e6e; }
+    .ghost { background: #fff; color: var(--lapis); }
+    .ghost:hover { background: #eef3fa; }
+
+    #receipt { display: none; margin-top: 22px; border: 2px dashed var(--saffron); border-radius: 12px; padding: 16px 18px; background: #fffaf0; }
+    #receipt h2 { font-family: Georgia, serif; font-size: 1.15rem; margin-bottom: 8px; }
+    #receipt dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-size: .88rem; }
+    #receipt dt { color: var(--muted); }
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      .sheet { padding: 22px 18px 26px; }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <header>
-      <h1>student registration</h1>
-      <p class="intro">fill out the form below with valid student details</p>
-    </header>
+  <div class="page">
+    <div class="band"></div>
+    <div class="sheet">
+      <h1>Student Registration</h1>
+      <p class="lead">Validation is done by the browser itself – no JavaScript rules, only HTML5 attributes.</p>
 
-    <form method="post" action="#" onsubmit="handleRegistration(event)">
-      <fieldset>
-        <legend>personal information</legend>
-
-        <div class="field">
-          <label for="fullName">full name</label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            required
-            minlength="2"
-            placeholder="enter your full name"
-          >
-        </div>
-
-        <div class="field">
-          <label for="studentId">student id</label>
-          <input
-            type="text"
-            id="studentId"
-            name="studentId"
-            required
-            pattern="\d{9}"
-            placeholder="9-digit id e.g. 202612345"
-          >
-        </div>
-
-        <div class="field">
-          <label for="dob">date of birth</label>
-          <input
-            type="date"
-            id="dob"
-            name="dob"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="major">academic major</label>
-          <select id="major" name="major" required>
-            <option value="">-- select your major --</option>
-            <option value="Computer Science">computer science</option>
-            <option value="Software Engineering">software engineering</option>
-            <option value="Information Technology">information technology</option>
-            <option value="Artificial Intelligence">artificial intelligence</option>
-          </select>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>account information</legend>
-
-        <div class="field">
-          <label for="email">email address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="student@gachon.ac.kr"
-          >
-        </div>
-
-        <div class="field">
-          <label for="password">password (min 8 characters)</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            minlength="8"
-            placeholder="enter password"
-          >
-        </div>
-
-        <div class="field">
-          <label for="phone">phone number</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            required
-            pattern="\d{3}-\d{4}-\d{4}"
-            placeholder="010-1234-5678"
-          >
-        </div>
-
-        <div class="field">
-          <label for="exp">coding experience (years)</label>
-          <div class="range-box">
-            <input
-              type="range"
-              id="exp"
-              name="exp"
-              min="0"
-              max="10"
-              value="1"
-              oninput="document.getElementById('expDisplay').textContent = this.value + ' yrs'"
-            >
-            <span id="expDisplay" class="range-val">1 yrs</span>
-          </div>
-        </div>
-      </fieldset>
-
-      <div class="checkbox-row">
-        <input type="checkbox" id="terms" name="terms" required>
-        <label for="terms">i agree to the student registration terms</label>
+      <div class="meter" aria-live="polite">
+        <div class="meter-top"><span>Form progress</span><span id="meterText">0 / 0 fields valid</span></div>
+        <div class="track"><div class="fill" id="meterFill"></div></div>
       </div>
 
-      <button type="submit">submit registration</button>
-      <div id="regSuccess" class="success-alert"></div>
-    </form>
+      <form id="regForm" method="post" action="#">
+        <fieldset>
+          <legend>About you</legend>
+          <div class="grid">
+            <div class="item wide">
+              <label for="fullName">Full name</label>
+              <input type="text" id="fullName" name="fullName" placeholder="e.g. Sukhrob Mamarasulov"
+                     required minlength="3" maxlength="60">
+            </div>
+            <div class="item">
+              <label for="sid">Student ID <small>(9 digits)</small></label>
+              <input type="text" id="sid" name="sid" placeholder="202612345" inputmode="numeric"
+                     required pattern="[0-9]{9}" title="Student ID must be exactly 9 digits">
+            </div>
+            <div class="item">
+              <label for="birth">Date of birth</label>
+              <input type="date" id="birth" name="birth" required min="1980-01-01" max="2010-12-31">
+            </div>
+            <div class="item wide">
+              <label for="major">Major</label>
+              <select id="major" name="major" required>
+                <option value="" selected disabled>Choose your major</option>
+                <option>Computer Science</option>
+                <option>Software Engineering</option>
+                <option>Information Technology</option>
+                <option>Electrical Engineering</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Account</legend>
+          <div class="grid">
+            <div class="item wide">
+              <label for="mail">Email</label>
+              <input type="email" id="mail" name="mail" placeholder="name@gachon.ac.kr" required>
+            </div>
+            <div class="item">
+              <label for="pw">Password <small>(min 8)</small></label>
+              <input type="password" id="pw" name="pw" placeholder="At least 8 characters" required minlength="8">
+            </div>
+            <div class="item">
+              <label for="tel">Telephone</label>
+              <input type="tel" id="tel" name="tel" placeholder="010-1234-5678" required
+                     pattern="01[0-9]-[0-9]{4}-[0-9]{4}" title="Format: 010-1234-5678">
+            </div>
+            <div class="item wide">
+              <label for="years">Years of coding experience</label>
+              <div class="slider">
+                <input type="range" id="years" name="years" min="0" max="10" value="0">
+                <output id="yearsOut" for="years">0 yrs</output>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="terms">
+          <input type="checkbox" id="agree" name="agree" required>
+          <label for="agree" style="font-weight:400;margin:0">I agree to the course rules and the terms of use.</label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary">Check validation</button>
+          <button type="reset" class="ghost">Reset</button>
+        </div>
+      </form>
+
+      <section id="receipt" aria-live="polite">
+        <h2>All fields are valid ✔</h2>
+        <dl id="receiptList"></dl>
+      </section>
+    </div>
   </div>
 
   <script>
-    function handleRegistration(event) {
-      event.preventDefault();
-      const alertBox = document.getElementById('regSuccess');
-      const name = document.getElementById('fullName').value;
-      alertBox.style.display = 'block';
-      alertBox.textContent = 'registration completed successfully for ' + name;
+    const form = document.getElementById('regForm');
+    const fields = [...form.querySelectorAll('input:not([type="range"]), select')];
+    const fill = document.getElementById('meterFill');
+    const meterText = document.getElementById('meterText');
+    const years = document.getElementById('years');
+    const yearsOut = document.getElementById('yearsOut');
+    const receipt = document.getElementById('receipt');
+
+    function refreshMeter() {
+      const good = fields.filter(f => f.checkValidity()).length;
+      fill.style.width = (good / fields.length * 100) + '%';
+      meterText.textContent = good + ' / ' + fields.length + ' fields valid';
     }
+
+    years.addEventListener('input', () => {
+      yearsOut.textContent = years.value + (years.value === '1' ? ' yr' : ' yrs');
+    });
+
+    form.addEventListener('input', refreshMeter);
+    form.addEventListener('change', refreshMeter);
+    form.addEventListener('reset', () => {
+      setTimeout(() => { refreshMeter(); yearsOut.textContent = '0 yrs'; receipt.style.display = 'none'; });
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();          // the browser has already blocked the event if anything is invalid
+      const data = new FormData(form);
+      const list = document.getElementById('receiptList');
+      list.innerHTML = '';
+      const labels = { fullName: 'Name', sid: 'Student ID', birth: 'Born', major: 'Major',
+                       mail: 'Email', tel: 'Phone', years: 'Coding' };
+      Object.entries(labels).forEach(([key, text]) => {
+        const dt = document.createElement('dt');
+        const dd = document.createElement('dd');
+        dt.textContent = text;
+        dd.textContent = data.get(key) + (key === 'years' ? ' yrs' : '');
+        list.append(dt, dd);
+      });
+      receipt.style.display = 'block';
+      receipt.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    refreshMeter();
   </script>
 </body>
 </html>
