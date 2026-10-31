@@ -183,6 +183,23 @@
       font-size: 0.85rem;
       margin-top: 6px;
     }
+    .results-title {
+      margin: 24px 0 10px;
+    }
+    .shot {
+      margin-bottom: 18px;
+    }
+    .shot img {
+      display: block;
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+    }
+    .shot figcaption {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #475569;
+    }
     footer {
       text-align: center;
       padding: 22px 16px;
@@ -287,6 +304,16 @@ after:  &lt;button type="button" aria-expanded="false"&gt;show details&lt;/butto
 after:  color: #334155;</pre>
         </li>
       </ol>
+
+      <h3 class="results-title">lighthouse results</h3>
+      <figure class="shot">
+        <img src="ss1.png" alt="lighthouse report before the fixes: accessibility score 92">
+        <figcaption>before: accessibility score 92 (missing alt text, wrong heading order, broken skip link)</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="ss2.png" alt="lighthouse report after the fixes: accessibility score 100">
+        <figcaption>after: accessibility score 100</figcaption>
+      </figure>
     </section>
   </main>
 
