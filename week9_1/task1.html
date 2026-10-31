@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="accessible campus events page with a skip link, labelled form and keyboard friendly controls">
+  <title>accessible campus events page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -60px;
+      background: #1a56db;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 0 0 8px 8px;
+      font-weight: 600;
+      z-index: 10;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    a {
+      color: #1a56db;
+    }
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid #f59e0b;
+      outline-offset: 2px;
+    }
+    header {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+    }
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 6px 4px;
+    }
+    nav a:hover,
+    nav a:focus-visible {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+    main:focus {
+      outline: none;
+    }
+    h1 {
+      font-size: 1.7rem;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin: 32px 0 12px;
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    .intro img {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 16px 0;
+      border-radius: 10px;
+    }
+    .event {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    .event p {
+      color: #334155;
+    }
+    .more-btn {
+      margin-top: 10px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1a56db;
+      background-color: #ffffff;
+      border: 2px solid #1a56db;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .more-btn:hover {
+      background-color: #eff6ff;
+    }
+    .details {
+      margin-top: 10px;
+      color: #334155;
+    }
+    form {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .field {
+      margin-bottom: 14px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .hint {
+      font-size: 0.85rem;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+    input,
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 2px solid #64748b;
+      border-radius: 8px;
+    }
+    .submit-btn {
+      padding: 11px 22px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: #1a56db;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background-color: #1e429f;
+    }
+    #status {
+      margin-top: 12px;
+      font-weight: 600;
+      color: #166534;
+    }
+    .fixes li {
+      margin-bottom: 8px;
+      margin-left: 20px;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+    footer {
+      text-align: center;
+      padding: 22px 16px;
+      color: #475569;
+      border-top: 1px solid #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">skip to main content</a>
+
+  <header>
+    <span class="logo">campus events</span>
+    <nav aria-label="main navigation">
+      <ul>
+        <li><a href="#events">events</a></li>
+        <li><a href="#signup">sign up</a></li>
+        <li><a href="#fixes">my fixes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="intro">
+      <h1>what is happening on campus</h1>
+      <p>find workshops and clubs, then reserve your seat in one minute.</p>
+      <img
+        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 200'%3E%3Crect width='420' height='200' fill='%23dbeafe'/%3E%3Crect x='40' y='120' width='340' height='14' rx='4' fill='%231e293b'/%3E%3Ccircle cx='110' cy='80' r='22' fill='%231a56db'/%3E%3Ccircle cx='210' cy='80' r='22' fill='%23f59e0b'/%3E%3Ccircle cx='310' cy='80' r='22' fill='%2316a34a'/%3E%3Crect x='90' y='100' width='40' height='20' rx='3' fill='%231e293b'/%3E%3Crect x='190' y='100' width='40' height='20' rx='3' fill='%231e293b'/%3E%3Crect x='290' y='100' width='40' height='20' rx='3' fill='%231e293b'/%3E%3C/svg%3E"
+        width="420" height="200">
+    </section>
+
+    <section id="events" aria-labelledby="events-title">
+      <h4 id="events-title">upcoming events</h4>
+
+      <article class="event">
+        <h3>web accessibility workshop</h3>
+        <p><time datetime="2026-11-05">5 november 2026</time> · room 520</p>
+        <button type="button" class="more-btn" aria-expanded="false" aria-controls="d1">show details</button>
+        <p class="details" id="d1" hidden>learn to run lighthouse and fix the most common accessibility problems.</p>
+      </article>
+
+      <article class="event">
+        <h3>git and github night</h3>
+        <p><time datetime="2026-11-09">9 november 2026</time> · lab 2</p>
+        <button type="button" class="more-btn" aria-expanded="false" aria-controls="d2">show details</button>
+        <p class="details" id="d2" hidden>bring a laptop. we will create a repository and publish it with github pages.</p>
+      </article>
+    </section>
+
+    <section id="signup" aria-labelledby="signup-title">
+      <h2 id="signup-title">reserve a seat</h2>
+      <form id="seatForm">
+        <div class="field">
+          <label for="fullName">full name</label>
+          <input type="text" id="fullName" name="fullName" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="email">email address</label>
+          <p class="hint" id="emailHint">we will send the confirmation here.</p>
+          <input type="email" id="email" name="email" autocomplete="email" aria-describedby="emailHint" required>
+        </div>
+        <div class="field">
+          <label for="eventChoice">event</label>
+          <select id="eventChoice" name="eventChoice" required>
+            <option value="">choose an event</option>
+            <option>web accessibility workshop</option>
+            <option>git and github night</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">reserve my seat</button>
+        <p id="status" role="status"></p>
+      </form>
+    </section>
+
+    <section id="fixes" aria-labelledby="fixes-title">
+      <h2 id="fixes-title">accessibility fixes (homework)</h2>
+      <ol class="fixes">
+        <li>
+          <strong>skip link:</strong> keyboard users can jump over the menu to the main content.
+          <pre>&lt;a class="skip-link" href="#main"&gt;skip to main content&lt;/a&gt;</pre>
+        </li>
+        <li>
+          <strong>alt text:</strong> the picture now describes its purpose.
+          <pre>before: &lt;img src="team.png"&gt;
+after:  &lt;img src="team.png" alt="three students working on laptops"&gt;</pre>
+        </li>
+        <li>
+          <strong>form labels:</strong> every input has a real label connected with for and id.
+          <pre>before: &lt;input placeholder="email"&gt;
+after:  &lt;label for="email"&gt;email address&lt;/label&gt;
+        &lt;input id="email" type="email"&gt;</pre>
+        </li>
+        <li>
+          <strong>real buttons:</strong> a clickable div was replaced with a button that works with tab, enter and space.
+          <pre>before: &lt;div class="btn" onclick="..."&gt;show details&lt;/div&gt;
+after:  &lt;button type="button" aria-expanded="false"&gt;show details&lt;/button&gt;</pre>
+        </li>
+        <li>
+          <strong>colour contrast:</strong> light grey text was changed to dark slate (ratio above 4.5:1).
+          <pre>before: color: #94a3b8;
+after:  color: #334155;</pre>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 sukhrob · web programming course</p>
+  </footer>
+
+  <script>
+    // show / hide details with a real button and aria-expanded
+    document.querySelectorAll('.more-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        btn.textContent = open ? 'show details' : 'hide details';
+        panel.hidden = open;
+      });
+    });
+
+    // announce the result to screen readers through role="status"
+    document.getElementById('seatForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const choice = document.getElementById('eventChoice').value;
+      document.getElementById('status').textContent = 'thank you, ' + name + '! your seat for "' + choice + '" is reserved.';
+    });
+  </script>
+</body>
+</html>
