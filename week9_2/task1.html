@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="campus photo gallery used for the web performance homework">
   <title>performance homework</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js"></script>
+  <link rel="preload" href="images/hero.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="style.min.css">
+  <script src="app.min.js" defer></script>
 </head>
 <body>
+  <div id="notice" class="notice"></div>
+
   <header>
     <span class="logo">campus gallery</span>
     <nav aria-label="main navigation">
@@ -21,23 +24,26 @@
     <h1>campus photo gallery</h1>
     <p>a simple page with a few large pictures. it is used to practice the web performance checklist.</p>
 
-    <img class="hero" src="images/hero.png" alt="colourful abstract campus banner">
+    <img class="hero" src="images/hero.webp" width="1000" height="556" fetchpriority="high" alt="colourful abstract campus banner">
 
     <h2 id="photos">latest photos</h2>
     <div class="gallery">
-      <img src="images/photo1.png" alt="green and yellow abstract picture of the library">
-      <img src="images/photo2.png" alt="purple and orange abstract picture of the sports hall">
-      <img src="images/photo3.png" alt="dark green and sky blue abstract picture of the park">
+      <img src="images/photo1.webp" width="480" height="309" loading="lazy" alt="green and yellow abstract picture of the library">
+      <img src="images/photo2.webp" width="480" height="309" loading="lazy" alt="purple and orange abstract picture of the sports hall">
+      <img src="images/photo3.webp" width="480" height="309" loading="lazy" alt="dark green and sky blue abstract picture of the park">
     </div>
 
     <h2 id="about">about this page</h2>
-    <p>every picture is a large png file, the css and javascript are not minified, and the script blocks the page while it loads.</p>
+    <p>the pictures are small webp files, the css and javascript are minified, and the script is loaded with defer so it does not block the page.</p>
 
     <h2 id="results">lighthouse results</h2>
     <figure class="shot">
       <img src="ss1.webp" width="2000" height="1108" loading="lazy" alt="lighthouse report before the fixes: performance score 39">
       <figcaption>before: performance score 39 (fcp 1.6 s, lcp 5.4 s, tbt 1,350 ms)</figcaption>
     </figure>
+
+    <h2 id="changes">what i changed</h2>
+    <p>i replaced the large png images with resized webp files, added width and height to every image, lazy loaded the gallery photos and preloaded the hero image. i also minified the css and javascript, loaded the script with defer and removed the blocking code.</p>
   </main>
 
   <footer>
