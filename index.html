@@ -70,18 +70,32 @@
       margin-top: 40px;
       text-align: center;
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: #475569;
+    }
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -60px;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 0 0 8px 8px;
+      font-weight: 600;
+    }
+    .skip-link:focus {
+      top: 0;
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">skip to main content</a>
   <div class="container">
     <header>
       <h1>Sukhrob - Web Programming</h1>
       <p class="subtitle">K0126002 - Gachon University</p>
     </header>
 
-    <main>
+    <main id="main" tabindex="-1">
       <h2 class="section-title">Week 2</h2>
       <ul class="task-list">
         <li><a href="./week2/task1.html">Task 1</a></li>
@@ -179,6 +193,9 @@
       <h2 class="section-title">Week 9.1</h2>
       <ul class="task-list">
         <li><a href="./week9_1/task1.html">Task 1</a></li>
+        <li><a href="./week9_1/task2.html">Task 2</a></li>
+        <li><a href="./week9_1/task3.html">Task 3</a></li>
+        <li><a href="./week9_1/task4.html">Task 4</a></li>
       </ul>
 
       <h2 class="section-title">Week 9.2</h2>

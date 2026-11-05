@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e3 - lighthouse and fix</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.6; padding: 24px 16px; }
+    main { max-width: 520px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin-bottom: 6px; }
+    h2 { font-size: 1.1rem; margin: 22px 0 8px; }
+    p { margin-bottom: 10px; }
+    .note { color: #475569; font-size: 0.9rem; }
+    a { color: #1a56db; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+    ul { margin: 8px 0 0 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 4px; }
+    input { width: 100%; padding: 8px; border: 2px solid #64748b; border-radius: 6px; font-size: 15px; margin-bottom: 4px; }
+    .error { color: #b91c1c; font-size: 13px; margin-bottom: 8px; }
+    button { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }
+    .icon-btn { background: #1a7f5a; color: #ffffff; width: 36px; height: 36px; font-size: 18px; border-radius: 50%; margin-bottom: 14px; }
+    .submit-btn { background: #1a56db; color: #ffffff; padding: 10px 24px; font-size: 15px; width: 100%; margin-top: 8px; }
+    .team-link { display: inline-block; margin-top: 16px; }
+    .team-link img { display: block; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>e3: sign up (fixed)</h1>
+    <button class="icon-btn" type="button" aria-label="Search">&#128269;</button>
+
+    <form onsubmit="return false">
+      <label for="email-field">Email address</label>
+      <input type="email" id="email-field" placeholder="you@example.com" aria-describedby="emailError">
+      <div class="error" id="emailError" role="alert">&#9888; Error: Please enter a valid email address.</div>
+
+      <div class="error" role="alert">&#9888; Error: Password too short. Must be 8+ characters.</div>
+      <button class="submit-btn" type="submit">Create account</button>
+    </form>
+
+    <a class="team-link" href="#top"><img width="80" height="40" alt="Learn about our team" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Crect width='80' height='40' fill='%23e0eaff'/%3E%3C/svg%3E"></a>
+
+    <h2>what i fixed</h2>
+    <ul>
+      <li>icon-only button: added aria-label="Search".</li>
+      <li>email input: added a real label connected with for and id.</li>
+      <li>errors: added the text "Error:" and a warning symbol, so colour is not the only signal, and a darker red for contrast.</li>
+      <li>linked image: replaced "click here" with the alt "Learn about our team".</li>
+    </ul>
+  </main>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e2 - alt text</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.6; padding: 24px 16px; }
+    main { max-width: 520px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin-bottom: 6px; }
+    h2 { font-size: 1.1rem; margin: 22px 0 8px; }
+    p { margin-bottom: 10px; }
+    .note { color: #475569; font-size: 0.9rem; }
+    a { color: #1a56db; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+    ul { margin: 8px 0 0 20px; }
+    figure { margin-bottom: 18px; }
+    img { display: block; max-width: 100%; height: auto; border-radius: 8px; }
+    figcaption { font-size: 0.85rem; color: #475569; margin-top: 4px; }
+    .logo-link { display: inline-block; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>e2: proper alt text</h1>
+    <p class="note">four images, four different kinds of alt text.</p>
+
+    <figure>
+      <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 120'%3E%3Crect width='500' height='120' fill='%23e0eaff'/%3E%3Crect x='150' y='30' width='200' height='80' fill='%231a56db'/%3E%3Crect x='230' y='60' width='40' height='50' fill='%23ffffff'/%3E%3Ccircle cx='80' cy='85' r='25' fill='%2316a34a'/%3E%3Ccircle cx='420' cy='85' r='25' fill='%2316a34a'/%3E%3C/svg%3E" width="500" height="120" alt="Gachon University main building, a modern structure surrounded by trees">
+      <figcaption>image 1: informational photo gets a descriptive alt.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 60'%3E%3Crect width='500' height='60' fill='%23f0fdf4'/%3E%3Cpath d='M0 30 Q 31 0 62 30 T 125 30 T 187 30 T 250 30 T 312 30 T 375 30 T 437 30 T 500 30' fill='none' stroke='%2316a34a' stroke-width='5'/%3E%3C/svg%3E" width="500" height="60" alt="">
+      <figcaption>image 2: decorative divider gets an empty alt so screen readers skip it.</figcaption>
+    </figure>
+
+    <a class="logo-link" href="#top"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 80'%3E%3Crect width='220' height='80' fill='%23fef3c7'/%3E%3Ccircle cx='40' cy='40' r='26' fill='%231a56db'/%3E%3Ctext x='80' y='50' font-size='24' fill='%231e293b' font-family='Arial'%3EGachon%3C/text%3E%3C/svg%3E" width="220" height="80" alt="Gachon University - go to homepage"></a>
+    <p class="note">image 3: a logo inside a link describes where the link goes.</p>
+
+    <figure>
+      <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 170'%3E%3Crect width='500' height='170' fill='%23ffffff'/%3E%3Crect x='80' y='80' width='60' height='80' fill='%231a56db'/%3E%3Crect x='220' y='50' width='60' height='110' fill='%231a56db'/%3E%3Crect x='360' y='30' width='60' height='130' fill='%231a56db'/%3E%3C/svg%3E" width="500" height="170" alt="Bar chart showing student enrollment: 2024 has 1,200 students, 2025 has 1,400 students and 2026 has 1,476 students">
+      <figcaption>image 4: a chart states its key data in the alt text.</figcaption>
+    </figure>
+  </main>
+</body>
+</html>
