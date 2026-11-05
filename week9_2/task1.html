@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="campus photo gallery used for the web performance homework">
+  <title>performance homework</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js"></script>
+</head>
+<body>
+  <header>
+    <span class="logo">campus gallery</span>
+    <nav aria-label="main navigation">
+      <a href="#photos">photos</a>
+      <a href="#about">about</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>campus photo gallery</h1>
+    <p>a simple page with a few large pictures. it is used to practice the web performance checklist.</p>
+
+    <img class="hero" src="images/hero.png" alt="colourful abstract campus banner">
+
+    <h2 id="photos">latest photos</h2>
+    <div class="gallery">
+      <img src="images/photo1.png" alt="green and yellow abstract picture of the library">
+      <img src="images/photo2.png" alt="purple and orange abstract picture of the sports hall">
+      <img src="images/photo3.png" alt="dark green and sky blue abstract picture of the park">
+    </div>
+
+    <h2 id="about">about this page</h2>
+    <p>every picture is a large png file, the css and javascript are not minified, and the script blocks the page while it loads.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 sukhrob · web programming course</p>
+  </footer>
+</body>
+</html>

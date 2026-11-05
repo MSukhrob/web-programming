@@ -1,0 +1,4115 @@
+/* ===========================================================
+   performance homework - stylesheet (not minified on purpose)
+   =========================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+/* ---------- header ---------- */
+header {
+  background-color: #1e293b;
+  color: #ffffff;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 18px;
+}
+
+/* ---------- layout ---------- */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 18px 48px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 28px 0 12px;
+}
+
+p {
+  margin-bottom: 12px;
+}
+
+/* ---------- images ---------- */
+.hero {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+@media (max-width: 640px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- notice banner (inserted by javascript) ---------- */
+.notice {
+  background-color: #fef3c7;
+  color: #78350f;
+  padding: 18px 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- results ---------- */
+.shot {
+  margin-bottom: 18px;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+footer {
+  text-align: center;
+  padding: 22px 16px;
+  color: #475569;
+  border-top: 1px solid #cbd5e1;
+}
+
+/* ===========================================================
+   unused helper classes (copied from an old template)
+   =========================================================== */
+
+.util-1 {
+  margin: 1px;
+  padding: 1px;
+  color: #377a4f;
+  background-color: #009e37;
+  border: 1px solid #0026f5;
+}
+
+.util-2 {
+  margin: 2px;
+  padding: 2px;
+  color: #6ef49e;
+  background-color: #013c6e;
+  border: 2px solid #004dea;
+}
+
+.util-3 {
+  margin: 3px;
+  padding: 3px;
+  color: #a66eed;
+  background-color: #01daa5;
+  border: 3px solid #0074df;
+}
+
+.util-4 {
+  margin: 4px;
+  padding: 4px;
+  color: #dde93c;
+  background-color: #0278dc;
+  border: 0px solid #009bd4;
+}
+
+.util-5 {
+  margin: 5px;
+  padding: 5px;
+  color: #15638c;
+  background-color: #031713;
+  border: 1px solid #00c2c9;
+}
+
+.util-6 {
+  margin: 6px;
+  padding: 6px;
+  color: #4cdddb;
+  background-color: #03b54a;
+  border: 2px solid #00e9be;
+}
+
+.util-7 {
+  margin: 7px;
+  padding: 7px;
+  color: #84582a;
+  background-color: #045381;
+  border: 3px solid #0110b3;
+}
+
+.util-8 {
+  margin: 8px;
+  padding: 8px;
+  color: #bbd279;
+  background-color: #04f1b8;
+  border: 0px solid #0137a8;
+}
+
+.util-9 {
+  margin: 9px;
+  padding: 9px;
+  color: #f34cc8;
+  background-color: #058fef;
+  border: 1px solid #015e9d;
+}
+
+.util-10 {
+  margin: 10px;
+  padding: 10px;
+  color: #2ac718;
+  background-color: #062e26;
+  border: 2px solid #018592;
+}
+
+.util-11 {
+  margin: 11px;
+  padding: 11px;
+  color: #624167;
+  background-color: #06cc5d;
+  border: 3px solid #01ac87;
+}
+
+.util-12 {
+  margin: 12px;
+  padding: 12px;
+  color: #99bbb6;
+  background-color: #076a94;
+  border: 0px solid #01d37c;
+}
+
+.util-13 {
+  margin: 13px;
+  padding: 13px;
+  color: #d13605;
+  background-color: #0808cb;
+  border: 1px solid #01fa71;
+}
+
+.util-14 {
+  margin: 14px;
+  padding: 14px;
+  color: #08b055;
+  background-color: #08a702;
+  border: 2px solid #022166;
+}
+
+.util-15 {
+  margin: 15px;
+  padding: 15px;
+  color: #402aa4;
+  background-color: #094539;
+  border: 3px solid #02485b;
+}
+
+.util-16 {
+  margin: 16px;
+  padding: 16px;
+  color: #77a4f3;
+  background-color: #09e370;
+  border: 0px solid #026f50;
+}
+
+.util-17 {
+  margin: 17px;
+  padding: 17px;
+  color: #af1f42;
+  background-color: #0a81a7;
+  border: 1px solid #029645;
+}
+
+.util-18 {
+  margin: 18px;
+  padding: 18px;
+  color: #e69991;
+  background-color: #0b1fde;
+  border: 2px solid #02bd3a;
+}
+
+.util-19 {
+  margin: 19px;
+  padding: 19px;
+  color: #1e13e1;
+  background-color: #0bbe15;
+  border: 3px solid #02e42f;
+}
+
+.util-20 {
+  margin: 20px;
+  padding: 20px;
+  color: #558e30;
+  background-color: #0c5c4c;
+  border: 0px solid #030b24;
+}
+
+.util-21 {
+  margin: 21px;
+  padding: 21px;
+  color: #8d087f;
+  background-color: #0cfa83;
+  border: 1px solid #033219;
+}
+
+.util-22 {
+  margin: 22px;
+  padding: 22px;
+  color: #c482ce;
+  background-color: #0d98ba;
+  border: 2px solid #03590e;
+}
+
+.util-23 {
+  margin: 23px;
+  padding: 23px;
+  color: #fbfd1d;
+  background-color: #0e36f1;
+  border: 3px solid #038003;
+}
+
+.util-24 {
+  margin: 24px;
+  padding: 24px;
+  color: #33776d;
+  background-color: #0ed528;
+  border: 0px solid #03a6f8;
+}
+
+.util-25 {
+  margin: 25px;
+  padding: 0px;
+  color: #6af1bc;
+  background-color: #0f735f;
+  border: 1px solid #03cded;
+}
+
+.util-26 {
+  margin: 26px;
+  padding: 1px;
+  color: #a26c0b;
+  background-color: #101196;
+  border: 2px solid #03f4e2;
+}
+
+.util-27 {
+  margin: 27px;
+  padding: 2px;
+  color: #d9e65a;
+  background-color: #10afcd;
+  border: 3px solid #041bd7;
+}
+
+.util-28 {
+  margin: 28px;
+  padding: 3px;
+  color: #1160aa;
+  background-color: #114e04;
+  border: 0px solid #0442cc;
+}
+
+.util-29 {
+  margin: 29px;
+  padding: 4px;
+  color: #48daf9;
+  background-color: #11ec3b;
+  border: 1px solid #0469c1;
+}
+
+.util-30 {
+  margin: 30px;
+  padding: 5px;
+  color: #805548;
+  background-color: #128a72;
+  border: 2px solid #0490b6;
+}
+
+.util-31 {
+  margin: 31px;
+  padding: 6px;
+  color: #b7cf97;
+  background-color: #1328a9;
+  border: 3px solid #04b7ab;
+}
+
+.util-32 {
+  margin: 32px;
+  padding: 7px;
+  color: #ef49e6;
+  background-color: #13c6e0;
+  border: 0px solid #04dea0;
+}
+
+.util-33 {
+  margin: 33px;
+  padding: 8px;
+  color: #26c436;
+  background-color: #146517;
+  border: 1px solid #050595;
+}
+
+.util-34 {
+  margin: 34px;
+  padding: 9px;
+  color: #5e3e85;
+  background-color: #15034e;
+  border: 2px solid #052c8a;
+}
+
+.util-35 {
+  margin: 35px;
+  padding: 10px;
+  color: #95b8d4;
+  background-color: #15a185;
+  border: 3px solid #05537f;
+}
+
+.util-36 {
+  margin: 36px;
+  padding: 11px;
+  color: #cd3323;
+  background-color: #163fbc;
+  border: 0px solid #057a74;
+}
+
+.util-37 {
+  margin: 37px;
+  padding: 12px;
+  color: #04ad73;
+  background-color: #16ddf3;
+  border: 1px solid #05a169;
+}
+
+.util-38 {
+  margin: 38px;
+  padding: 13px;
+  color: #3c27c2;
+  background-color: #177c2a;
+  border: 2px solid #05c85e;
+}
+
+.util-39 {
+  margin: 39px;
+  padding: 14px;
+  color: #73a211;
+  background-color: #181a61;
+  border: 3px solid #05ef53;
+}
+
+.util-40 {
+  margin: 0px;
+  padding: 15px;
+  color: #ab1c60;
+  background-color: #18b898;
+  border: 0px solid #061648;
+}
+
+.util-41 {
+  margin: 1px;
+  padding: 16px;
+  color: #e296af;
+  background-color: #1956cf;
+  border: 1px solid #063d3d;
+}
+
+.util-42 {
+  margin: 2px;
+  padding: 17px;
+  color: #1a10ff;
+  background-color: #19f506;
+  border: 2px solid #066432;
+}
+
+.util-43 {
+  margin: 3px;
+  padding: 18px;
+  color: #518b4e;
+  background-color: #1a933d;
+  border: 3px solid #068b27;
+}
+
+.util-44 {
+  margin: 4px;
+  padding: 19px;
+  color: #89059d;
+  background-color: #1b3174;
+  border: 0px solid #06b21c;
+}
+
+.util-45 {
+  margin: 5px;
+  padding: 20px;
+  color: #c07fec;
+  background-color: #1bcfab;
+  border: 1px solid #06d911;
+}
+
+.util-46 {
+  margin: 6px;
+  padding: 21px;
+  color: #f7fa3b;
+  background-color: #1c6de2;
+  border: 2px solid #070006;
+}
+
+.util-47 {
+  margin: 7px;
+  padding: 22px;
+  color: #2f748b;
+  background-color: #1d0c19;
+  border: 3px solid #0726fb;
+}
+
+.util-48 {
+  margin: 8px;
+  padding: 23px;
+  color: #66eeda;
+  background-color: #1daa50;
+  border: 0px solid #074df0;
+}
+
+.util-49 {
+  margin: 9px;
+  padding: 24px;
+  color: #9e6929;
+  background-color: #1e4887;
+  border: 1px solid #0774e5;
+}
+
+.util-50 {
+  margin: 10px;
+  padding: 0px;
+  color: #d5e378;
+  background-color: #1ee6be;
+  border: 2px solid #079bda;
+}
+
+.util-51 {
+  margin: 11px;
+  padding: 1px;
+  color: #0d5dc8;
+  background-color: #1f84f5;
+  border: 3px solid #07c2cf;
+}
+
+.util-52 {
+  margin: 12px;
+  padding: 2px;
+  color: #44d817;
+  background-color: #20232c;
+  border: 0px solid #07e9c4;
+}
+
+.util-53 {
+  margin: 13px;
+  padding: 3px;
+  color: #7c5266;
+  background-color: #20c163;
+  border: 1px solid #0810b9;
+}
+
+.util-54 {
+  margin: 14px;
+  padding: 4px;
+  color: #b3ccb5;
+  background-color: #215f9a;
+  border: 2px solid #0837ae;
+}
+
+.util-55 {
+  margin: 15px;
+  padding: 5px;
+  color: #eb4704;
+  background-color: #21fdd1;
+  border: 3px solid #085ea3;
+}
+
+.util-56 {
+  margin: 16px;
+  padding: 6px;
+  color: #22c154;
+  background-color: #229c08;
+  border: 0px solid #088598;
+}
+
+.util-57 {
+  margin: 17px;
+  padding: 7px;
+  color: #5a3ba3;
+  background-color: #233a3f;
+  border: 1px solid #08ac8d;
+}
+
+.util-58 {
+  margin: 18px;
+  padding: 8px;
+  color: #91b5f2;
+  background-color: #23d876;
+  border: 2px solid #08d382;
+}
+
+.util-59 {
+  margin: 19px;
+  padding: 9px;
+  color: #c93041;
+  background-color: #2476ad;
+  border: 3px solid #08fa77;
+}
+
+.util-60 {
+  margin: 20px;
+  padding: 10px;
+  color: #00aa91;
+  background-color: #2514e4;
+  border: 0px solid #09216c;
+}
+
+.util-61 {
+  margin: 21px;
+  padding: 11px;
+  color: #3824e0;
+  background-color: #25b31b;
+  border: 1px solid #094861;
+}
+
+.util-62 {
+  margin: 22px;
+  padding: 12px;
+  color: #6f9f2f;
+  background-color: #265152;
+  border: 2px solid #096f56;
+}
+
+.util-63 {
+  margin: 23px;
+  padding: 13px;
+  color: #a7197e;
+  background-color: #26ef89;
+  border: 3px solid #09964b;
+}
+
+.util-64 {
+  margin: 24px;
+  padding: 14px;
+  color: #de93cd;
+  background-color: #278dc0;
+  border: 0px solid #09bd40;
+}
+
+.util-65 {
+  margin: 25px;
+  padding: 15px;
+  color: #160e1d;
+  background-color: #282bf7;
+  border: 1px solid #09e435;
+}
+
+.util-66 {
+  margin: 26px;
+  padding: 16px;
+  color: #4d886c;
+  background-color: #28ca2e;
+  border: 2px solid #0a0b2a;
+}
+
+.util-67 {
+  margin: 27px;
+  padding: 17px;
+  color: #8502bb;
+  background-color: #296865;
+  border: 3px solid #0a321f;
+}
+
+.util-68 {
+  margin: 28px;
+  padding: 18px;
+  color: #bc7d0a;
+  background-color: #2a069c;
+  border: 0px solid #0a5914;
+}
+
+.util-69 {
+  margin: 29px;
+  padding: 19px;
+  color: #f3f759;
+  background-color: #2aa4d3;
+  border: 1px solid #0a8009;
+}
+
+.util-70 {
+  margin: 30px;
+  padding: 20px;
+  color: #2b71a9;
+  background-color: #2b430a;
+  border: 2px solid #0aa6fe;
+}
+
+.util-71 {
+  margin: 31px;
+  padding: 21px;
+  color: #62ebf8;
+  background-color: #2be141;
+  border: 3px solid #0acdf3;
+}
+
+.util-72 {
+  margin: 32px;
+  padding: 22px;
+  color: #9a6647;
+  background-color: #2c7f78;
+  border: 0px solid #0af4e8;
+}
+
+.util-73 {
+  margin: 33px;
+  padding: 23px;
+  color: #d1e096;
+  background-color: #2d1daf;
+  border: 1px solid #0b1bdd;
+}
+
+.util-74 {
+  margin: 34px;
+  padding: 24px;
+  color: #095ae6;
+  background-color: #2dbbe6;
+  border: 2px solid #0b42d2;
+}
+
+.util-75 {
+  margin: 35px;
+  padding: 0px;
+  color: #40d535;
+  background-color: #2e5a1d;
+  border: 3px solid #0b69c7;
+}
+
+.util-76 {
+  margin: 36px;
+  padding: 1px;
+  color: #784f84;
+  background-color: #2ef854;
+  border: 0px solid #0b90bc;
+}
+
+.util-77 {
+  margin: 37px;
+  padding: 2px;
+  color: #afc9d3;
+  background-color: #2f968b;
+  border: 1px solid #0bb7b1;
+}
+
+.util-78 {
+  margin: 38px;
+  padding: 3px;
+  color: #e74422;
+  background-color: #3034c2;
+  border: 2px solid #0bdea6;
+}
+
+.util-79 {
+  margin: 39px;
+  padding: 4px;
+  color: #1ebe72;
+  background-color: #30d2f9;
+  border: 3px solid #0c059b;
+}
+
+.util-80 {
+  margin: 0px;
+  padding: 5px;
+  color: #5638c1;
+  background-color: #317130;
+  border: 0px solid #0c2c90;
+}
+
+.util-81 {
+  margin: 1px;
+  padding: 6px;
+  color: #8db310;
+  background-color: #320f67;
+  border: 1px solid #0c5385;
+}
+
+.util-82 {
+  margin: 2px;
+  padding: 7px;
+  color: #c52d5f;
+  background-color: #32ad9e;
+  border: 2px solid #0c7a7a;
+}
+
+.util-83 {
+  margin: 3px;
+  padding: 8px;
+  color: #fca7ae;
+  background-color: #334bd5;
+  border: 3px solid #0ca16f;
+}
+
+.util-84 {
+  margin: 4px;
+  padding: 9px;
+  color: #3421fe;
+  background-color: #33ea0c;
+  border: 0px solid #0cc864;
+}
+
+.util-85 {
+  margin: 5px;
+  padding: 10px;
+  color: #6b9c4d;
+  background-color: #348843;
+  border: 1px solid #0cef59;
+}
+
+.util-86 {
+  margin: 6px;
+  padding: 11px;
+  color: #a3169c;
+  background-color: #35267a;
+  border: 2px solid #0d164e;
+}
+
+.util-87 {
+  margin: 7px;
+  padding: 12px;
+  color: #da90eb;
+  background-color: #35c4b1;
+  border: 3px solid #0d3d43;
+}
+
+.util-88 {
+  margin: 8px;
+  padding: 13px;
+  color: #120b3b;
+  background-color: #3662e8;
+  border: 0px solid #0d6438;
+}
+
+.util-89 {
+  margin: 9px;
+  padding: 14px;
+  color: #49858a;
+  background-color: #37011f;
+  border: 1px solid #0d8b2d;
+}
+
+.util-90 {
+  margin: 10px;
+  padding: 15px;
+  color: #80ffd9;
+  background-color: #379f56;
+  border: 2px solid #0db222;
+}
+
+.util-91 {
+  margin: 11px;
+  padding: 16px;
+  color: #b87a28;
+  background-color: #383d8d;
+  border: 3px solid #0dd917;
+}
+
+.util-92 {
+  margin: 12px;
+  padding: 17px;
+  color: #eff477;
+  background-color: #38dbc4;
+  border: 0px solid #0e000c;
+}
+
+.util-93 {
+  margin: 13px;
+  padding: 18px;
+  color: #276ec7;
+  background-color: #3979fb;
+  border: 1px solid #0e2701;
+}
+
+.util-94 {
+  margin: 14px;
+  padding: 19px;
+  color: #5ee916;
+  background-color: #3a1832;
+  border: 2px solid #0e4df6;
+}
+
+.util-95 {
+  margin: 15px;
+  padding: 20px;
+  color: #966365;
+  background-color: #3ab669;
+  border: 3px solid #0e74eb;
+}
+
+.util-96 {
+  margin: 16px;
+  padding: 21px;
+  color: #cdddb4;
+  background-color: #3b54a0;
+  border: 0px solid #0e9be0;
+}
+
+.util-97 {
+  margin: 17px;
+  padding: 22px;
+  color: #055804;
+  background-color: #3bf2d7;
+  border: 1px solid #0ec2d5;
+}
+
+.util-98 {
+  margin: 18px;
+  padding: 23px;
+  color: #3cd253;
+  background-color: #3c910e;
+  border: 2px solid #0ee9ca;
+}
+
+.util-99 {
+  margin: 19px;
+  padding: 24px;
+  color: #744ca2;
+  background-color: #3d2f45;
+  border: 3px solid #0f10bf;
+}
+
+.util-100 {
+  margin: 20px;
+  padding: 0px;
+  color: #abc6f1;
+  background-color: #3dcd7c;
+  border: 0px solid #0f37b4;
+}
+
+.util-101 {
+  margin: 21px;
+  padding: 1px;
+  color: #e34140;
+  background-color: #3e6bb3;
+  border: 1px solid #0f5ea9;
+}
+
+.util-102 {
+  margin: 22px;
+  padding: 2px;
+  color: #1abb90;
+  background-color: #3f09ea;
+  border: 2px solid #0f859e;
+}
+
+.util-103 {
+  margin: 23px;
+  padding: 3px;
+  color: #5235df;
+  background-color: #3fa821;
+  border: 3px solid #0fac93;
+}
+
+.util-104 {
+  margin: 24px;
+  padding: 4px;
+  color: #89b02e;
+  background-color: #404658;
+  border: 0px solid #0fd388;
+}
+
+.util-105 {
+  margin: 25px;
+  padding: 5px;
+  color: #c12a7d;
+  background-color: #40e48f;
+  border: 1px solid #0ffa7d;
+}
+
+.util-106 {
+  margin: 26px;
+  padding: 6px;
+  color: #f8a4cc;
+  background-color: #4182c6;
+  border: 2px solid #102172;
+}
+
+.util-107 {
+  margin: 27px;
+  padding: 7px;
+  color: #301f1c;
+  background-color: #4220fd;
+  border: 3px solid #104867;
+}
+
+.util-108 {
+  margin: 28px;
+  padding: 8px;
+  color: #67996b;
+  background-color: #42bf34;
+  border: 0px solid #106f5c;
+}
+
+.util-109 {
+  margin: 29px;
+  padding: 9px;
+  color: #9f13ba;
+  background-color: #435d6b;
+  border: 1px solid #109651;
+}
+
+.util-110 {
+  margin: 30px;
+  padding: 10px;
+  color: #d68e09;
+  background-color: #43fba2;
+  border: 2px solid #10bd46;
+}
+
+.util-111 {
+  margin: 31px;
+  padding: 11px;
+  color: #0e0859;
+  background-color: #4499d9;
+  border: 3px solid #10e43b;
+}
+
+.util-112 {
+  margin: 32px;
+  padding: 12px;
+  color: #4582a8;
+  background-color: #453810;
+  border: 0px solid #110b30;
+}
+
+.util-113 {
+  margin: 33px;
+  padding: 13px;
+  color: #7cfcf7;
+  background-color: #45d647;
+  border: 1px solid #113225;
+}
+
+.util-114 {
+  margin: 34px;
+  padding: 14px;
+  color: #b47746;
+  background-color: #46747e;
+  border: 2px solid #11591a;
+}
+
+.util-115 {
+  margin: 35px;
+  padding: 15px;
+  color: #ebf195;
+  background-color: #4712b5;
+  border: 3px solid #11800f;
+}
+
+.util-116 {
+  margin: 36px;
+  padding: 16px;
+  color: #236be5;
+  background-color: #47b0ec;
+  border: 0px solid #11a704;
+}
+
+.util-117 {
+  margin: 37px;
+  padding: 17px;
+  color: #5ae634;
+  background-color: #484f23;
+  border: 1px solid #11cdf9;
+}
+
+.util-118 {
+  margin: 38px;
+  padding: 18px;
+  color: #926083;
+  background-color: #48ed5a;
+  border: 2px solid #11f4ee;
+}
+
+.util-119 {
+  margin: 39px;
+  padding: 19px;
+  color: #c9dad2;
+  background-color: #498b91;
+  border: 3px solid #121be3;
+}
+
+.util-120 {
+  margin: 0px;
+  padding: 20px;
+  color: #015522;
+  background-color: #4a29c8;
+  border: 0px solid #1242d8;
+}
+
+.util-121 {
+  margin: 1px;
+  padding: 21px;
+  color: #38cf71;
+  background-color: #4ac7ff;
+  border: 1px solid #1269cd;
+}
+
+.util-122 {
+  margin: 2px;
+  padding: 22px;
+  color: #7049c0;
+  background-color: #4b6636;
+  border: 2px solid #1290c2;
+}
+
+.util-123 {
+  margin: 3px;
+  padding: 23px;
+  color: #a7c40f;
+  background-color: #4c046d;
+  border: 3px solid #12b7b7;
+}
+
+.util-124 {
+  margin: 4px;
+  padding: 24px;
+  color: #df3e5e;
+  background-color: #4ca2a4;
+  border: 0px solid #12deac;
+}
+
+.util-125 {
+  margin: 5px;
+  padding: 0px;
+  color: #16b8ae;
+  background-color: #4d40db;
+  border: 1px solid #1305a1;
+}
+
+.util-126 {
+  margin: 6px;
+  padding: 1px;
+  color: #4e32fd;
+  background-color: #4ddf12;
+  border: 2px solid #132c96;
+}
+
+.util-127 {
+  margin: 7px;
+  padding: 2px;
+  color: #85ad4c;
+  background-color: #4e7d49;
+  border: 3px solid #13538b;
+}
+
+.util-128 {
+  margin: 8px;
+  padding: 3px;
+  color: #bd279b;
+  background-color: #4f1b80;
+  border: 0px solid #137a80;
+}
+
+.util-129 {
+  margin: 9px;
+  padding: 4px;
+  color: #f4a1ea;
+  background-color: #4fb9b7;
+  border: 1px solid #13a175;
+}
+
+.util-130 {
+  margin: 10px;
+  padding: 5px;
+  color: #2c1c3a;
+  background-color: #5057ee;
+  border: 2px solid #13c86a;
+}
+
+.util-131 {
+  margin: 11px;
+  padding: 6px;
+  color: #639689;
+  background-color: #50f625;
+  border: 3px solid #13ef5f;
+}
+
+.util-132 {
+  margin: 12px;
+  padding: 7px;
+  color: #9b10d8;
+  background-color: #51945c;
+  border: 0px solid #141654;
+}
+
+.util-133 {
+  margin: 13px;
+  padding: 8px;
+  color: #d28b27;
+  background-color: #523293;
+  border: 1px solid #143d49;
+}
+
+.util-134 {
+  margin: 14px;
+  padding: 9px;
+  color: #0a0577;
+  background-color: #52d0ca;
+  border: 2px solid #14643e;
+}
+
+.util-135 {
+  margin: 15px;
+  padding: 10px;
+  color: #417fc6;
+  background-color: #536f01;
+  border: 3px solid #148b33;
+}
+
+.util-136 {
+  margin: 16px;
+  padding: 11px;
+  color: #78fa15;
+  background-color: #540d38;
+  border: 0px solid #14b228;
+}
+
+.util-137 {
+  margin: 17px;
+  padding: 12px;
+  color: #b07464;
+  background-color: #54ab6f;
+  border: 1px solid #14d91d;
+}
+
+.util-138 {
+  margin: 18px;
+  padding: 13px;
+  color: #e7eeb3;
+  background-color: #5549a6;
+  border: 2px solid #150012;
+}
+
+.util-139 {
+  margin: 19px;
+  padding: 14px;
+  color: #1f6903;
+  background-color: #55e7dd;
+  border: 3px solid #152707;
+}
+
+.util-140 {
+  margin: 20px;
+  padding: 15px;
+  color: #56e352;
+  background-color: #568614;
+  border: 0px solid #154dfc;
+}
+
+.util-141 {
+  margin: 21px;
+  padding: 16px;
+  color: #8e5da1;
+  background-color: #57244b;
+  border: 1px solid #1574f1;
+}
+
+.util-142 {
+  margin: 22px;
+  padding: 17px;
+  color: #c5d7f0;
+  background-color: #57c282;
+  border: 2px solid #159be6;
+}
+
+.util-143 {
+  margin: 23px;
+  padding: 18px;
+  color: #fd523f;
+  background-color: #5860b9;
+  border: 3px solid #15c2db;
+}
+
+.util-144 {
+  margin: 24px;
+  padding: 19px;
+  color: #34cc8f;
+  background-color: #58fef0;
+  border: 0px solid #15e9d0;
+}
+
+.util-145 {
+  margin: 25px;
+  padding: 20px;
+  color: #6c46de;
+  background-color: #599d27;
+  border: 1px solid #1610c5;
+}
+
+.util-146 {
+  margin: 26px;
+  padding: 21px;
+  color: #a3c12d;
+  background-color: #5a3b5e;
+  border: 2px solid #1637ba;
+}
+
+.util-147 {
+  margin: 27px;
+  padding: 22px;
+  color: #db3b7c;
+  background-color: #5ad995;
+  border: 3px solid #165eaf;
+}
+
+.util-148 {
+  margin: 28px;
+  padding: 23px;
+  color: #12b5cc;
+  background-color: #5b77cc;
+  border: 0px solid #1685a4;
+}
+
+.util-149 {
+  margin: 29px;
+  padding: 24px;
+  color: #4a301b;
+  background-color: #5c1603;
+  border: 1px solid #16ac99;
+}
+
+.util-150 {
+  margin: 30px;
+  padding: 0px;
+  color: #81aa6a;
+  background-color: #5cb43a;
+  border: 2px solid #16d38e;
+}
+
+.util-151 {
+  margin: 31px;
+  padding: 1px;
+  color: #b924b9;
+  background-color: #5d5271;
+  border: 3px solid #16fa83;
+}
+
+.util-152 {
+  margin: 32px;
+  padding: 2px;
+  color: #f09f08;
+  background-color: #5df0a8;
+  border: 0px solid #172178;
+}
+
+.util-153 {
+  margin: 33px;
+  padding: 3px;
+  color: #281958;
+  background-color: #5e8edf;
+  border: 1px solid #17486d;
+}
+
+.util-154 {
+  margin: 34px;
+  padding: 4px;
+  color: #5f93a7;
+  background-color: #5f2d16;
+  border: 2px solid #176f62;
+}
+
+.util-155 {
+  margin: 35px;
+  padding: 5px;
+  color: #970df6;
+  background-color: #5fcb4d;
+  border: 3px solid #179657;
+}
+
+.util-156 {
+  margin: 36px;
+  padding: 6px;
+  color: #ce8845;
+  background-color: #606984;
+  border: 0px solid #17bd4c;
+}
+
+.util-157 {
+  margin: 37px;
+  padding: 7px;
+  color: #060295;
+  background-color: #6107bb;
+  border: 1px solid #17e441;
+}
+
+.util-158 {
+  margin: 38px;
+  padding: 8px;
+  color: #3d7ce4;
+  background-color: #61a5f2;
+  border: 2px solid #180b36;
+}
+
+.util-159 {
+  margin: 39px;
+  padding: 9px;
+  color: #74f733;
+  background-color: #624429;
+  border: 3px solid #18322b;
+}
+
+.util-160 {
+  margin: 0px;
+  padding: 10px;
+  color: #ac7182;
+  background-color: #62e260;
+  border: 0px solid #185920;
+}
+
+.util-161 {
+  margin: 1px;
+  padding: 11px;
+  color: #e3ebd1;
+  background-color: #638097;
+  border: 1px solid #188015;
+}
+
+.util-162 {
+  margin: 2px;
+  padding: 12px;
+  color: #1b6621;
+  background-color: #641ece;
+  border: 2px solid #18a70a;
+}
+
+.util-163 {
+  margin: 3px;
+  padding: 13px;
+  color: #52e070;
+  background-color: #64bd05;
+  border: 3px solid #18cdff;
+}
+
+.util-164 {
+  margin: 4px;
+  padding: 14px;
+  color: #8a5abf;
+  background-color: #655b3c;
+  border: 0px solid #18f4f4;
+}
+
+.util-165 {
+  margin: 5px;
+  padding: 15px;
+  color: #c1d50e;
+  background-color: #65f973;
+  border: 1px solid #191be9;
+}
+
+.util-166 {
+  margin: 6px;
+  padding: 16px;
+  color: #f94f5d;
+  background-color: #6697aa;
+  border: 2px solid #1942de;
+}
+
+.util-167 {
+  margin: 7px;
+  padding: 17px;
+  color: #30c9ad;
+  background-color: #6735e1;
+  border: 3px solid #1969d3;
+}
+
+.util-168 {
+  margin: 8px;
+  padding: 18px;
+  color: #6843fc;
+  background-color: #67d418;
+  border: 0px solid #1990c8;
+}
+
+.util-169 {
+  margin: 9px;
+  padding: 19px;
+  color: #9fbe4b;
+  background-color: #68724f;
+  border: 1px solid #19b7bd;
+}
+
+.util-170 {
+  margin: 10px;
+  padding: 20px;
+  color: #d7389a;
+  background-color: #691086;
+  border: 2px solid #19deb2;
+}
+
+.util-171 {
+  margin: 11px;
+  padding: 21px;
+  color: #0eb2ea;
+  background-color: #69aebd;
+  border: 3px solid #1a05a7;
+}
+
+.util-172 {
+  margin: 12px;
+  padding: 22px;
+  color: #462d39;
+  background-color: #6a4cf4;
+  border: 0px solid #1a2c9c;
+}
+
+.util-173 {
+  margin: 13px;
+  padding: 23px;
+  color: #7da788;
+  background-color: #6aeb2b;
+  border: 1px solid #1a5391;
+}
+
+.util-174 {
+  margin: 14px;
+  padding: 24px;
+  color: #b521d7;
+  background-color: #6b8962;
+  border: 2px solid #1a7a86;
+}
+
+.util-175 {
+  margin: 15px;
+  padding: 0px;
+  color: #ec9c26;
+  background-color: #6c2799;
+  border: 3px solid #1aa17b;
+}
+
+.util-176 {
+  margin: 16px;
+  padding: 1px;
+  color: #241676;
+  background-color: #6cc5d0;
+  border: 0px solid #1ac870;
+}
+
+.util-177 {
+  margin: 17px;
+  padding: 2px;
+  color: #5b90c5;
+  background-color: #6d6407;
+  border: 1px solid #1aef65;
+}
+
+.util-178 {
+  margin: 18px;
+  padding: 3px;
+  color: #930b14;
+  background-color: #6e023e;
+  border: 2px solid #1b165a;
+}
+
+.util-179 {
+  margin: 19px;
+  padding: 4px;
+  color: #ca8563;
+  background-color: #6ea075;
+  border: 3px solid #1b3d4f;
+}
+
+.util-180 {
+  margin: 20px;
+  padding: 5px;
+  color: #01ffb3;
+  background-color: #6f3eac;
+  border: 0px solid #1b6444;
+}
+
+.util-181 {
+  margin: 21px;
+  padding: 6px;
+  color: #397a02;
+  background-color: #6fdce3;
+  border: 1px solid #1b8b39;
+}
+
+.util-182 {
+  margin: 22px;
+  padding: 7px;
+  color: #70f451;
+  background-color: #707b1a;
+  border: 2px solid #1bb22e;
+}
+
+.util-183 {
+  margin: 23px;
+  padding: 8px;
+  color: #a86ea0;
+  background-color: #711951;
+  border: 3px solid #1bd923;
+}
+
+.util-184 {
+  margin: 24px;
+  padding: 9px;
+  color: #dfe8ef;
+  background-color: #71b788;
+  border: 0px solid #1c0018;
+}
+
+.util-185 {
+  margin: 25px;
+  padding: 10px;
+  color: #17633f;
+  background-color: #7255bf;
+  border: 1px solid #1c270d;
+}
+
+.util-186 {
+  margin: 26px;
+  padding: 11px;
+  color: #4edd8e;
+  background-color: #72f3f6;
+  border: 2px solid #1c4e02;
+}
+
+.util-187 {
+  margin: 27px;
+  padding: 12px;
+  color: #8657dd;
+  background-color: #73922d;
+  border: 3px solid #1c74f7;
+}
+
+.util-188 {
+  margin: 28px;
+  padding: 13px;
+  color: #bdd22c;
+  background-color: #743064;
+  border: 0px solid #1c9bec;
+}
+
+.util-189 {
+  margin: 29px;
+  padding: 14px;
+  color: #f54c7b;
+  background-color: #74ce9b;
+  border: 1px solid #1cc2e1;
+}
+
+.util-190 {
+  margin: 30px;
+  padding: 15px;
+  color: #2cc6cb;
+  background-color: #756cd2;
+  border: 2px solid #1ce9d6;
+}
+
+.util-191 {
+  margin: 31px;
+  padding: 16px;
+  color: #64411a;
+  background-color: #760b09;
+  border: 3px solid #1d10cb;
+}
+
+.util-192 {
+  margin: 32px;
+  padding: 17px;
+  color: #9bbb69;
+  background-color: #76a940;
+  border: 0px solid #1d37c0;
+}
+
+.util-193 {
+  margin: 33px;
+  padding: 18px;
+  color: #d335b8;
+  background-color: #774777;
+  border: 1px solid #1d5eb5;
+}
+
+.util-194 {
+  margin: 34px;
+  padding: 19px;
+  color: #0ab008;
+  background-color: #77e5ae;
+  border: 2px solid #1d85aa;
+}
+
+.util-195 {
+  margin: 35px;
+  padding: 20px;
+  color: #422a57;
+  background-color: #7883e5;
+  border: 3px solid #1dac9f;
+}
+
+.util-196 {
+  margin: 36px;
+  padding: 21px;
+  color: #79a4a6;
+  background-color: #79221c;
+  border: 0px solid #1dd394;
+}
+
+.util-197 {
+  margin: 37px;
+  padding: 22px;
+  color: #b11ef5;
+  background-color: #79c053;
+  border: 1px solid #1dfa89;
+}
+
+.util-198 {
+  margin: 38px;
+  padding: 23px;
+  color: #e89944;
+  background-color: #7a5e8a;
+  border: 2px solid #1e217e;
+}
+
+.util-199 {
+  margin: 39px;
+  padding: 24px;
+  color: #201394;
+  background-color: #7afcc1;
+  border: 3px solid #1e4873;
+}
+
+.util-200 {
+  margin: 0px;
+  padding: 0px;
+  color: #578de3;
+  background-color: #7b9af8;
+  border: 0px solid #1e6f68;
+}
+
+.util-201 {
+  margin: 1px;
+  padding: 1px;
+  color: #8f0832;
+  background-color: #7c392f;
+  border: 1px solid #1e965d;
+}
+
+.util-202 {
+  margin: 2px;
+  padding: 2px;
+  color: #c68281;
+  background-color: #7cd766;
+  border: 2px solid #1ebd52;
+}
+
+.util-203 {
+  margin: 3px;
+  padding: 3px;
+  color: #fdfcd0;
+  background-color: #7d759d;
+  border: 3px solid #1ee447;
+}
+
+.util-204 {
+  margin: 4px;
+  padding: 4px;
+  color: #357720;
+  background-color: #7e13d4;
+  border: 0px solid #1f0b3c;
+}
+
+.util-205 {
+  margin: 5px;
+  padding: 5px;
+  color: #6cf16f;
+  background-color: #7eb20b;
+  border: 1px solid #1f3231;
+}
+
+.util-206 {
+  margin: 6px;
+  padding: 6px;
+  color: #a46bbe;
+  background-color: #7f5042;
+  border: 2px solid #1f5926;
+}
+
+.util-207 {
+  margin: 7px;
+  padding: 7px;
+  color: #dbe60d;
+  background-color: #7fee79;
+  border: 3px solid #1f801b;
+}
+
+.util-208 {
+  margin: 8px;
+  padding: 8px;
+  color: #13605d;
+  background-color: #808cb0;
+  border: 0px solid #1fa710;
+}
+
+.util-209 {
+  margin: 9px;
+  padding: 9px;
+  color: #4adaac;
+  background-color: #812ae7;
+  border: 1px solid #1fce05;
+}
+
+.util-210 {
+  margin: 10px;
+  padding: 10px;
+  color: #8254fb;
+  background-color: #81c91e;
+  border: 2px solid #1ff4fa;
+}
+
+.util-211 {
+  margin: 11px;
+  padding: 11px;
+  color: #b9cf4a;
+  background-color: #826755;
+  border: 3px solid #201bef;
+}
+
+.util-212 {
+  margin: 12px;
+  padding: 12px;
+  color: #f14999;
+  background-color: #83058c;
+  border: 0px solid #2042e4;
+}
+
+.util-213 {
+  margin: 13px;
+  padding: 13px;
+  color: #28c3e9;
+  background-color: #83a3c3;
+  border: 1px solid #2069d9;
+}
+
+.util-214 {
+  margin: 14px;
+  padding: 14px;
+  color: #603e38;
+  background-color: #8441fa;
+  border: 2px solid #2090ce;
+}
+
+.util-215 {
+  margin: 15px;
+  padding: 15px;
+  color: #97b887;
+  background-color: #84e031;
+  border: 3px solid #20b7c3;
+}
+
+.util-216 {
+  margin: 16px;
+  padding: 16px;
+  color: #cf32d6;
+  background-color: #857e68;
+  border: 0px solid #20deb8;
+}
+
+.util-217 {
+  margin: 17px;
+  padding: 17px;
+  color: #06ad26;
+  background-color: #861c9f;
+  border: 1px solid #2105ad;
+}
+
+.util-218 {
+  margin: 18px;
+  padding: 18px;
+  color: #3e2775;
+  background-color: #86bad6;
+  border: 2px solid #212ca2;
+}
+
+.util-219 {
+  margin: 19px;
+  padding: 19px;
+  color: #75a1c4;
+  background-color: #87590d;
+  border: 3px solid #215397;
+}
+
+.util-220 {
+  margin: 20px;
+  padding: 20px;
+  color: #ad1c13;
+  background-color: #87f744;
+  border: 0px solid #217a8c;
+}
+
+.util-221 {
+  margin: 21px;
+  padding: 21px;
+  color: #e49662;
+  background-color: #88957b;
+  border: 1px solid #21a181;
+}
+
+.util-222 {
+  margin: 22px;
+  padding: 22px;
+  color: #1c10b2;
+  background-color: #8933b2;
+  border: 2px solid #21c876;
+}
+
+.util-223 {
+  margin: 23px;
+  padding: 23px;
+  color: #538b01;
+  background-color: #89d1e9;
+  border: 3px solid #21ef6b;
+}
+
+.util-224 {
+  margin: 24px;
+  padding: 24px;
+  color: #8b0550;
+  background-color: #8a7020;
+  border: 0px solid #221660;
+}
+
+.util-225 {
+  margin: 25px;
+  padding: 0px;
+  color: #c27f9f;
+  background-color: #8b0e57;
+  border: 1px solid #223d55;
+}
+
+.util-226 {
+  margin: 26px;
+  padding: 1px;
+  color: #f9f9ee;
+  background-color: #8bac8e;
+  border: 2px solid #22644a;
+}
+
+.util-227 {
+  margin: 27px;
+  padding: 2px;
+  color: #31743e;
+  background-color: #8c4ac5;
+  border: 3px solid #228b3f;
+}
+
+.util-228 {
+  margin: 28px;
+  padding: 3px;
+  color: #68ee8d;
+  background-color: #8ce8fc;
+  border: 0px solid #22b234;
+}
+
+.util-229 {
+  margin: 29px;
+  padding: 4px;
+  color: #a068dc;
+  background-color: #8d8733;
+  border: 1px solid #22d929;
+}
+
+.util-230 {
+  margin: 30px;
+  padding: 5px;
+  color: #d7e32b;
+  background-color: #8e256a;
+  border: 2px solid #23001e;
+}
+
+.util-231 {
+  margin: 31px;
+  padding: 6px;
+  color: #0f5d7b;
+  background-color: #8ec3a1;
+  border: 3px solid #232713;
+}
+
+.util-232 {
+  margin: 32px;
+  padding: 7px;
+  color: #46d7ca;
+  background-color: #8f61d8;
+  border: 0px solid #234e08;
+}
+
+.util-233 {
+  margin: 33px;
+  padding: 8px;
+  color: #7e5219;
+  background-color: #90000f;
+  border: 1px solid #2374fd;
+}
+
+.util-234 {
+  margin: 34px;
+  padding: 9px;
+  color: #b5cc68;
+  background-color: #909e46;
+  border: 2px solid #239bf2;
+}
+
+.util-235 {
+  margin: 35px;
+  padding: 10px;
+  color: #ed46b7;
+  background-color: #913c7d;
+  border: 3px solid #23c2e7;
+}
+
+.util-236 {
+  margin: 36px;
+  padding: 11px;
+  color: #24c107;
+  background-color: #91dab4;
+  border: 0px solid #23e9dc;
+}
+
+.util-237 {
+  margin: 37px;
+  padding: 12px;
+  color: #5c3b56;
+  background-color: #9278eb;
+  border: 1px solid #2410d1;
+}
+
+.util-238 {
+  margin: 38px;
+  padding: 13px;
+  color: #93b5a5;
+  background-color: #931722;
+  border: 2px solid #2437c6;
+}
+
+.util-239 {
+  margin: 39px;
+  padding: 14px;
+  color: #cb2ff4;
+  background-color: #93b559;
+  border: 3px solid #245ebb;
+}
+
+.util-240 {
+  margin: 0px;
+  padding: 15px;
+  color: #02aa44;
+  background-color: #945390;
+  border: 0px solid #2485b0;
+}
+
+.util-241 {
+  margin: 1px;
+  padding: 16px;
+  color: #3a2493;
+  background-color: #94f1c7;
+  border: 1px solid #24aca5;
+}
+
+.util-242 {
+  margin: 2px;
+  padding: 17px;
+  color: #719ee2;
+  background-color: #958ffe;
+  border: 2px solid #24d39a;
+}
+
+.util-243 {
+  margin: 3px;
+  padding: 18px;
+  color: #a91931;
+  background-color: #962e35;
+  border: 3px solid #24fa8f;
+}
+
+.util-244 {
+  margin: 4px;
+  padding: 19px;
+  color: #e09380;
+  background-color: #96cc6c;
+  border: 0px solid #252184;
+}
+
+.util-245 {
+  margin: 5px;
+  padding: 20px;
+  color: #180dd0;
+  background-color: #976aa3;
+  border: 1px solid #254879;
+}
+
+.util-246 {
+  margin: 6px;
+  padding: 21px;
+  color: #4f881f;
+  background-color: #9808da;
+  border: 2px solid #256f6e;
+}
+
+.util-247 {
+  margin: 7px;
+  padding: 22px;
+  color: #87026e;
+  background-color: #98a711;
+  border: 3px solid #259663;
+}
+
+.util-248 {
+  margin: 8px;
+  padding: 23px;
+  color: #be7cbd;
+  background-color: #994548;
+  border: 0px solid #25bd58;
+}
+
+.util-249 {
+  margin: 9px;
+  padding: 24px;
+  color: #f5f70c;
+  background-color: #99e37f;
+  border: 1px solid #25e44d;
+}
+
+.util-250 {
+  margin: 10px;
+  padding: 0px;
+  color: #2d715c;
+  background-color: #9a81b6;
+  border: 2px solid #260b42;
+}
+
+.util-251 {
+  margin: 11px;
+  padding: 1px;
+  color: #64ebab;
+  background-color: #9b1fed;
+  border: 3px solid #263237;
+}
+
+.util-252 {
+  margin: 12px;
+  padding: 2px;
+  color: #9c65fa;
+  background-color: #9bbe24;
+  border: 0px solid #26592c;
+}
+
+.util-253 {
+  margin: 13px;
+  padding: 3px;
+  color: #d3e049;
+  background-color: #9c5c5b;
+  border: 1px solid #268021;
+}
+
+.util-254 {
+  margin: 14px;
+  padding: 4px;
+  color: #0b5a99;
+  background-color: #9cfa92;
+  border: 2px solid #26a716;
+}
+
+.util-255 {
+  margin: 15px;
+  padding: 5px;
+  color: #42d4e8;
+  background-color: #9d98c9;
+  border: 3px solid #26ce0b;
+}
+
+.util-256 {
+  margin: 16px;
+  padding: 6px;
+  color: #7a4f37;
+  background-color: #9e3700;
+  border: 0px solid #26f500;
+}
+
+.util-257 {
+  margin: 17px;
+  padding: 7px;
+  color: #b1c986;
+  background-color: #9ed537;
+  border: 1px solid #271bf5;
+}
+
+.util-258 {
+  margin: 18px;
+  padding: 8px;
+  color: #e943d5;
+  background-color: #9f736e;
+  border: 2px solid #2742ea;
+}
+
+.util-259 {
+  margin: 19px;
+  padding: 9px;
+  color: #20be25;
+  background-color: #a011a5;
+  border: 3px solid #2769df;
+}
+
+.util-260 {
+  margin: 20px;
+  padding: 10px;
+  color: #583874;
+  background-color: #a0afdc;
+  border: 0px solid #2790d4;
+}
+
+.util-261 {
+  margin: 21px;
+  padding: 11px;
+  color: #8fb2c3;
+  background-color: #a14e13;
+  border: 1px solid #27b7c9;
+}
+
+.util-262 {
+  margin: 22px;
+  padding: 12px;
+  color: #c72d12;
+  background-color: #a1ec4a;
+  border: 2px solid #27debe;
+}
+
+.util-263 {
+  margin: 23px;
+  padding: 13px;
+  color: #fea761;
+  background-color: #a28a81;
+  border: 3px solid #2805b3;
+}
+
+.util-264 {
+  margin: 24px;
+  padding: 14px;
+  color: #3621b1;
+  background-color: #a328b8;
+  border: 0px solid #282ca8;
+}
+
+.util-265 {
+  margin: 25px;
+  padding: 15px;
+  color: #6d9c00;
+  background-color: #a3c6ef;
+  border: 1px solid #28539d;
+}
+
+.util-266 {
+  margin: 26px;
+  padding: 16px;
+  color: #a5164f;
+  background-color: #a46526;
+  border: 2px solid #287a92;
+}
+
+.util-267 {
+  margin: 27px;
+  padding: 17px;
+  color: #dc909e;
+  background-color: #a5035d;
+  border: 3px solid #28a187;
+}
+
+.util-268 {
+  margin: 28px;
+  padding: 18px;
+  color: #140aee;
+  background-color: #a5a194;
+  border: 0px solid #28c87c;
+}
+
+.util-269 {
+  margin: 29px;
+  padding: 19px;
+  color: #4b853d;
+  background-color: #a63fcb;
+  border: 1px solid #28ef71;
+}
+
+.util-270 {
+  margin: 30px;
+  padding: 20px;
+  color: #82ff8c;
+  background-color: #a6de02;
+  border: 2px solid #291666;
+}
+
+.util-271 {
+  margin: 31px;
+  padding: 21px;
+  color: #ba79db;
+  background-color: #a77c39;
+  border: 3px solid #293d5b;
+}
+
+.util-272 {
+  margin: 32px;
+  padding: 22px;
+  color: #f1f42a;
+  background-color: #a81a70;
+  border: 0px solid #296450;
+}
+
+.util-273 {
+  margin: 33px;
+  padding: 23px;
+  color: #296e7a;
+  background-color: #a8b8a7;
+  border: 1px solid #298b45;
+}
+
+.util-274 {
+  margin: 34px;
+  padding: 24px;
+  color: #60e8c9;
+  background-color: #a956de;
+  border: 2px solid #29b23a;
+}
+
+.util-275 {
+  margin: 35px;
+  padding: 0px;
+  color: #986318;
+  background-color: #a9f515;
+  border: 3px solid #29d92f;
+}
+
+.util-276 {
+  margin: 36px;
+  padding: 1px;
+  color: #cfdd67;
+  background-color: #aa934c;
+  border: 0px solid #2a0024;
+}
+
+.util-277 {
+  margin: 37px;
+  padding: 2px;
+  color: #0757b7;
+  background-color: #ab3183;
+  border: 1px solid #2a2719;
+}
+
+.util-278 {
+  margin: 38px;
+  padding: 3px;
+  color: #3ed206;
+  background-color: #abcfba;
+  border: 2px solid #2a4e0e;
+}
+
+.util-279 {
+  margin: 39px;
+  padding: 4px;
+  color: #764c55;
+  background-color: #ac6df1;
+  border: 3px solid #2a7503;
+}
+
+.util-280 {
+  margin: 0px;
+  padding: 5px;
+  color: #adc6a4;
+  background-color: #ad0c28;
+  border: 0px solid #2a9bf8;
+}
+
+.util-281 {
+  margin: 1px;
+  padding: 6px;
+  color: #e540f3;
+  background-color: #adaa5f;
+  border: 1px solid #2ac2ed;
+}
+
+.util-282 {
+  margin: 2px;
+  padding: 7px;
+  color: #1cbb43;
+  background-color: #ae4896;
+  border: 2px solid #2ae9e2;
+}
+
+.util-283 {
+  margin: 3px;
+  padding: 8px;
+  color: #543592;
+  background-color: #aee6cd;
+  border: 3px solid #2b10d7;
+}
+
+.util-284 {
+  margin: 4px;
+  padding: 9px;
+  color: #8bafe1;
+  background-color: #af8504;
+  border: 0px solid #2b37cc;
+}
+
+.util-285 {
+  margin: 5px;
+  padding: 10px;
+  color: #c32a30;
+  background-color: #b0233b;
+  border: 1px solid #2b5ec1;
+}
+
+.util-286 {
+  margin: 6px;
+  padding: 11px;
+  color: #faa47f;
+  background-color: #b0c172;
+  border: 2px solid #2b85b6;
+}
+
+.util-287 {
+  margin: 7px;
+  padding: 12px;
+  color: #321ecf;
+  background-color: #b15fa9;
+  border: 3px solid #2bacab;
+}
+
+.util-288 {
+  margin: 8px;
+  padding: 13px;
+  color: #69991e;
+  background-color: #b1fde0;
+  border: 0px solid #2bd3a0;
+}
+
+.util-289 {
+  margin: 9px;
+  padding: 14px;
+  color: #a1136d;
+  background-color: #b29c17;
+  border: 1px solid #2bfa95;
+}
+
+.util-290 {
+  margin: 10px;
+  padding: 15px;
+  color: #d88dbc;
+  background-color: #b33a4e;
+  border: 2px solid #2c218a;
+}
+
+.util-291 {
+  margin: 11px;
+  padding: 16px;
+  color: #10080c;
+  background-color: #b3d885;
+  border: 3px solid #2c487f;
+}
+
+.util-292 {
+  margin: 12px;
+  padding: 17px;
+  color: #47825b;
+  background-color: #b476bc;
+  border: 0px solid #2c6f74;
+}
+
+.util-293 {
+  margin: 13px;
+  padding: 18px;
+  color: #7efcaa;
+  background-color: #b514f3;
+  border: 1px solid #2c9669;
+}
+
+.util-294 {
+  margin: 14px;
+  padding: 19px;
+  color: #b676f9;
+  background-color: #b5b32a;
+  border: 2px solid #2cbd5e;
+}
+
+.util-295 {
+  margin: 15px;
+  padding: 20px;
+  color: #edf148;
+  background-color: #b65161;
+  border: 3px solid #2ce453;
+}
+
+.util-296 {
+  margin: 16px;
+  padding: 21px;
+  color: #256b98;
+  background-color: #b6ef98;
+  border: 0px solid #2d0b48;
+}
+
+.util-297 {
+  margin: 17px;
+  padding: 22px;
+  color: #5ce5e7;
+  background-color: #b78dcf;
+  border: 1px solid #2d323d;
+}
+
+.util-298 {
+  margin: 18px;
+  padding: 23px;
+  color: #946036;
+  background-color: #b82c06;
+  border: 2px solid #2d5932;
+}
+
+.util-299 {
+  margin: 19px;
+  padding: 24px;
+  color: #cbda85;
+  background-color: #b8ca3d;
+  border: 3px solid #2d8027;
+}
+
+.util-300 {
+  margin: 20px;
+  padding: 0px;
+  color: #0354d5;
+  background-color: #b96874;
+  border: 0px solid #2da71c;
+}
+
+.util-301 {
+  margin: 21px;
+  padding: 1px;
+  color: #3acf24;
+  background-color: #ba06ab;
+  border: 1px solid #2dce11;
+}
+
+.util-302 {
+  margin: 22px;
+  padding: 2px;
+  color: #724973;
+  background-color: #baa4e2;
+  border: 2px solid #2df506;
+}
+
+.util-303 {
+  margin: 23px;
+  padding: 3px;
+  color: #a9c3c2;
+  background-color: #bb4319;
+  border: 3px solid #2e1bfb;
+}
+
+.util-304 {
+  margin: 24px;
+  padding: 4px;
+  color: #e13e11;
+  background-color: #bbe150;
+  border: 0px solid #2e42f0;
+}
+
+.util-305 {
+  margin: 25px;
+  padding: 5px;
+  color: #18b861;
+  background-color: #bc7f87;
+  border: 1px solid #2e69e5;
+}
+
+.util-306 {
+  margin: 26px;
+  padding: 6px;
+  color: #5032b0;
+  background-color: #bd1dbe;
+  border: 2px solid #2e90da;
+}
+
+.util-307 {
+  margin: 27px;
+  padding: 7px;
+  color: #87acff;
+  background-color: #bdbbf5;
+  border: 3px solid #2eb7cf;
+}
+
+.util-308 {
+  margin: 28px;
+  padding: 8px;
+  color: #bf274e;
+  background-color: #be5a2c;
+  border: 0px solid #2edec4;
+}
+
+.util-309 {
+  margin: 29px;
+  padding: 9px;
+  color: #f6a19d;
+  background-color: #bef863;
+  border: 1px solid #2f05b9;
+}
+
+.util-310 {
+  margin: 30px;
+  padding: 10px;
+  color: #2e1bed;
+  background-color: #bf969a;
+  border: 2px solid #2f2cae;
+}
+
+.util-311 {
+  margin: 31px;
+  padding: 11px;
+  color: #65963c;
+  background-color: #c034d1;
+  border: 3px solid #2f53a3;
+}
+
+.util-312 {
+  margin: 32px;
+  padding: 12px;
+  color: #9d108b;
+  background-color: #c0d308;
+  border: 0px solid #2f7a98;
+}
+
+.util-313 {
+  margin: 33px;
+  padding: 13px;
+  color: #d48ada;
+  background-color: #c1713f;
+  border: 1px solid #2fa18d;
+}
+
+.util-314 {
+  margin: 34px;
+  padding: 14px;
+  color: #0c052a;
+  background-color: #c20f76;
+  border: 2px solid #2fc882;
+}
+
+.util-315 {
+  margin: 35px;
+  padding: 15px;
+  color: #437f79;
+  background-color: #c2adad;
+  border: 3px solid #2fef77;
+}
+
+.util-316 {
+  margin: 36px;
+  padding: 16px;
+  color: #7af9c8;
+  background-color: #c34be4;
+  border: 0px solid #30166c;
+}
+
+.util-317 {
+  margin: 37px;
+  padding: 17px;
+  color: #b27417;
+  background-color: #c3ea1b;
+  border: 1px solid #303d61;
+}
+
+.util-318 {
+  margin: 38px;
+  padding: 18px;
+  color: #e9ee66;
+  background-color: #c48852;
+  border: 2px solid #306456;
+}
+
+.util-319 {
+  margin: 39px;
+  padding: 19px;
+  color: #2168b6;
+  background-color: #c52689;
+  border: 3px solid #308b4b;
+}
+
+.util-320 {
+  margin: 0px;
+  padding: 20px;
+  color: #58e305;
+  background-color: #c5c4c0;
+  border: 0px solid #30b240;
+}
+
+.util-321 {
+  margin: 1px;
+  padding: 21px;
+  color: #905d54;
+  background-color: #c662f7;
+  border: 1px solid #30d935;
+}
+
+.util-322 {
+  margin: 2px;
+  padding: 22px;
+  color: #c7d7a3;
+  background-color: #c7012e;
+  border: 2px solid #31002a;
+}
+
+.util-323 {
+  margin: 3px;
+  padding: 23px;
+  color: #ff51f2;
+  background-color: #c79f65;
+  border: 3px solid #31271f;
+}
+
+.util-324 {
+  margin: 4px;
+  padding: 24px;
+  color: #36cc42;
+  background-color: #c83d9c;
+  border: 0px solid #314e14;
+}
+
+.util-325 {
+  margin: 5px;
+  padding: 0px;
+  color: #6e4691;
+  background-color: #c8dbd3;
+  border: 1px solid #317509;
+}
+
+.util-326 {
+  margin: 6px;
+  padding: 1px;
+  color: #a5c0e0;
+  background-color: #c97a0a;
+  border: 2px solid #319bfe;
+}
+
+.util-327 {
+  margin: 7px;
+  padding: 2px;
+  color: #dd3b2f;
+  background-color: #ca1841;
+  border: 3px solid #31c2f3;
+}
+
+.util-328 {
+  margin: 8px;
+  padding: 3px;
+  color: #14b57f;
+  background-color: #cab678;
+  border: 0px solid #31e9e8;
+}
+
+.util-329 {
+  margin: 9px;
+  padding: 4px;
+  color: #4c2fce;
+  background-color: #cb54af;
+  border: 1px solid #3210dd;
+}
+
+.util-330 {
+  margin: 10px;
+  padding: 5px;
+  color: #83aa1d;
+  background-color: #cbf2e6;
+  border: 2px solid #3237d2;
+}
+
+.util-331 {
+  margin: 11px;
+  padding: 6px;
+  color: #bb246c;
+  background-color: #cc911d;
+  border: 3px solid #325ec7;
+}
+
+.util-332 {
+  margin: 12px;
+  padding: 7px;
+  color: #f29ebb;
+  background-color: #cd2f54;
+  border: 0px solid #3285bc;
+}
+
+.util-333 {
+  margin: 13px;
+  padding: 8px;
+  color: #2a190b;
+  background-color: #cdcd8b;
+  border: 1px solid #32acb1;
+}
+
+.util-334 {
+  margin: 14px;
+  padding: 9px;
+  color: #61935a;
+  background-color: #ce6bc2;
+  border: 2px solid #32d3a6;
+}
+
+.util-335 {
+  margin: 15px;
+  padding: 10px;
+  color: #990da9;
+  background-color: #cf09f9;
+  border: 3px solid #32fa9b;
+}
+
+.util-336 {
+  margin: 16px;
+  padding: 11px;
+  color: #d087f8;
+  background-color: #cfa830;
+  border: 0px solid #332190;
+}
+
+.util-337 {
+  margin: 17px;
+  padding: 12px;
+  color: #080248;
+  background-color: #d04667;
+  border: 1px solid #334885;
+}
+
+.util-338 {
+  margin: 18px;
+  padding: 13px;
+  color: #3f7c97;
+  background-color: #d0e49e;
+  border: 2px solid #336f7a;
+}
+
+.util-339 {
+  margin: 19px;
+  padding: 14px;
+  color: #76f6e6;
+  background-color: #d182d5;
+  border: 3px solid #33966f;
+}
+
+.util-340 {
+  margin: 20px;
+  padding: 15px;
+  color: #ae7135;
+  background-color: #d2210c;
+  border: 0px solid #33bd64;
+}
+
+.util-341 {
+  margin: 21px;
+  padding: 16px;
+  color: #e5eb84;
+  background-color: #d2bf43;
+  border: 1px solid #33e459;
+}
+
+.util-342 {
+  margin: 22px;
+  padding: 17px;
+  color: #1d65d4;
+  background-color: #d35d7a;
+  border: 2px solid #340b4e;
+}
+
+.util-343 {
+  margin: 23px;
+  padding: 18px;
+  color: #54e023;
+  background-color: #d3fbb1;
+  border: 3px solid #343243;
+}
+
+.util-344 {
+  margin: 24px;
+  padding: 19px;
+  color: #8c5a72;
+  background-color: #d499e8;
+  border: 0px solid #345938;
+}
+
+.util-345 {
+  margin: 25px;
+  padding: 20px;
+  color: #c3d4c1;
+  background-color: #d5381f;
+  border: 1px solid #34802d;
+}
+
+.util-346 {
+  margin: 26px;
+  padding: 21px;
+  color: #fb4f10;
+  background-color: #d5d656;
+  border: 2px solid #34a722;
+}
+
+.util-347 {
+  margin: 27px;
+  padding: 22px;
+  color: #32c960;
+  background-color: #d6748d;
+  border: 3px solid #34ce17;
+}
+
+.util-348 {
+  margin: 28px;
+  padding: 23px;
+  color: #6a43af;
+  background-color: #d712c4;
+  border: 0px solid #34f50c;
+}
+
+.util-349 {
+  margin: 29px;
+  padding: 24px;
+  color: #a1bdfe;
+  background-color: #d7b0fb;
+  border: 1px solid #351c01;
+}
+
+.util-350 {
+  margin: 30px;
+  padding: 0px;
+  color: #d9384d;
+  background-color: #d84f32;
+  border: 2px solid #3542f6;
+}
+
+.util-351 {
+  margin: 31px;
+  padding: 1px;
+  color: #10b29d;
+  background-color: #d8ed69;
+  border: 3px solid #3569eb;
+}
+
+.util-352 {
+  margin: 32px;
+  padding: 2px;
+  color: #482cec;
+  background-color: #d98ba0;
+  border: 0px solid #3590e0;
+}
+
+.util-353 {
+  margin: 33px;
+  padding: 3px;
+  color: #7fa73b;
+  background-color: #da29d7;
+  border: 1px solid #35b7d5;
+}
+
+.util-354 {
+  margin: 34px;
+  padding: 4px;
+  color: #b7218a;
+  background-color: #dac80e;
+  border: 2px solid #35deca;
+}
+
+.util-355 {
+  margin: 35px;
+  padding: 5px;
+  color: #ee9bd9;
+  background-color: #db6645;
+  border: 3px solid #3605bf;
+}
+
+.util-356 {
+  margin: 36px;
+  padding: 6px;
+  color: #261629;
+  background-color: #dc047c;
+  border: 0px solid #362cb4;
+}
+
+.util-357 {
+  margin: 37px;
+  padding: 7px;
+  color: #5d9078;
+  background-color: #dca2b3;
+  border: 1px solid #3653a9;
+}
+
+.util-358 {
+  margin: 38px;
+  padding: 8px;
+  color: #950ac7;
+  background-color: #dd40ea;
+  border: 2px solid #367a9e;
+}
+
+.util-359 {
+  margin: 39px;
+  padding: 9px;
+  color: #cc8516;
+  background-color: #dddf21;
+  border: 3px solid #36a193;
+}
+
+.util-360 {
+  margin: 0px;
+  padding: 10px;
+  color: #03ff66;
+  background-color: #de7d58;
+  border: 0px solid #36c888;
+}
+
+.util-361 {
+  margin: 1px;
+  padding: 11px;
+  color: #3b79b5;
+  background-color: #df1b8f;
+  border: 1px solid #36ef7d;
+}
+
+.util-362 {
+  margin: 2px;
+  padding: 12px;
+  color: #72f404;
+  background-color: #dfb9c6;
+  border: 2px solid #371672;
+}
+
+.util-363 {
+  margin: 3px;
+  padding: 13px;
+  color: #aa6e53;
+  background-color: #e057fd;
+  border: 3px solid #373d67;
+}
+
+.util-364 {
+  margin: 4px;
+  padding: 14px;
+  color: #e1e8a2;
+  background-color: #e0f634;
+  border: 0px solid #37645c;
+}
+
+.util-365 {
+  margin: 5px;
+  padding: 15px;
+  color: #1962f2;
+  background-color: #e1946b;
+  border: 1px solid #378b51;
+}
+
+.util-366 {
+  margin: 6px;
+  padding: 16px;
+  color: #50dd41;
+  background-color: #e232a2;
+  border: 2px solid #37b246;
+}
+
+.util-367 {
+  margin: 7px;
+  padding: 17px;
+  color: #885790;
+  background-color: #e2d0d9;
+  border: 3px solid #37d93b;
+}
+
+.util-368 {
+  margin: 8px;
+  padding: 18px;
+  color: #bfd1df;
+  background-color: #e36f10;
+  border: 0px solid #380030;
+}
+
+.util-369 {
+  margin: 9px;
+  padding: 19px;
+  color: #f74c2e;
+  background-color: #e40d47;
+  border: 1px solid #382725;
+}
+
+.util-370 {
+  margin: 10px;
+  padding: 20px;
+  color: #2ec67e;
+  background-color: #e4ab7e;
+  border: 2px solid #384e1a;
+}
+
+.util-371 {
+  margin: 11px;
+  padding: 21px;
+  color: #6640cd;
+  background-color: #e549b5;
+  border: 3px solid #38750f;
+}
+
+.util-372 {
+  margin: 12px;
+  padding: 22px;
+  color: #9dbb1c;
+  background-color: #e5e7ec;
+  border: 0px solid #389c04;
+}
+
+.util-373 {
+  margin: 13px;
+  padding: 23px;
+  color: #d5356b;
+  background-color: #e68623;
+  border: 1px solid #38c2f9;
+}
+
+.util-374 {
+  margin: 14px;
+  padding: 24px;
+  color: #0cafbb;
+  background-color: #e7245a;
+  border: 2px solid #38e9ee;
+}
+
+.util-375 {
+  margin: 15px;
+  padding: 0px;
+  color: #442a0a;
+  background-color: #e7c291;
+  border: 3px solid #3910e3;
+}
+
+.util-376 {
+  margin: 16px;
+  padding: 1px;
+  color: #7ba459;
+  background-color: #e860c8;
+  border: 0px solid #3937d8;
+}
+
+.util-377 {
+  margin: 17px;
+  padding: 2px;
+  color: #b31ea8;
+  background-color: #e8feff;
+  border: 1px solid #395ecd;
+}
+
+.util-378 {
+  margin: 18px;
+  padding: 3px;
+  color: #ea98f7;
+  background-color: #e99d36;
+  border: 2px solid #3985c2;
+}
+
+.util-379 {
+  margin: 19px;
+  padding: 4px;
+  color: #221347;
+  background-color: #ea3b6d;
+  border: 3px solid #39acb7;
+}
+
+.util-380 {
+  margin: 20px;
+  padding: 5px;
+  color: #598d96;
+  background-color: #ead9a4;
+  border: 0px solid #39d3ac;
+}
+
+.util-381 {
+  margin: 21px;
+  padding: 6px;
+  color: #9107e5;
+  background-color: #eb77db;
+  border: 1px solid #39faa1;
+}
+
+.util-382 {
+  margin: 22px;
+  padding: 7px;
+  color: #c88234;
+  background-color: #ec1612;
+  border: 2px solid #3a2196;
+}
+
+.util-383 {
+  margin: 23px;
+  padding: 8px;
+  color: #fffc83;
+  background-color: #ecb449;
+  border: 3px solid #3a488b;
+}
+
+.util-384 {
+  margin: 24px;
+  padding: 9px;
+  color: #3776d3;
+  background-color: #ed5280;
+  border: 0px solid #3a6f80;
+}
+
+.util-385 {
+  margin: 25px;
+  padding: 10px;
+  color: #6ef122;
+  background-color: #edf0b7;
+  border: 1px solid #3a9675;
+}
+
+.util-386 {
+  margin: 26px;
+  padding: 11px;
+  color: #a66b71;
+  background-color: #ee8eee;
+  border: 2px solid #3abd6a;
+}
+
+.util-387 {
+  margin: 27px;
+  padding: 12px;
+  color: #dde5c0;
+  background-color: #ef2d25;
+  border: 3px solid #3ae45f;
+}
+
+.util-388 {
+  margin: 28px;
+  padding: 13px;
+  color: #156010;
+  background-color: #efcb5c;
+  border: 0px solid #3b0b54;
+}
+
+.util-389 {
+  margin: 29px;
+  padding: 14px;
+  color: #4cda5f;
+  background-color: #f06993;
+  border: 1px solid #3b3249;
+}
+
+.util-390 {
+  margin: 30px;
+  padding: 15px;
+  color: #8454ae;
+  background-color: #f107ca;
+  border: 2px solid #3b593e;
+}
+
+.util-391 {
+  margin: 31px;
+  padding: 16px;
+  color: #bbcefd;
+  background-color: #f1a601;
+  border: 3px solid #3b8033;
+}
+
+.util-392 {
+  margin: 32px;
+  padding: 17px;
+  color: #f3494c;
+  background-color: #f24438;
+  border: 0px solid #3ba728;
+}
+
+.util-393 {
+  margin: 33px;
+  padding: 18px;
+  color: #2ac39c;
+  background-color: #f2e26f;
+  border: 1px solid #3bce1d;
+}
+
+.util-394 {
+  margin: 34px;
+  padding: 19px;
+  color: #623deb;
+  background-color: #f380a6;
+  border: 2px solid #3bf512;
+}
+
+.util-395 {
+  margin: 35px;
+  padding: 20px;
+  color: #99b83a;
+  background-color: #f41edd;
+  border: 3px solid #3c1c07;
+}
+
+.util-396 {
+  margin: 36px;
+  padding: 21px;
+  color: #d13289;
+  background-color: #f4bd14;
+  border: 0px solid #3c42fc;
+}
+
+.util-397 {
+  margin: 37px;
+  padding: 22px;
+  color: #08acd9;
+  background-color: #f55b4b;
+  border: 1px solid #3c69f1;
+}
+
+.util-398 {
+  margin: 38px;
+  padding: 23px;
+  color: #402728;
+  background-color: #f5f982;
+  border: 2px solid #3c90e6;
+}
+
+.util-399 {
+  margin: 39px;
+  padding: 24px;
+  color: #77a177;
+  background-color: #f697b9;
+  border: 3px solid #3cb7db;
+}
+
+.util-400 {
+  margin: 0px;
+  padding: 0px;
+  color: #af1bc6;
+  background-color: #f735f0;
+  border: 0px solid #3cded0;
+}
+
+.util-401 {
+  margin: 1px;
+  padding: 1px;
+  color: #e69615;
+  background-color: #f7d427;
+  border: 1px solid #3d05c5;
+}
+
+.util-402 {
+  margin: 2px;
+  padding: 2px;
+  color: #1e1065;
+  background-color: #f8725e;
+  border: 2px solid #3d2cba;
+}
+
+.util-403 {
+  margin: 3px;
+  padding: 3px;
+  color: #558ab4;
+  background-color: #f91095;
+  border: 3px solid #3d53af;
+}
+
+.util-404 {
+  margin: 4px;
+  padding: 4px;
+  color: #8d0503;
+  background-color: #f9aecc;
+  border: 0px solid #3d7aa4;
+}
+
+.util-405 {
+  margin: 5px;
+  padding: 5px;
+  color: #c47f52;
+  background-color: #fa4d03;
+  border: 1px solid #3da199;
+}
+
+.util-406 {
+  margin: 6px;
+  padding: 6px;
+  color: #fbf9a1;
+  background-color: #faeb3a;
+  border: 2px solid #3dc88e;
+}
+
+.util-407 {
+  margin: 7px;
+  padding: 7px;
+  color: #3373f1;
+  background-color: #fb8971;
+  border: 3px solid #3def83;
+}
+
+.util-408 {
+  margin: 8px;
+  padding: 8px;
+  color: #6aee40;
+  background-color: #fc27a8;
+  border: 0px solid #3e1678;
+}
+
+.util-409 {
+  margin: 9px;
+  padding: 9px;
+  color: #a2688f;
+  background-color: #fcc5df;
+  border: 1px solid #3e3d6d;
+}
+
+.util-410 {
+  margin: 10px;
+  padding: 10px;
+  color: #d9e2de;
+  background-color: #fd6416;
+  border: 2px solid #3e6462;
+}
+
+.util-411 {
+  margin: 11px;
+  padding: 11px;
+  color: #115d2e;
+  background-color: #fe024d;
+  border: 3px solid #3e8b57;
+}
+
+.util-412 {
+  margin: 12px;
+  padding: 12px;
+  color: #48d77d;
+  background-color: #fea084;
+  border: 0px solid #3eb24c;
+}
+
+.util-413 {
+  margin: 13px;
+  padding: 13px;
+  color: #8051cc;
+  background-color: #ff3ebb;
+  border: 1px solid #3ed941;
+}
+
+.util-414 {
+  margin: 14px;
+  padding: 14px;
+  color: #b7cc1b;
+  background-color: #ffdcf2;
+  border: 2px solid #3f0036;
+}
+
+.util-415 {
+  margin: 15px;
+  padding: 15px;
+  color: #ef466a;
+  background-color: #007b2a;
+  border: 3px solid #3f272b;
+}
+
+.util-416 {
+  margin: 16px;
+  padding: 16px;
+  color: #26c0ba;
+  background-color: #011961;
+  border: 0px solid #3f4e20;
+}
+
+.util-417 {
+  margin: 17px;
+  padding: 17px;
+  color: #5e3b09;
+  background-color: #01b798;
+  border: 1px solid #3f7515;
+}
+
+.util-418 {
+  margin: 18px;
+  padding: 18px;
+  color: #95b558;
+  background-color: #0255cf;
+  border: 2px solid #3f9c0a;
+}
+
+.util-419 {
+  margin: 19px;
+  padding: 19px;
+  color: #cd2fa7;
+  background-color: #02f406;
+  border: 3px solid #3fc2ff;
+}
+
+.util-420 {
+  margin: 20px;
+  padding: 20px;
+  color: #04a9f7;
+  background-color: #03923d;
+  border: 0px solid #3fe9f4;
+}
+
+.util-421 {
+  margin: 21px;
+  padding: 21px;
+  color: #3c2446;
+  background-color: #043074;
+  border: 1px solid #4010e9;
+}
+
+.util-422 {
+  margin: 22px;
+  padding: 22px;
+  color: #739e95;
+  background-color: #04ceab;
+  border: 2px solid #4037de;
+}
+
+.util-423 {
+  margin: 23px;
+  padding: 23px;
+  color: #ab18e4;
+  background-color: #056ce2;
+  border: 3px solid #405ed3;
+}
+
+.util-424 {
+  margin: 24px;
+  padding: 24px;
+  color: #e29333;
+  background-color: #060b19;
+  border: 0px solid #4085c8;
+}
+
+.util-425 {
+  margin: 25px;
+  padding: 0px;
+  color: #1a0d83;
+  background-color: #06a950;
+  border: 1px solid #40acbd;
+}
+
+.util-426 {
+  margin: 26px;
+  padding: 1px;
+  color: #5187d2;
+  background-color: #074787;
+  border: 2px solid #40d3b2;
+}
+
+.util-427 {
+  margin: 27px;
+  padding: 2px;
+  color: #890221;
+  background-color: #07e5be;
+  border: 3px solid #40faa7;
+}
+
+.util-428 {
+  margin: 28px;
+  padding: 3px;
+  color: #c07c70;
+  background-color: #0883f5;
+  border: 0px solid #41219c;
+}
+
+.util-429 {
+  margin: 29px;
+  padding: 4px;
+  color: #f7f6bf;
+  background-color: #09222c;
+  border: 1px solid #414891;
+}
+
+.util-430 {
+  margin: 30px;
+  padding: 5px;
+  color: #2f710f;
+  background-color: #09c063;
+  border: 2px solid #416f86;
+}
+
+.util-431 {
+  margin: 31px;
+  padding: 6px;
+  color: #66eb5e;
+  background-color: #0a5e9a;
+  border: 3px solid #41967b;
+}
+
+.util-432 {
+  margin: 32px;
+  padding: 7px;
+  color: #9e65ad;
+  background-color: #0afcd1;
+  border: 0px solid #41bd70;
+}
+
+.util-433 {
+  margin: 33px;
+  padding: 8px;
+  color: #d5dffc;
+  background-color: #0b9b08;
+  border: 1px solid #41e465;
+}
+
+.util-434 {
+  margin: 34px;
+  padding: 9px;
+  color: #0d5a4c;
+  background-color: #0c393f;
+  border: 2px solid #420b5a;
+}
+
+.util-435 {
+  margin: 35px;
+  padding: 10px;
+  color: #44d49b;
+  background-color: #0cd776;
+  border: 3px solid #42324f;
+}
+
+.util-436 {
+  margin: 36px;
+  padding: 11px;
+  color: #7c4eea;
+  background-color: #0d75ad;
+  border: 0px solid #425944;
+}
+
+.util-437 {
+  margin: 37px;
+  padding: 12px;
+  color: #b3c939;
+  background-color: #0e13e4;
+  border: 1px solid #428039;
+}
+
+.util-438 {
+  margin: 38px;
+  padding: 13px;
+  color: #eb4388;
+  background-color: #0eb21b;
+  border: 2px solid #42a72e;
+}
+
+.util-439 {
+  margin: 39px;
+  padding: 14px;
+  color: #22bdd8;
+  background-color: #0f5052;
+  border: 3px solid #42ce23;
+}
+
+.util-440 {
+  margin: 0px;
+  padding: 15px;
+  color: #5a3827;
+  background-color: #0fee89;
+  border: 0px solid #42f518;
+}
+
+.util-441 {
+  margin: 1px;
+  padding: 16px;
+  color: #91b276;
+  background-color: #108cc0;
+  border: 1px solid #431c0d;
+}
+
+.util-442 {
+  margin: 2px;
+  padding: 17px;
+  color: #c92cc5;
+  background-color: #112af7;
+  border: 2px solid #434302;
+}
+
+.util-443 {
+  margin: 3px;
+  padding: 18px;
+  color: #00a715;
+  background-color: #11c92e;
+  border: 3px solid #4369f7;
+}
+
+.util-444 {
+  margin: 4px;
+  padding: 19px;
+  color: #382164;
+  background-color: #126765;
+  border: 0px solid #4390ec;
+}
+
+.util-445 {
+  margin: 5px;
+  padding: 20px;
+  color: #6f9bb3;
+  background-color: #13059c;
+  border: 1px solid #43b7e1;
+}
+
+.util-446 {
+  margin: 6px;
+  padding: 21px;
+  color: #a71602;
+  background-color: #13a3d3;
+  border: 2px solid #43ded6;
+}
+
+.util-447 {
+  margin: 7px;
+  padding: 22px;
+  color: #de9051;
+  background-color: #14420a;
+  border: 3px solid #4405cb;
+}
+
+.util-448 {
+  margin: 8px;
+  padding: 23px;
+  color: #160aa1;
+  background-color: #14e041;
+  border: 0px solid #442cc0;
+}
+
+.util-449 {
+  margin: 9px;
+  padding: 24px;
+  color: #4d84f0;
+  background-color: #157e78;
+  border: 1px solid #4453b5;
+}
+
+.util-450 {
+  margin: 10px;
+  padding: 0px;
+  color: #84ff3f;
+  background-color: #161caf;
+  border: 2px solid #447aaa;
+}
+
+.util-451 {
+  margin: 11px;
+  padding: 1px;
+  color: #bc798e;
+  background-color: #16bae6;
+  border: 3px solid #44a19f;
+}
+
+.util-452 {
+  margin: 12px;
+  padding: 2px;
+  color: #f3f3dd;
+  background-color: #17591d;
+  border: 0px solid #44c894;
+}
+
+.util-453 {
+  margin: 13px;
+  padding: 3px;
+  color: #2b6e2d;
+  background-color: #17f754;
+  border: 1px solid #44ef89;
+}
+
+.util-454 {
+  margin: 14px;
+  padding: 4px;
+  color: #62e87c;
+  background-color: #18958b;
+  border: 2px solid #45167e;
+}
+
+.util-455 {
+  margin: 15px;
+  padding: 5px;
+  color: #9a62cb;
+  background-color: #1933c2;
+  border: 3px solid #453d73;
+}
+
+.util-456 {
+  margin: 16px;
+  padding: 6px;
+  color: #d1dd1a;
+  background-color: #19d1f9;
+  border: 0px solid #456468;
+}
+
+.util-457 {
+  margin: 17px;
+  padding: 7px;
+  color: #09576a;
+  background-color: #1a7030;
+  border: 1px solid #458b5d;
+}
+
+.util-458 {
+  margin: 18px;
+  padding: 8px;
+  color: #40d1b9;
+  background-color: #1b0e67;
+  border: 2px solid #45b252;
+}
+
+.util-459 {
+  margin: 19px;
+  padding: 9px;
+  color: #784c08;
+  background-color: #1bac9e;
+  border: 3px solid #45d947;
+}
+
+.util-460 {
+  margin: 20px;
+  padding: 10px;
+  color: #afc657;
+  background-color: #1c4ad5;
+  border: 0px solid #46003c;
+}
+
+.util-461 {
+  margin: 21px;
+  padding: 11px;
+  color: #e740a6;
+  background-color: #1ce90c;
+  border: 1px solid #462731;
+}
+
+.util-462 {
+  margin: 22px;
+  padding: 12px;
+  color: #1ebaf6;
+  background-color: #1d8743;
+  border: 2px solid #464e26;
+}
+
+.util-463 {
+  margin: 23px;
+  padding: 13px;
+  color: #563545;
+  background-color: #1e257a;
+  border: 3px solid #46751b;
+}
+
+.util-464 {
+  margin: 24px;
+  padding: 14px;
+  color: #8daf94;
+  background-color: #1ec3b1;
+  border: 0px solid #469c10;
+}
+
+.util-465 {
+  margin: 25px;
+  padding: 15px;
+  color: #c529e3;
+  background-color: #1f61e8;
+  border: 1px solid #46c305;
+}
+
+.util-466 {
+  margin: 26px;
+  padding: 16px;
+  color: #fca432;
+  background-color: #20001f;
+  border: 2px solid #46e9fa;
+}
+
+.util-467 {
+  margin: 27px;
+  padding: 17px;
+  color: #341e82;
+  background-color: #209e56;
+  border: 3px solid #4710ef;
+}
+
+.util-468 {
+  margin: 28px;
+  padding: 18px;
+  color: #6b98d1;
+  background-color: #213c8d;
+  border: 0px solid #4737e4;
+}
+
+.util-469 {
+  margin: 29px;
+  padding: 19px;
+  color: #a31320;
+  background-color: #21dac4;
+  border: 1px solid #475ed9;
+}
+
+.util-470 {
+  margin: 30px;
+  padding: 20px;
+  color: #da8d6f;
+  background-color: #2278fb;
+  border: 2px solid #4785ce;
+}
+
+.util-471 {
+  margin: 31px;
+  padding: 21px;
+  color: #1207bf;
+  background-color: #231732;
+  border: 3px solid #47acc3;
+}
+
+.util-472 {
+  margin: 32px;
+  padding: 22px;
+  color: #49820e;
+  background-color: #23b569;
+  border: 0px solid #47d3b8;
+}
+
+.util-473 {
+  margin: 33px;
+  padding: 23px;
+  color: #80fc5d;
+  background-color: #2453a0;
+  border: 1px solid #47faad;
+}
+
+.util-474 {
+  margin: 34px;
+  padding: 24px;
+  color: #b876ac;
+  background-color: #24f1d7;
+  border: 2px solid #4821a2;
+}
+
+.util-475 {
+  margin: 35px;
+  padding: 0px;
+  color: #eff0fb;
+  background-color: #25900e;
+  border: 3px solid #484897;
+}
+
+.util-476 {
+  margin: 36px;
+  padding: 1px;
+  color: #276b4b;
+  background-color: #262e45;
+  border: 0px solid #486f8c;
+}
+
+.util-477 {
+  margin: 37px;
+  padding: 2px;
+  color: #5ee59a;
+  background-color: #26cc7c;
+  border: 1px solid #489681;
+}
+
+.util-478 {
+  margin: 38px;
+  padding: 3px;
+  color: #965fe9;
+  background-color: #276ab3;
+  border: 2px solid #48bd76;
+}
+
+.util-479 {
+  margin: 39px;
+  padding: 4px;
+  color: #cdda38;
+  background-color: #2808ea;
+  border: 3px solid #48e46b;
+}
+
+.util-480 {
+  margin: 0px;
+  padding: 5px;
+  color: #055488;
+  background-color: #28a721;
+  border: 0px solid #490b60;
+}
+
+.util-481 {
+  margin: 1px;
+  padding: 6px;
+  color: #3cced7;
+  background-color: #294558;
+  border: 1px solid #493255;
+}
+
+.util-482 {
+  margin: 2px;
+  padding: 7px;
+  color: #744926;
+  background-color: #29e38f;
+  border: 2px solid #49594a;
+}
+
+.util-483 {
+  margin: 3px;
+  padding: 8px;
+  color: #abc375;
+  background-color: #2a81c6;
+  border: 3px solid #49803f;
+}
+
+.util-484 {
+  margin: 4px;
+  padding: 9px;
+  color: #e33dc4;
+  background-color: #2b1ffd;
+  border: 0px solid #49a734;
+}
+
+.util-485 {
+  margin: 5px;
+  padding: 10px;
+  color: #1ab814;
+  background-color: #2bbe34;
+  border: 1px solid #49ce29;
+}
+
+.util-486 {
+  margin: 6px;
+  padding: 11px;
+  color: #523263;
+  background-color: #2c5c6b;
+  border: 2px solid #49f51e;
+}
+
+.util-487 {
+  margin: 7px;
+  padding: 12px;
+  color: #89acb2;
+  background-color: #2cfaa2;
+  border: 3px solid #4a1c13;
+}
+
+.util-488 {
+  margin: 8px;
+  padding: 13px;
+  color: #c12701;
+  background-color: #2d98d9;
+  border: 0px solid #4a4308;
+}
+
+.util-489 {
+  margin: 9px;
+  padding: 14px;
+  color: #f8a150;
+  background-color: #2e3710;
+  border: 1px solid #4a69fd;
+}
+
+.util-490 {
+  margin: 10px;
+  padding: 15px;
+  color: #301ba0;
+  background-color: #2ed547;
+  border: 2px solid #4a90f2;
+}
+
+.util-491 {
+  margin: 11px;
+  padding: 16px;
+  color: #6795ef;
+  background-color: #2f737e;
+  border: 3px solid #4ab7e7;
+}
+
+.util-492 {
+  margin: 12px;
+  padding: 17px;
+  color: #9f103e;
+  background-color: #3011b5;
+  border: 0px solid #4adedc;
+}
+
+.util-493 {
+  margin: 13px;
+  padding: 18px;
+  color: #d68a8d;
+  background-color: #30afec;
+  border: 1px solid #4b05d1;
+}
+
+.util-494 {
+  margin: 14px;
+  padding: 19px;
+  color: #0e04dd;
+  background-color: #314e23;
+  border: 2px solid #4b2cc6;
+}
+
+.util-495 {
+  margin: 15px;
+  padding: 20px;
+  color: #457f2c;
+  background-color: #31ec5a;
+  border: 3px solid #4b53bb;
+}
+
+.util-496 {
+  margin: 16px;
+  padding: 21px;
+  color: #7cf97b;
+  background-color: #328a91;
+  border: 0px solid #4b7ab0;
+}
+
+.util-497 {
+  margin: 17px;
+  padding: 22px;
+  color: #b473ca;
+  background-color: #3328c8;
+  border: 1px solid #4ba1a5;
+}
+
+.util-498 {
+  margin: 18px;
+  padding: 23px;
+  color: #ebee19;
+  background-color: #33c6ff;
+  border: 2px solid #4bc89a;
+}
+
+.util-499 {
+  margin: 19px;
+  padding: 24px;
+  color: #236869;
+  background-color: #346536;
+  border: 3px solid #4bef8f;
+}
+
+.util-500 {
+  margin: 20px;
+  padding: 0px;
+  color: #5ae2b8;
+  background-color: #35036d;
+  border: 0px solid #4c1684;
+}
