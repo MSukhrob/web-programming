@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 10: Git, GitHub and Deployment</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6}
+    .skip-link{position:absolute;left:12px;top:-60px;background:#1a56db;color:#fff;padding:10px 16px;border-radius:0 0 8px 8px;font-weight:600}
+    .skip-link:focus{top:0}
+    a{color:#1a56db}
+    a:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+    header{background:#1e293b;color:#fff;padding:14px 20px}
+    main{max-width:860px;margin:0 auto;padding:28px 18px 48px}
+    main:focus{outline:none}
+    h1{font-size:1.7rem;margin-bottom:8px}
+    h2{font-size:1.3rem;margin:34px 0 12px}
+    .card{background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:16px 18px;margin-bottom:14px}
+    .card h3{font-size:1.05rem;margin-bottom:4px}
+    .card p{color:#334155;margin-bottom:8px}
+    .links a{margin-right:14px;font-weight:600}
+    table{width:100%;border-collapse:collapse;background:#fff}
+    th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;vertical-align:top}
+    th{background:#e2e8f0}
+    code{background:#e2e8f0;padding:1px 5px;border-radius:4px;font-size:.9em}
+    ul.check{list-style:none}
+    ul.check li{margin-bottom:6px}
+    ul.check li::before{content:"\2713\00a0";color:#166534;font-weight:700}
+    footer{text-align:center;padding:22px 16px;color:#475569;border-top:1px solid #cbd5e1}
+    @media(max-width:600px){table{font-size:.9rem}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header><strong>Week 10 · Git, GitHub and Deployment</strong></header>
+  <main id="main" tabindex="-1">
+    <h1>Week 10 tasks</h1>
+    <p>Everything from the Git and Deployment lectures, each one live on GitHub Pages.</p>
+
+    <h2>Homework</h2>
+    <article class="card">
+      <h3>1. Personal portfolio</h3>
+      <p>Semantic HTML, responsive CSS, a dark mode toggle, alt text on every image and a Lighthouse score of 100 in all categories.</p>
+      <p class="links"><a href="https://msukhrob.github.io/portfolio/">Live site</a><a href="https://github.com/MSukhrob/portfolio">Repository</a><a href="https://github.com/MSukhrob/portfolio/commits/main/">Commits</a></p>
+    </article>
+    <article class="card">
+      <h3>2. webpro-w9</h3>
+      <p>A page with my name and the date, published with Pages, plus the Friday 404 exercises.</p>
+      <p class="links"><a href="https://msukhrob.github.io/webpro-w9/">Live site</a><a href="https://github.com/MSukhrob/webpro-w9">Repository</a><a href="https://github.com/MSukhrob/webpro-w9/commits/main/">Commits</a></p>
+    </article>
+    <article class="card">
+      <h3>3. webpro-book-search</h3>
+      <p>The Book Search app (Open Library API) deployed with <code>index.html</code> in the root, relative paths only and no debug logging.</p>
+      <p class="links"><a href="https://msukhrob.github.io/webpro-book-search/">Live site</a><a href="https://github.com/MSukhrob/webpro-book-search">Repository</a><a href="https://github.com/MSukhrob/webpro-book-search/commits/main/">Commits</a></p>
+    </article>
+
+    <h2>Monday practice: Git</h2>
+    <table>
+      <thead><tr><th>Exercise</th><th>Commands</th></tr></thead>
+      <tbody>
+        <tr><td>E1 First repository</td><td><code>git init</code>, <code>git add index.html</code>, <code>git commit -m "Initial commit"</code></td></tr>
+        <tr><td>E2 Branch and merge</td><td><code>git checkout -b feature-style</code>, commit <code>style.css</code>, <code>git checkout main</code>, <code>git merge feature-style</code></td></tr>
+        <tr><td>E3 Push</td><td><code>git remote add origin ...</code>, <code>git push -u origin main</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Friday practice: GitHub Pages</h2>
+    <table>
+      <thead><tr><th>Exercise</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>E1 Enable Pages</td><td>Settings, Pages, branch <code>main</code>, folder <code>/(root)</code>; the site went live in about a minute.</td></tr>
+        <tr><td>E2 Default 404</td><td>GitHub's default page is plain and gives no way back, so it is a poor experience.</td></tr>
+        <tr><td>E3 Custom 404</td><td>Added <code>404.html</code> with a friendly message and a "Back to Home" link, then pushed it.</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px">This course site also has its own styled 404 page: <a href="../this-page-does-not-exist.html">test a missing page</a>.</p>
+
+    <h2>Deployment checklist</h2>
+    <ul class="check">
+      <li>All file paths are relative.</li>
+      <li>File names are lowercase (GitHub's servers are case-sensitive).</li>
+      <li>No debug <code>console.log()</code> calls left.</li>
+      <li>No API keys, passwords or tokens in the public repo.</li>
+      <li><code>index.html</code> is in the repo root.</li>
+      <li>Tested the live URL in a private window.</li>
+    </ul>
+  </main>
+  <footer><p>&copy; 2026 Sukhrob · Web Programming course</p></footer>
+</body>
+</html>
