@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11: React Components and Props</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6}
+    .skip-link{position:absolute;left:12px;top:-60px;background:#1a56db;color:#fff;padding:10px 16px;border-radius:0 0 8px 8px;font-weight:600}
+    .skip-link:focus{top:0}
+    a{color:#1a56db}
+    a:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+    header{background:#1e293b;color:#fff;padding:14px 20px}
+    header a{color:#fff}
+    main{max-width:860px;margin:0 auto;padding:28px 18px 48px}
+    main:focus{outline:none}
+    h1{font-size:1.7rem;margin-bottom:8px}
+    .card{background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:16px 18px;margin:14px 0}
+    .card h2{font-size:1.1rem;margin-bottom:4px}
+    .card p{color:#334155;margin-bottom:8px}
+    .links a{margin-right:14px;font-weight:600}
+    footer{text-align:center;padding:22px 16px;color:#475569;border-top:1px solid #cbd5e1}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header><strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem">Week 11 · <a href="../">All tasks</a></span></header>
+  <main id="main" tabindex="-1">
+    <h1>Week 11: React components and props</h1>
+    <p>Built with Vite and React.</p>
+    <article class="card">
+      <h2>Task 11-A: Student Directory</h2>
+      <p><code>StudentProfileCard</code> with five props, rendered three times, custom CSS with a hover effect, deployed with gh-pages.</p>
+      <p class="links"><a href="https://msukhrob.github.io/task11/">Live site</a><a href="https://github.com/MSukhrob/task11">Repository</a></p>
+    </article>
+    <article class="card">
+      <h2>Practice: study guide and in-class labs</h2>
+      <p>ProfileCard with a default prop, notifications with conditional icons, Card with <code>props.children</code>, StudentCard and ProductCard.</p>
+      <p class="links"><a href="./practice/index.html">Open the practice app</a></p>
+    </article>
+    <article class="card">
+      <h2>Homework: Portfolio Gallery</h2>
+      <p><code>ProjectCard</code>, <code>ProjectList</code> and a <code>FilterBar</code> that filters the cards by technology.</p>
+      <p class="links"><a href="./gallery/index.html">Open the gallery</a></p>
+    </article>
+  </main>
+  <footer><p>&copy; 2026 Sukhrob · Web Programming course</p></footer>
+</body>
+</html>
