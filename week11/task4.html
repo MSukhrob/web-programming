@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11 · Task 4: Portfolio Gallery Component</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* FilterBar styling */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 24px;
+    }
+    .filter-pill {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 7px 16px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334155;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .filter-pill.active {
+      background: var(--ink);
+      color: #ffffff;
+      border-color: var(--ink);
+      box-shadow: 0 4px 12px rgba(15, 27, 61, 0.15);
+    }
+
+    /* Project List and Cards */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+    }
+    .project-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      box-shadow: 0 4px 14px rgba(15, 27, 61, 0.04);
+      position: relative;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary);
+    }
+    .project-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.22rem;
+      color: #0f172a;
+    }
+    .project-card p {
+      margin: 0 0 14px;
+      color: #475569;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .tech-pill-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tech-pill {
+      background: #e8eefc;
+      color: #1e429f;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .project-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .project-actions a {
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .project-actions a.live-btn {
+      color: var(--primary);
+    }
+    .project-actions a.live-btn:hover {
+      text-decoration: underline;
+    }
+    .project-actions a.gh-btn {
+      color: #475569;
+    }
+    .project-actions a.gh-btn:hover {
+      color: #0f172a;
+      text-decoration: underline;
+    }
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: #64748b;
+      font-size: 1rem;
+      background: #fff;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 11 · Task 4 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Portfolio Gallery Component</h1>
+      <p>Week 11 Friday Lecture Slide 20 Homework · FilterBar &amp; ProjectList</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 11 Tasks">
+      <a href="./task1.html">Task 1: Student Directory (11-A)</a>
+      <a href="./task2.html">Task 2: Study Guide Exercises</a>
+      <a href="./task3.html">Task 3: ProductCard Challenge</a>
+      <a class="active" href="./task4.html">Task 4: Portfolio Gallery</a>
+      <a href="./task5.html">Task 5: Course Catalog &amp; Grades</a>
+    </nav>
+
+    <!-- Overview Card -->
+    <article class="card reveal">
+      <h2>Homework Specifications</h2>
+      <p>Build a modular React portfolio gallery consisting of three structured components:</p>
+      <ul style="padding-left:22px;line-height:1.7;margin:10px 0">
+        <li><code>ProjectCard</code> (title, description, tech stack array, GitHub link, demo link).</li>
+        <li><code>ProjectList</code> that renders an array of projects with stable unique keys.</li>
+        <li><code>FilterBar</code> that dynamically computes technology tags and allows the user to filter the list.</li>
+      </ul>
+      <p>Integrated with Sukhrob's actual semester projects (Weeks 6–11), and also accessible via the compiled standalone app: <a href="./gallery/index.html">Open Built Gallery Bundle &rarr;</a></p>
+    </article>
+
+    <!-- REACT ROOT -->
+    <article class="card reveal">
+      <h2>Interactive Gallery Explorer</h2>
+      <p style="color:var(--muted);font-size:0.9rem">Select any technology filter below to see React filter the project catalog in real time:</p>
+      
+      <div id="root">
+        <div style="padding:20px;text-align:center;color:#64748b">Loading Portfolio Gallery...</div>
+      </div>
+    </article>
+
+    <!-- Code Architecture -->
+    <article class="card reveal">
+      <h2>Component Structure &amp; Code</h2>
+      <pre style="background:#0f1b3d;color:#e2e8f0;padding:16px;border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:0.84rem;overflow-x:auto"><code>// 1. FilterBar.jsx
+function FilterBar({ techs, selected, onSelect }) {
+  return (
+    &lt;div className="filter-bar"&gt;
+      {techs.map(t =&gt; (
+        &lt;button
+          key={t}
+          className={t === selected ? 'filter-pill active' : 'filter-pill'}
+          onClick={() =&gt; onSelect(t)}
+        &gt;
+          {t}
+        &lt;/button&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// 2. ProjectCard.jsx
+function ProjectCard({ title, description, tech, github, demo }) {
+  return (
+    &lt;article className="project-card"&gt;
+      &lt;h3&gt;{title}&lt;/h3&gt;
+      &lt;p&gt;{description}&lt;/p&gt;
+      &lt;ul className="tech-pill-list"&gt;
+        {tech.map(t =&gt; &lt;li key={t} className="tech-pill"&gt;{t}&lt;/li&gt;)}
+      &lt;/ul&gt;
+      &lt;div className="project-actions"&gt;
+        &lt;a href={demo} target="_blank" rel="noopener" className="live-btn"&gt;Live Demo &rarr;&lt;/a&gt;
+        &lt;a href={github} target="_blank" rel="noopener" className="gh-btn"&gt;Source &lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  );
+}</code></pre>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Task 4</p>
+  </footer>
+
+  <!-- Babel Script: Portfolio Gallery Interactive App -->
+  <script type="text/babel">
+    const { useState, useMemo } = React;
+
+    const BASE_DEMO = "https://msukhrob.github.io/web-programming/";
+    const BASE_REPO = "https://github.com/MSukhrob/web-programming/blob/main/";
+
+    const MY_PROJECTS = [
+      {
+        id: 1,
+        title: "Student Directory React App",
+        description: "Task 11-A Vite + React application with 5 props, student ID badge, and automated rubric verification.",
+        tech: ["React", "Vite", "CSS"],
+        demo: "https://msukhrob.github.io/task11/",
+        github: "https://github.com/MSukhrob/task11"
+      },
+      {
+        id: 2,
+        title: "Personal Developer Portfolio",
+        description: "Responsive personal portfolio website featuring dark mode toggle, semantic HTML, and 100 Lighthouse score.",
+        tech: ["HTML", "CSS", "JavaScript"],
+        demo: "https://msukhrob.github.io/portfolio/",
+        github: "https://github.com/MSukhrob/portfolio"
+      },
+      {
+        id: 3,
+        title: "Open Library Book Search",
+        description: "Interactive book search application consuming the Open Library REST API with responsive card layouts.",
+        tech: ["JavaScript", "API", "CSS"],
+        demo: BASE_DEMO + "week7/task1.html",
+        github: BASE_REPO + "week7/task1.html"
+      },
+      {
+        id: 4,
+        title: "Web Accessibility (a11y) Audit",
+        description: "Lighthouse accessibility overhaul achieving a 100 score: skip links, alt tags, and keyboard navigation.",
+        tech: ["HTML", "Accessibility", "CSS"],
+        demo: BASE_DEMO + "week9_1/task1.html",
+        github: BASE_REPO + "week9_1/task1.html"
+      },
+      {
+        id: 5,
+        title: "Performance & Asset Optimization",
+        description: "Web performance engineering: WebP image conversion, CSS/JS bundle minification, and caching.",
+        tech: ["Performance", "HTML", "CSS"],
+        demo: BASE_DEMO + "week9_2/task1.html",
+        github: BASE_REPO + "week9_2/task1.html"
+      },
+      {
+        id: 6,
+        title: "HTML5 Form Validation App",
+        description: "Client-side form validation with real-time feedback, ARIA attributes, and interactive error styling.",
+        tech: ["JavaScript", "HTML", "Validation"],
+        demo: BASE_DEMO + "week8/task2.html",
+        github: BASE_REPO + "week8/task2.html"
+      },
+      {
+        id: 7,
+        title: "REST Countries & Joke Explorer",
+        description: "DOM scripting and asynchronous API data fetching with loading spinners and error handling.",
+        tech: ["JavaScript", "API"],
+        demo: BASE_DEMO + "week6/task1.html",
+        github: BASE_REPO + "week6/task1.html"
+      }
+    ];
+
+    function FilterBar({ techs, selected, onSelect }) {
+      return (
+        <div className="filter-bar" role="toolbar" aria-label="Filter projects by technology">
+          {techs.map(t => (
+            <button
+              key={t}
+              type="button"
+              className={t === selected ? 'filter-pill active' : 'filter-pill'}
+              aria-pressed={t === selected}
+              onClick={() => onSelect(t)}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    function ProjectCard({ title, description, tech, github, demo }) {
+      return (
+        <article className="project-card">
+          <div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </div>
+          <div>
+            <ul className="tech-pill-list" aria-label="Technologies used">
+              {tech.map(t => (
+                <li key={t} className="tech-pill">{t}</li>
+              ))}
+            </ul>
+            <div className="project-actions">
+              <a href={demo} target="_blank" rel="noopener noreferrer" className="live-btn">
+                Live Demo &rarr;
+              </a>
+              <a href={github} target="_blank" rel="noopener noreferrer" className="gh-btn">
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+      );
+    }
+
+    function ProjectList({ projects }) {
+      if (projects.length === 0) {
+        return (
+          <div className="empty-state">
+            <p>No projects match the selected technology filter.</p>
+          </div>
+        );
+      }
+
+      return (
+        <div className="project-grid">
+          {projects.map(p => (
+            <ProjectCard
+              key={p.id}
+              title={p.title}
+              description={p.description}
+              tech={p.tech}
+              github={p.github}
+              demo={p.demo}
+            />
+          ))}
+        </div>
+      );
+    }
+
+    function GalleryApp() {
+      const [selectedTech, setSelectedTech] = useState('All');
+
+      // Dynamically extract distinct technologies from dataset
+      const techs = useMemo(() => {
+        return ['All', ...new Set(MY_PROJECTS.flatMap(p => p.tech))];
+      }, []);
+
+      const visibleProjects = useMemo(() => {
+        if (selectedTech === 'All') return MY_PROJECTS;
+        return MY_PROJECTS.filter(p => p.tech.includes(selectedTech));
+      }, [selectedTech]);
+
+      return (
+        <div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:10}}>
+            <FilterBar
+              techs={techs}
+              selected={selectedTech}
+              onSelect={setSelectedTech}
+            />
+            <span style={{fontSize:'0.88rem',color:'#64748b',fontWeight:600}}>
+              Showing {visibleProjects.length} of {MY_PROJECTS.length} projects
+            </span>
+          </div>
+
+          <ProjectList projects={visibleProjects} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<GalleryApp />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

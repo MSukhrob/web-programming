@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11 · Task 2: Study Guide Practice Exercises</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .exercise-badge {
+      background: #e0f2fe; color: #0284c7; padding: 3px 10px; border-radius: 6px;
+      font-size: 0.82rem; font-weight: 700; display: inline-block; margin-bottom: 8px;
+    }
+
+    /* Exercise 1: ProfileCard styling */
+    .profile-card-comp {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(15, 27, 61, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-card-comp:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .profile-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      object-fit: cover; border: 3px solid #e0f2fe; margin-bottom: 12px;
+    }
+    .profile-card-comp h3 { margin: 0 0 4px; font-size: 1.15rem; color: #0f172a; }
+    .profile-card-comp .role { color: var(--muted); margin: 0 0 10px; font-size: 0.9rem; font-weight: 500; }
+    .profile-card-comp a {
+      color: var(--primary); text-decoration: none; font-size: 0.88rem; font-weight: 600;
+      word-break: break-all;
+    }
+    .profile-card-comp a:hover { text-decoration: underline; }
+
+    /* Exercise 2: Notifications styling */
+    .notif-list { list-style: none; padding: 0; margin: 12px 0; display: flex; flex-direction: column; gap: 8px; }
+    .notif-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-radius: 10px; border-left: 5px solid;
+      background: #fff; border: 1px solid var(--border); border-left-width: 5px;
+      transition: transform 0.2s;
+    }
+    .notif-item:hover { transform: translateX(4px); }
+    .notif-item.success { border-left-color: #16a34a; background: #f0fdf4; }
+    .notif-item.warning { border-left-color: #d97706; background: #fffbeb; }
+    .notif-item.info    { border-left-color: #0284c7; background: #f0f9ff; }
+    .notif-content { display: flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 500; }
+    .notif-dismiss {
+      background: none; border: none; font-size: 1.1rem; color: #94a3b8;
+      cursor: pointer; padding: 0 4px; line-height: 1;
+    }
+    .notif-dismiss:hover { color: #dc2626; }
+
+    /* Exercise 3: Composition Card styling */
+    .comp-box {
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(14, 116, 144, 0.04);
+    }
+    .comp-box h3 { margin: 0 0 10px; color: #0369a1; font-size: 1.1rem; border-bottom: 1px solid #e0f2fe; padding-bottom: 6px; }
+
+    .code-box {
+      background: #0f1b3d; color: #e2e8f0; padding: 14px; border-radius: 8px;
+      font-family: ui-monospace, Consolas, monospace; font-size: 0.83rem;
+      overflow-x: auto; margin-top: 10px;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 11 · Task 2 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Study Guide Practice Exercises</h1>
+      <p>Exercises 1, 2, 3 &amp; Monday Lecture Labs from Week 11</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 11 Tasks">
+      <a href="./task1.html">Task 1: Student Directory (11-A)</a>
+      <a class="active" href="./task2.html">Task 2: Study Guide Exercises</a>
+      <a href="./task3.html">Task 3: ProductCard Challenge</a>
+      <a href="./task4.html">Task 4: Portfolio Gallery</a>
+      <a href="./task5.html">Task 5: Course Catalog &amp; Grades</a>
+    </nav>
+
+    <!-- REACT ROOT MOUNT -->
+    <div id="root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Practice Labs...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Task 2</p>
+  </footer>
+
+  <!-- React Interactive Applications -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    // SVG Default Avatar placeholder
+    const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%231a56db'/><circle cx='32' cy='24' r='11' fill='%23ffffff'/><path d='M10 58c3-14 12-20 22-20s19 6 22 20z' fill='%23ffffff'/></svg>";
+
+    /* ========================================================
+       EXERCISE 1: ProfileCard with Default Props
+       ======================================================== */
+    function ProfileCard({ name, role, email, avatarUrl = DEFAULT_AVATAR }) {
+      return (
+        <div className="profile-card-comp">
+          <img className="profile-avatar" src={avatarUrl} alt={name} />
+          <h3>{name}</h3>
+          <p className="role">{role}</p>
+          <a href={`mailto:${email}`}>{email}</a>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       EXERCISE 2: NotificationList with Conditional Rendering
+       ======================================================== */
+    function NotificationItem({ type, message, onDismiss }) {
+      const icon = type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+      return (
+        <li className={`notif-item ${type}`}>
+          <div className="notif-content">
+            <span style={{fontSize:'1.2rem'}}>{icon}</span>
+            <span>{message}</span>
+          </div>
+          <button
+            type="button"
+            className="notif-dismiss"
+            onClick={onDismiss}
+            title="Dismiss notification"
+            aria-label="Dismiss notification"
+          >
+            &times;
+          </button>
+        </li>
+      );
+    }
+
+    function NotificationDemo() {
+      const [notifications, setNotifications] = useState([
+        { id: 1, type: 'success', message: 'Task 11-A React code successfully validated (Score: 30/30)' },
+        { id: 2, type: 'warning', message: 'Course homework submission deadline approaching' },
+        { id: 3, type: 'info',    message: 'Week 12 React State & Effects materials are now live' }
+      ]);
+
+      const addNotification = (type, text) => {
+        setNotifications(prev => [
+          ...prev,
+          { id: Date.now(), type, message: `${text} (at ${new Date().toLocaleTimeString()})` }
+        ]);
+      };
+
+      const removeNotification = (id) => {
+        setNotifications(prev => prev.filter(n => n.id !== id));
+      };
+
+      return (
+        <div>
+          <div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginBottom:'12px'}}>
+            <button className="btn" style={{padding:'6px 14px',fontSize:'0.85rem'}} onClick={() => addNotification('success', 'Build compiled')}>
+              + Add Success (✅)
+            </button>
+            <button className="btn" style={{background:'#d97706',padding:'6px 14px',fontSize:'0.85rem'}} onClick={() => addNotification('warning', 'Low battery')}>
+              + Add Warning (⚠️)
+            </button>
+            <button className="btn" style={{background:'#0284c7',padding:'6px 14px',fontSize:'0.85rem'}} onClick={() => addNotification('info', 'System update')}>
+              + Add Info (ℹ️)
+            </button>
+          </div>
+
+          <ul className="notif-list">
+            {notifications.map(n => (
+              <NotificationItem
+                key={n.id}
+                type={n.type}
+                message={n.message}
+                onDismiss={() => removeNotification(n.id)}
+              />
+            ))}
+          </ul>
+          {notifications.length === 0 && (
+            <p style={{color:'#64748b',fontStyle:'italic',margin:'10px 0'}}>No notifications remaining. Click the buttons above to add one!</p>
+          )}
+        </div>
+      );
+    }
+
+    /* ========================================================
+       EXERCISE 3: Card with props.children (Wrapper Component)
+       ======================================================== */
+    function Card({ title, children }) {
+      return (
+        <div className="comp-box">
+          <h3>{title}</h3>
+          <div>{children}</div>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       IN-CLASS LAB: StudentCard (Monday Lecture Challenge)
+       ======================================================== */
+    function StudentCard({ name, id, major }) {
+      return (
+        <div style={{
+          background:'#f8fafc', border:'1px solid #cbd5e1', borderRadius:10,
+          padding:'14px 18px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10
+        }}>
+          <div>
+            <h4 style={{margin:0,fontSize:'1.05rem',color:'#0f172a'}}>{name}</h4>
+            <p style={{margin:'2px 0 0',fontSize:'0.85rem',color:'#64748b'}}>Major: {major}</p>
+          </div>
+          <span style={{background:'#1a56db',color:'#fff',padding:'4px 12px',borderRadius:999,fontWeight:700,fontSize:'0.85rem'}}>
+            ID: {id}
+          </span>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       MAIN PAGE CONTAINER
+       ======================================================== */
+    function App() {
+      return (
+        <>
+          {/* Section 1: ProfileCard */}
+          <article className="card reveal">
+            <span className="exercise-badge">Exercise 1</span>
+            <h2>Exercise 1: ProfileCard (Default Props)</h2>
+            <p>Demonstrates receiving props (<code>name</code>, <code>role</code>, <code>email</code>) and handling missing values with a default prop fallback for <code>avatarUrl</code>.</p>
+
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(230px, 1fr))',gap:16,margin:'16px 0'}}>
+              {/* Card 1: Uses default prop */}
+              <ProfileCard
+                name="Sukhrob Mansurov"
+                role="Computer Science Student"
+                email="suhrobmansurov20@gmail.com"
+              />
+              {/* Card 2: Uses Dr. Toshpulatov's profile */}
+              <ProfileCard
+                name="Dr. Toshpulatov"
+                role="Professor · Web Programming"
+                email="muhiddin@gachon.ac.kr"
+              />
+              {/* Card 3: Classmate with custom avatar */}
+              <ProfileCard
+                name="Muso"
+                role="Frontend Developer"
+                email="muso@gachon.ac.kr"
+                avatarUrl="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80"
+              />
+            </div>
+
+            <div className="code-box">
+              <code>{`// Destructuring with default prop syntax
+function ProfileCard({ name, role, email, avatarUrl = 'default-avatar.svg' }) {
+  return (
+    <div className="card">
+      <img src={avatarUrl} alt={name} />
+      <h3>{name}</h3>
+      <p>{role}</p>
+      <a href={"mailto:" + email}>{email}</a>
+    </div>
+  );
+}`}</code>
+            </div>
+          </article>
+
+          {/* Section 2: Notifications */}
+          <article className="card reveal">
+            <span className="exercise-badge">Exercise 2</span>
+            <h2>Exercise 2: Notification List (Conditional Rendering)</h2>
+            <p>Renders a list of notification items with conditional icons (✅ for <code>success</code>, ⚠️ for <code>warning</code>, ℹ️ for <code>info</code>) mapped with unique <code>key</code> props. Try adding and dismissing items below:</p>
+
+            <NotificationDemo />
+
+            <div className="code-box">
+              <code>{`// Conditional rendering with ternary operator
+function NotificationItem({ type, message }) {
+  const icon = type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+  return (
+    <li className={"notif " + type}>
+      <span>{icon}</span> {message}
+    </li>
+  );
+}`}</code>
+            </div>
+          </article>
+
+          {/* Section 3: Component Composition */}
+          <article className="card reveal">
+            <span className="exercise-badge">Exercise 3</span>
+            <h2>Exercise 3: Wrapper Components with <code>props.children</code></h2>
+            <p>Creates a reusable <code>Card</code> layout component that wraps diverse child content using <code>props.children</code>.</p>
+
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:16}}>
+              <Card title="📘 Lecture Topics Covered">
+                <ul style={{paddingLeft:20,margin:0,fontSize:'0.9rem',lineHeight:1.6}}>
+                  <li>JSX Compiler (<code>React.createElement</code>)</li>
+                  <li>Functional Components &amp; PascalCase Naming</li>
+                  <li>One-way data flow via read-only Props</li>
+                  <li>Lists with <code>.map()</code> &amp; unique keys</li>
+                </ul>
+              </Card>
+
+              <Card title="✅ Week 11 Homework Checklist">
+                <ul style={{paddingLeft:20,margin:0,fontSize:'0.9rem',lineHeight:1.6}}>
+                  <li>Task 11-A Student Directory (30 pts)</li>
+                  <li>Exercise 1 ProfileCard with default props</li>
+                  <li>Exercise 2 Notification conditional icons</li>
+                  <li>Exercise 3 Layout with props.children</li>
+                </ul>
+              </Card>
+            </div>
+
+            <div className="code-box">
+              <code>{`// Reusable container using props.children
+function Card({ title, children }) {
+  return (
+    <div className="box">
+      <h3>{title}</h3>
+      <div>{children}</div>
+    </div>
+  );
+}`}</code>
+            </div>
+          </article>
+
+          {/* Section 4: In-Class Lab */}
+          <article className="card reveal">
+            <span className="exercise-badge">Monday Lab</span>
+            <h2>In-Class Lab: StudentCard Attendance Challenge</h2>
+            <p>From Monday Visual Lecture Slide 14: Filling in the blanks to render a student card displaying the student ID.</p>
+
+            <StudentCard
+              name="Sukhrob Mansurov"
+              id="202537508"
+              major="Computer Science (K0126_002)"
+            />
+          </article>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11 · Task 3: ProductCard Code Challenge</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* Product card styling */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin: 20px 0;
+    }
+    .product-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s, opacity 0.25s;
+      box-shadow: 0 4px 14px rgba(15, 27, 61, 0.04);
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary);
+    }
+    .product-card.sold-out {
+      opacity: 0.65;
+      background: #fafafa;
+    }
+    .product-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      color: #0f172a;
+    }
+    .product-price {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1a56db;
+      margin: 4px 0 10px;
+    }
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+    .stars-icon {
+      color: #f59e0b;
+      letter-spacing: 2px;
+      font-size: 1.05rem;
+    }
+    .stock-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      align-self: flex-start;
+    }
+    .stock-badge.in-stock {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+    .stock-badge.out-of-stock {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .toggle-stock-btn {
+      margin-top: 12px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #334155;
+      transition: all 0.2s;
+    }
+    .toggle-stock-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .filter-pills {
+      display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0;
+    }
+    .filter-btn {
+      background: #fff; border: 1px solid var(--border); border-radius: 999px;
+      padding: 6px 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      color: #475569; transition: all 0.2s;
+    }
+    .filter-btn.active {
+      background: var(--ink); color: #fff; border-color: var(--ink);
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 11 · Task 3 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Code Challenge: ProductCard</h1>
+      <p>Week 11 Friday Lecture Slide 19 &amp; Code Challenge Implementation</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 11 Tasks">
+      <a href="./task1.html">Task 1: Student Directory (11-A)</a>
+      <a href="./task2.html">Task 2: Study Guide Exercises</a>
+      <a class="active" href="./task3.html">Task 3: ProductCard Challenge</a>
+      <a href="./task4.html">Task 4: Portfolio Gallery</a>
+      <a href="./task5.html">Task 5: Course Catalog &amp; Grades</a>
+    </nav>
+
+    <!-- Requirements Card -->
+    <article class="card reveal">
+      <h2>Challenge Specifications</h2>
+      <p>Build a <code>ProductCard</code> component that accepts: <code>name</code> (string), <code>price</code> (number in KRW), <code>rating</code> (0 to 5 stars), and <code>inStock</code> (boolean).</p>
+      <ul style="padding-left:22px;line-height:1.7;margin:10px 0">
+        <li><strong>Bonus 1:</strong> Display rating formatted as <code>rating / 5 stars</code> alongside visual star icons (<code>★★★★½</code>).</li>
+        <li><strong>Bonus 2:</strong> Conditionally display <strong>"In Stock"</strong> (green) or <strong>"Out of Stock"</strong> (red badge) and apply sold-out opacity dimming to unavailable products.</li>
+        <li><strong>Korean Won Price:</strong> Formatted with thousands separators using <code>price.toLocaleString('ko-KR') + '원'</code>.</li>
+      </ul>
+    </article>
+
+    <!-- REACT ROOT -->
+    <article class="card reveal">
+      <h2>Interactive Product Catalog</h2>
+      <p style="color:var(--muted);font-size:0.9rem">Test real-time React state: filter products, or click <em>"Toggle Stock Status"</em> on any card to watch React conditionally re-render the badges and opacity.</p>
+      
+      <div id="root">
+        <div style="padding:20px;text-align:center;color:#64748b">Loading ProductCard demo...</div>
+      </div>
+    </article>
+
+    <!-- Code Explanation -->
+    <article class="card reveal">
+      <h2>Source Code Implementation</h2>
+      <pre style="background:#0f1b3d;color:#e2e8f0;padding:16px;border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:0.85rem;overflow-x:auto"><code>// ProductCard.jsx
+function ProductCard({ name, price, rating, inStock, onToggleStock }) {
+  // Bonus 1: Calculate star icons based on rating
+  const filled = Math.round(rating);
+  const stars = '★'.repeat(filled) + '☆'.repeat(5 - filled);
+
+  return (
+    &lt;div className={inStock ? 'product-card' : 'product-card sold-out'}&gt;
+      &lt;h3&gt;{name}&lt;/h3&gt;
+      &lt;p className="product-price"&gt;{price.toLocaleString('ko-KR')}원&lt;/p&gt;
+
+      &lt;div className="product-rating"&gt;
+        &lt;span className="stars-icon"&gt;{stars}&lt;/span&gt;
+        &lt;span&gt;{rating} / 5 stars&lt;/span&gt;
+      &lt;/div&gt;
+
+      {/* Bonus 2: Conditional Stock Badge */}
+      &lt;span className={inStock ? 'stock-badge in-stock' : 'stock-badge out-of-stock'}&gt;
+        {inStock ? '✓ In Stock' : '✕ Out of Stock'}
+      &lt;/span&gt;
+
+      &lt;button className="toggle-stock-btn" onClick={onToggleStock}&gt;
+        Toggle Stock Status
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Task 3</p>
+  </footer>
+
+  <!-- Babel Script: Interactive Product Card App -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function ProductCard({ name, price, rating, inStock, onToggleStock }) {
+      const filled = Math.round(rating);
+      const stars = '★'.repeat(filled) + '☆'.repeat(5 - filled);
+
+      return (
+        <div className={inStock ? 'product-card' : 'product-card sold-out'}>
+          <div>
+            <h3>{name}</h3>
+            <p className="product-price">{price.toLocaleString('ko-KR')}원</p>
+            <div className="product-rating">
+              <span className="stars-icon">{stars}</span>
+              <span>{rating} / 5 stars</span>
+            </div>
+          </div>
+          
+          <div>
+            <span className={inStock ? 'stock-badge in-stock' : 'stock-badge out-of-stock'}>
+              {inStock ? '✓ In Stock' : '✕ Out of Stock'}
+            </span>
+            <br />
+            <button
+              type="button"
+              className="toggle-stock-btn"
+              onClick={onToggleStock}
+              title="Toggle in-stock status"
+            >
+              Toggle Stock Status
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    function ProductApp() {
+      const [filter, setFilter] = useState('all');
+      const [products, setProducts] = useState([
+        { id: 1, name: "Wireless Earbuds", price: 89000, rating: 4.5, inStock: true },
+        { id: 2, name: "Mechanical Gaming Keyboard", price: 129000, rating: 4.0, inStock: false },
+        { id: 3, name: "27-inch 4K USB-C Monitor", price: 450000, rating: 4.8, inStock: true },
+        { id: 4, name: "Ergonomic Vertical Mouse", price: 49000, rating: 3.5, inStock: false },
+        { id: 5, name: "Noise Cancelling Headphones", price: 199000, rating: 5.0, inStock: true },
+        { id: 6, name: "Braided USB-C Cable (2m)", price: 12000, rating: 4.2, inStock: true }
+      ]);
+
+      const toggleStock = (id) => {
+        setProducts(prev => prev.map(p => p.id === id ? { ...p, inStock: !p.inStock } : p));
+      };
+
+      const visible = products.filter(p => {
+        if (filter === 'in-stock') return p.inStock;
+        if (filter === 'out-of-stock') return !p.inStock;
+        return true;
+      });
+
+      return (
+        <div>
+          <div className="filter-pills">
+            <button
+              type="button"
+              className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+              onClick={() => setFilter('all')}
+            >
+              All Items ({products.length})
+            </button>
+            <button
+              type="button"
+              className={`filter-btn ${filter === 'in-stock' ? 'active' : ''}`}
+              onClick={() => setFilter('in-stock')}
+            >
+              In Stock Only ({products.filter(p => p.inStock).length})
+            </button>
+            <button
+              type="button"
+              className={`filter-btn ${filter === 'out-of-stock' ? 'active' : ''}`}
+              onClick={() => setFilter('out-of-stock')}
+            >
+              Out of Stock ({products.filter(p => !p.inStock).length})
+            </button>
+          </div>
+
+          <div className="product-grid">
+            {visible.map(p => (
+              <ProductCard
+                key={p.id}
+                name={p.name}
+                price={p.price}
+                rating={p.rating}
+                inStock={p.inStock}
+                onToggleStock={() => toggleStock(p.id)}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<ProductApp />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

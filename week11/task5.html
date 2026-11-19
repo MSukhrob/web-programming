@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11 · Task 5: Course Catalog &amp; Grade Board</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* Course Card styling */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .course-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(15, 27, 61, 0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .course-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .course-header h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: #0f172a;
+    }
+    .badge {
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .badge.required { background: #dc2626; }
+    .badge.elective { background: #64748b; }
+    .course-card p {
+      margin: 4px 0;
+      color: #475569;
+      font-size: 0.9rem;
+    }
+
+    /* Grade Card styling */
+    .grade-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .grade-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px rgba(15, 27, 61, 0.04);
+    }
+    .grade-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .grade-card h3 { margin: 0 0 6px; font-size: 1.15rem; color: #0f172a; }
+    .grade-card p { margin: 4px 0; font-size: 0.92rem; color: #475569; }
+    .status-pill {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .status-pill.pass { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .status-pill.fail { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+    .control-row {
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .control-row select, .control-row input {
+      padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 0.88rem; font-family: inherit;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 11 · Task 5 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Course Catalog &amp; Grade Board</h1>
+      <p>Week 11 In-Class Demos · Props &amp; Conditional Badges</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 11 Tasks">
+      <a href="./task1.html">Task 1: Student Directory (11-A)</a>
+      <a href="./task2.html">Task 2: Study Guide Exercises</a>
+      <a href="./task3.html">Task 3: ProductCard Challenge</a>
+      <a href="./task4.html">Task 4: Portfolio Gallery</a>
+      <a class="active" href="./task5.html">Task 5: Course Catalog &amp; Grades</a>
+    </nav>
+
+    <!-- REACT ROOT -->
+    <div id="root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Course &amp; Grade Demos...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Task 5</p>
+  </footer>
+
+  <!-- Babel Script: Interactive Course Catalog & Grade Board -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    /* ========================================================
+       SECTION 1: CourseCard & CourseCatalog Component
+       ======================================================== */
+    function CourseCard({ title, instructor, credits, required }) {
+      return (
+        <div className="course-card">
+          <div>
+            <div className="course-header">
+              <h3>{title}</h3>
+              <span className={required ? 'badge required' : 'badge elective'}>
+                {required ? '필수 (Required)' : '선택 (Elective)'}
+              </span>
+            </div>
+            <p><strong>교수 (Instructor):</strong> {instructor}</p>
+          </div>
+          <p style={{marginTop:8,fontWeight:600,color:'#1a56db'}}>
+            학점 (Credits): {credits}학점
+          </p>
+        </div>
+      );
+    }
+
+    function CourseCatalogDemo() {
+      const [filter, setFilter] = useState('all');
+
+      const courses = [
+        { id: 1, title: 'Web Programming', instructor: 'Dr. Toshpulatov', credits: 3, required: true },
+        { id: 2, title: 'Database Systems', instructor: 'Dr. Kim', credits: 3, required: true },
+        { id: 3, title: 'Mobile App Dev', instructor: 'Dr. Lee', credits: 2, required: false },
+        { id: 4, title: 'Algorithms & Complexity', instructor: 'Dr. Park', credits: 3, required: true },
+        { id: 5, title: 'Cloud Infrastructure', instructor: 'Dr. Choi', credits: 3, required: false },
+      ];
+
+      const visible = courses.filter(c => {
+        if (filter === 'required') return c.required;
+        if (filter === 'elective') return !c.required;
+        return true;
+      });
+
+      return (
+        <div>
+          <div className="control-row">
+            <label htmlFor="course-filter" style={{fontWeight:600,fontSize:'0.9rem'}}>Filter courses:</label>
+            <select
+              id="course-filter"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="all">All Courses ({courses.length})</option>
+              <option value="required">Required Only [필수] ({courses.filter(c => c.required).length})</option>
+              <option value="elective">Elective Only [선택] ({courses.filter(c => !c.required).length})</option>
+            </select>
+          </div>
+
+          <div className="course-grid">
+            {visible.map(c => (
+              <CourseCard
+                key={c.id}
+                title={c.title}
+                instructor={c.instructor}
+                credits={c.credits}
+                required={c.required}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       SECTION 2: GradeCard & GradeBoard Component
+       ======================================================== */
+    function GradeCard({ student, passThreshold }) {
+      const passed = student.score >= passThreshold;
+      return (
+        <div className="grade-card">
+          <h3>{student.name}</h3>
+          <p><strong>학번 (ID):</strong> {student.id}</p>
+          <p><strong>점수 (Score):</strong> {student.score}점</p>
+          <span className={`status-pill ${passed ? 'pass' : 'fail'}`}>
+            {passed ? '✅ 합격 (Pass)' : '❌ 불합격 (Fail)'}
+          </span>
+        </div>
+      );
+    }
+
+    function GradeBoardDemo() {
+      const [threshold, setThreshold] = useState(60);
+
+      const roster = [
+        { id: '202537508', name: 'Sukhrob Mansurov', score: 98 },
+        { id: '202537265', name: 'Muso', score: 95 },
+        { id: '202537234', name: 'Jasurbek', score: 91 },
+        { id: '20231001',  name: '김민준', score: 88 },
+        { id: '20231002',  name: '이서연', score: 54 },
+        { id: '20231003',  name: '박지호', score: 72 }
+      ];
+
+      return (
+        <div>
+          <div className="control-row">
+            <label htmlFor="thresh" style={{fontWeight:600,fontSize:'0.9rem'}}>
+              Pass/Fail Threshold: <strong>{threshold}점</strong>
+            </label>
+            <input
+              type="range"
+              id="thresh"
+              min="40"
+              max="90"
+              value={threshold}
+              onChange={(e) => setThreshold(Number(e.target.value))}
+              style={{cursor:'pointer'}}
+            />
+            <span style={{fontSize:'0.85rem',color:'#64748b'}}>
+              Passing: {roster.filter(s => s.score >= threshold).length} / {roster.length} students
+            </span>
+          </div>
+
+          <div className="grade-grid">
+            {roster.map(s => (
+              <GradeCard
+                key={s.id}
+                student={s}
+                passThreshold={threshold}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       MAIN APP CONTAINER
+       ======================================================== */
+    function App() {
+      return (
+        <>
+          <article className="card reveal">
+            <h2>1. Course Catalog Component</h2>
+            <p>From professor's in-class demonstration: <code>CourseCard</code> accepts <code>title</code>, <code>instructor</code>, <code>credits</code>, and a boolean <code>required</code> prop, conditionally applying the <code>[필수]</code> or <code>[선택]</code> badge.</p>
+            <CourseCatalogDemo />
+          </article>
+
+          <article className="card reveal">
+            <h2>2. Academic Grade Board Component</h2>
+            <p>From professor's in-class demonstration: <code>GradeCard</code> consumes a student object and conditionally renders pass/fail status based on threshold logic (<code>score &gt;= threshold</code>).</p>
+            <GradeBoardDemo />
+          </article>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>
