@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12 · Task 2: Counter with History &amp; Undo</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* Counter Display Box */
+    .counter-stage {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(15, 27, 61, 0.05);
+      margin: 20px 0;
+    }
+    .count-number {
+      font-size: 5rem;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1;
+      margin: 10px 0 20px;
+      font-variant-numeric: tabular-nums;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .count-number.pulse {
+      transform: scale(1.08);
+    }
+    .button-toolbar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .action-btn {
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-inc { background: #1a56db; color: #fff; }
+    .btn-inc:hover { background: #1e429f; transform: translateY(-2px); }
+    .btn-dec { background: #0284c7; color: #fff; }
+    .btn-dec:hover { background: #0369a1; transform: translateY(-2px); }
+    .btn-reset { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+    .btn-reset:hover { background: #e2e8f0; }
+    .btn-undo { background: #ea580c; color: #fff; }
+    .btn-undo:hover { background: #c2410c; transform: translateY(-2px); }
+    .btn-undo:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; transform: none; }
+
+    /* History visual chips */
+    .history-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 14px;
+    }
+    .history-chips {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .history-pill {
+      background: #e8eefc;
+      color: #1e429f;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: ui-monospace, Consolas, monospace;
+      transition: all 0.2s;
+    }
+    .history-pill.current {
+      background: #1a56db;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
+      transform: scale(1.08);
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12 · Task 2 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Code Challenge: Counter with History &amp; Undo</h1>
+      <p>Week 12 Slide 33 Challenge &amp; Solution 07-CounterWithHistory.jsx</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12 Tasks">
+      <a href="./task1.html">Task 1: Shopping Cart (Homework)</a>
+      <a class="active" href="./task2.html">Task 2: Counter with History</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: State Patterns &amp; Demos</a>
+      <a href="./task5.html">Task 5: Word Counter &amp; Quiz</a>
+    </nav>
+
+    <!-- Challenge Specification -->
+    <article class="card reveal">
+      <h2>Challenge Specifications (Slide 33)</h2>
+      <p>Build a <code>Counter</code> component with the following stateful capabilities:</p>
+      <ol style="padding-left:22px;line-height:1.7;margin:10px 0">
+        <li><strong>Display current count:</strong> Starts at <code>0</code>.</li>
+        <li><strong>+1 and −1 buttons:</strong> Schedule state updates.</li>
+        <li><strong>Reset button:</strong> Returns the counter to <code>0</code> and logs reset in history.</li>
+        <li><strong>History:</strong> Stores and displays the last 5 count values: <code>[0, 1, 2, 1, 0]</code>.</li>
+        <li><strong>Undo:</strong> Sets count to the previous value in history (<code>history[history.length - 2]</code>), then immutably removes the latest item from history using <code>h.slice(0, -1)</code>.</li>
+      </ol>
+    </article>
+
+    <!-- REACT ROOT -->
+    <article class="card reveal">
+      <h2>Live Interactive Counter</h2>
+      <div id="root">
+        <div style="padding:20px;text-align:center;color:#64748b">Loading Counter Challenge...</div>
+      </div>
+    </article>
+
+    <!-- Code Explanation -->
+    <article class="card reveal">
+      <h2>Challenge Solution Implementation</h2>
+      <pre style="background:#0f1b3d;color:#e2e8f0;padding:16px;border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:0.85rem;overflow-x:auto"><code>// 07-CounterWithHistory.jsx
+import { useState } from 'react';
+
+export default function CounterWithHistory() {
+  const [count, setCount]     = useState(0);
+  const [history, setHistory] = useState([0]);
+
+  function change(next) {
+    setCount(next);
+    // Keep last 5 count values
+    setHistory(h => [...h, next].slice(-5));
+  }
+
+  function undo() {
+    if (history.length < 2) return;
+    const previous = history[history.length - 2];
+    setCount(previous);
+    setHistory(h => h.slice(0, -1));
+  }
+
+  return (
+    &lt;div className="counter-box"&gt;
+      &lt;h2&gt;{count}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; change(count + 1)}&gt;+1&lt;/button&gt;
+      &lt;button onClick={() =&gt; change(count - 1)}&gt;-1&lt;/button&gt;
+      &lt;button onClick={() =&gt; change(0)}&gt;Reset&lt;/button&gt;
+      &lt;button onClick={undo} disabled={history.length &lt; 2}&gt;Undo&lt;/button&gt;
+      &lt;p&gt;History: [{history.join(', ')}]&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12 Task 2</p>
+  </footer>
+
+  <!-- Babel Script: Interactive Counter with History -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function CounterWithHistoryApp() {
+      const [count, setCount] = useState(0);
+      const [history, setHistory] = useState([0]);
+      const [step, setStep] = useState(1);
+
+      function change(next) {
+        setCount(next);
+        setHistory(h => [...h, next].slice(-5));
+      }
+
+      function undo() {
+        if (history.length < 2) return;
+        const previousValue = history[history.length - 2];
+        setCount(previousValue);
+        setHistory(h => h.slice(0, -1));
+      }
+
+      return (
+        <div className="counter-stage">
+          <div style={{color:'#64748b',fontWeight:600,fontSize:'0.9rem',textTransform:'uppercase',letterSpacing:'0.05em'}}>
+            Current Count Value
+          </div>
+          <div className="count-number">{count}</div>
+
+          <div className="button-toolbar">
+            <button
+              type="button"
+              className="action-btn btn-dec"
+              onClick={() => change(count - step)}
+              title={`Subtract ${step}`}
+            >
+              −{step}
+            </button>
+            <button
+              type="button"
+              className="action-btn btn-inc"
+              onClick={() => change(count + step)}
+              title={`Add ${step}`}
+            >
+              +{step}
+            </button>
+            <button
+              type="button"
+              className="action-btn btn-reset"
+              onClick={() => change(0)}
+              title="Reset counter to zero"
+            >
+              Reset (0)
+            </button>
+            <button
+              type="button"
+              className="action-btn btn-undo"
+              onClick={undo}
+              disabled={history.length < 2}
+              title={history.length < 2 ? "No history to undo" : "Undo to previous count"}
+            >
+              ⟲ Undo
+            </button>
+          </div>
+
+          <div style={{display:'flex',justifyContent:'center',gap:12,alignItems:'center',marginBottom:16}}>
+            <label htmlFor="step-sel" style={{fontSize:'0.85rem',fontWeight:600,color:'#475569'}}>Step increment:</label>
+            <select
+              id="step-sel"
+              value={step}
+              onChange={(e) => setStep(Number(e.target.value))}
+              style={{padding:'4px 10px',borderRadius:6,border:'1px solid #cbd5e1',fontFamily:'inherit'}}
+            >
+              <option value="1">&plusmn; 1</option>
+              <option value="5">&plusmn; 5</option>
+              <option value="10">&plusmn; 10</option>
+            </select>
+          </div>
+
+          <div className="history-card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',fontSize:'0.85rem',color:'#64748b'}}>
+              <span><strong>History Buffer</strong> (Maximum 5 items stored)</span>
+              <span>Buffer size: {history.length} / 5</span>
+            </div>
+            
+            <div className="history-chips">
+              {history.map((val, idx) => (
+                <span
+                  key={idx}
+                  className={`history-pill ${idx === history.length - 1 ? 'current' : ''}`}
+                  title={idx === history.length - 1 ? 'Current Head' : `Step ${idx + 1}`}
+                >
+                  {val} {idx === history.length - 1 ? '(Current)' : ''}
+                </span>
+              ))}
+            </div>
+            <p style={{margin:'10px 0 0',fontSize:'0.85rem',fontFamily:'ui-monospace, Consolas, monospace',color:'#475569'}}>
+              Array State: [{history.join(', ')}]
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<CounterWithHistoryApp />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

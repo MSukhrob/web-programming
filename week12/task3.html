@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12 · Task 3: Study Guide Practice Exercises</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .badge-ex {
+      background: #e0f2fe; color: #0284c7; padding: 3px 10px; border-radius: 6px;
+      font-size: 0.82rem; font-weight: 700; display: inline-block; margin-bottom: 8px;
+    }
+
+    /* Exercise 1 styling */
+    .toggle-box {
+      background: #f8fafc; border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; margin-top: 12px;
+    }
+    .details-panel {
+      margin-top: 14px; padding: 14px 18px; background: #ffffff;
+      border-left: 4px solid var(--primary); border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(15, 27, 61, 0.04);
+      animation: fadeUp 0.3s ease both;
+    }
+
+    /* Exercise 2 styling */
+    .todo-form {
+      display: flex; gap: 8px; margin: 14px 0;
+    }
+    .todo-form input {
+      flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);
+      font-size: 0.92rem; font-family: inherit;
+    }
+    .todo-items-list {
+      list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;
+    }
+    .todo-item-card {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 16px; background: #ffffff; border: 1px solid var(--border);
+      border-radius: 8px; transition: all 0.2s;
+    }
+    .todo-item-card:hover { border-color: var(--primary); }
+    .todo-text.done { text-decoration: line-through; color: #94a3b8; }
+    .del-btn {
+      background: none; border: none; color: #ef4444; font-size: 1.1rem;
+      cursor: pointer; padding: 0 6px; font-weight: 700;
+    }
+
+    /* Exercise 3 styling */
+    .scoreboard-box {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 14px;
+      padding: 24px; text-align: center; margin-top: 14px;
+    }
+    .players-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;
+    }
+    @media (max-width: 500px) { .players-grid { grid-template-columns: 1fr; } }
+    .player-card {
+      background: #f8fafc; border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px; text-align: center;
+    }
+    .player-score {
+      font-size: 2.4rem; font-weight: 800; color: #1a56db; margin: 8px 0;
+    }
+    .score-btn {
+      width: 36px; height: 36px; border-radius: 8px; font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; border: 1px solid #cbd5e1; background: #fff; margin: 0 4px;
+      transition: background 0.15s;
+    }
+    .score-btn:hover { background: #e2e8f0; }
+    .total-banner {
+      background: #1a56db; color: #fff; border-radius: 10px; padding: 12px;
+      font-size: 1.3rem; font-weight: 800; margin-top: 16px;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12 · Task 3 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Study Guide Practice Exercises</h1>
+      <p>Exercises 1, 2, and 3 from Week 12 Monday Study Guide</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12 Tasks">
+      <a href="./task1.html">Task 1: Shopping Cart (Homework)</a>
+      <a href="./task2.html">Task 2: Counter with History</a>
+      <a class="active" href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: State Patterns &amp; Demos</a>
+      <a href="./task5.html">Task 5: Word Counter &amp; Quiz</a>
+    </nav>
+
+    <!-- REACT ROOT -->
+    <div id="root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Study Guide Exercises...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12 Task 3</p>
+  </footer>
+
+  <!-- Babel Script: 3 Interactive Study Guide Exercises -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    /* ========================================================
+       EXERCISE 1: Toggle Visibility (Boolean State)
+       ======================================================== */
+    function ToggleDetailDemo() {
+      const [isVisible, setIsVisible] = useState(false);
+
+      return (
+        <div className="toggle-box">
+          <button
+            type="button"
+            className="btn"
+            style={{background: isVisible ? '#475569' : '#1a56db'}}
+            onClick={() => setIsVisible(prev => !prev)}
+          >
+            {isVisible ? 'Hide details ▴' : 'Show details ▾'}
+          </button>
+
+          {isVisible && (
+            <div className="details-panel">
+              <h4 style={{margin:'0 0 6px',color:'#0f172a'}}>Why React State Matters:</h4>
+              <p style={{margin:0,color:'#334155',fontSize:'0.92rem'}}>
+                React state enables dynamic, reactive user interfaces without full page reloads.
+                When <code>setIsVisible</code> is invoked, React re-executes the component function with the updated snapshot and reconciles the DOM efficiently.
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ========================================================
+       EXERCISE 2: TaskList (Immutable Array State)
+       ======================================================== */
+    function TaskListDemo() {
+      const [tasks, setTasks] = useState([
+        { id: 1, text: 'Review useState syntax & rules', done: true },
+        { id: 2, text: 'Complete ShoppingCart homework', done: false },
+        { id: 3, text: 'Submit Sprint Quiz on Cybercampus', done: false }
+      ]);
+      const [input, setInput] = useState('');
+
+      const addTask = (e) => {
+        if (e) e.preventDefault();
+        if (!input.trim()) return;
+        setTasks(prev => [...prev, { id: Date.now(), text: input.trim(), done: false }]);
+        setInput('');
+      };
+
+      const removeTask = (id) => {
+        setTasks(prev => prev.filter(t => t.id !== id));
+      };
+
+      const toggleDone = (id) => {
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t));
+      };
+
+      return (
+        <div>
+          <form className="todo-form" onSubmit={addTask}>
+            <input
+              type="text"
+              placeholder="What needs to be done? e.g. Study React Hooks"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <button type="submit" className="btn" style={{padding:'8px 18px'}}>Add</button>
+          </form>
+
+          <ul className="todo-items-list">
+            {tasks.map(task => (
+              <li key={task.id} className="todo-item-card">
+                <label style={{display:'flex',alignItems:'center',gap:10,cursor:'pointer',flex:1}}>
+                  <input
+                    type="checkbox"
+                    checked={task.done}
+                    onChange={() => toggleDone(task.id)}
+                    style={{width:16,height:16}}
+                  />
+                  <span className={`todo-text ${task.done ? 'done' : ''}`}>
+                    {task.text}
+                  </span>
+                </label>
+                <button
+                  type="button"
+                  className="del-btn"
+                  onClick={() => removeTask(task.id)}
+                  title="Delete item"
+                >
+                  &times;
+                </button>
+              </li>
+            ))}
+          </ul>
+          {tasks.length === 0 && (
+            <p style={{color:'#64748b',fontStyle:'italic',textAlign:'center',padding:'14px 0'}}>
+              All tasks cleared! Type above to add a new task.
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    /* ========================================================
+       EXERCISE 3: Lifting State Up (ScoreBoard)
+       ======================================================== */
+    function PlayerScore({ name, score, onIncrement, onDecrement }) {
+      return (
+        <div className="player-card">
+          <h4 style={{margin:0,fontSize:'1.1rem',color:'#0f172a'}}>{name}</h4>
+          <div className="player-score">{score}</div>
+          <div>
+            <button type="button" className="score-btn" onClick={onDecrement} title="Decrement score">−</button>
+            <button type="button" className="score-btn" onClick={onIncrement} title="Increment score">+</button>
+          </div>
+        </div>
+      );
+    }
+
+    function ScoreBoardDemo() {
+      const [p1, setP1] = useState(7);
+      const [p2, setP2] = useState(5);
+
+      const resetScores = () => {
+        setP1(0);
+        setP2(0);
+      };
+
+      return (
+        <div className="scoreboard-box">
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <h3 style={{margin:0,color:'#0f172a'}}>Dual Match Board</h3>
+            <button
+              type="button"
+              onClick={resetScores}
+              style={{background:'none',border:'1px solid #cbd5e1',borderRadius:6,padding:'4px 10px',cursor:'pointer',fontSize:'0.82rem'}}
+            >
+              Reset Scores
+            </button>
+          </div>
+
+          <div className="players-grid">
+            <PlayerScore
+              name="Player 1 (Home)"
+              score={p1}
+              onIncrement={() => setP1(prev => prev + 1)}
+              onDecrement={() => setP1(prev => Math.max(0, prev - 1))}
+            />
+            <PlayerScore
+              name="Player 2 (Away)"
+              score={p2}
+              onIncrement={() => setP2(prev => prev + 1)}
+              onDecrement={() => setP2(prev => Math.max(0, prev - 1))}
+            />
+          </div>
+
+          <div className="total-banner">
+            Combined Total Score: {p1 + p2}
+          </div>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       MAIN APP CONTAINER
+       ======================================================== */
+    function App() {
+      return (
+        <>
+          {/* Exercise 1 */}
+          <article className="card reveal">
+            <span className="badge-ex">Exercise 1</span>
+            <h2>Exercise 1: Toggle Visibility (Boolean State)</h2>
+            <p><strong>Task:</strong> Build a component with a button labeled <em>"Show details"</em> / <em>"Hide details"</em>. When clicked, toggle the visibility of a paragraph of text using boolean state.</p>
+            <ToggleDetailDemo />
+          </article>
+
+          {/* Exercise 2 */}
+          <article className="card reveal">
+            <span className="badge-ex">Exercise 2</span>
+            <h2>Exercise 2: Add &amp; Remove Items from a List</h2>
+            <p><strong>Task:</strong> Build a task list where new items are added with the spread operator (<code>[...prev, newItem]</code>) and removed with <code>.filter()</code> without mutating the original state array.</p>
+            <TaskListDemo />
+          </article>
+
+          {/* Exercise 3 */}
+          <article className="card reveal">
+            <span className="badge-ex">Exercise 3</span>
+            <h2>Exercise 3: Lifting State Up (Shared ScoreBoard)</h2>
+            <p><strong>Task:</strong> Create a parent <code>ScoreBoard</code> with two <code>PlayerScore</code> children. The parent owns the state, passes values down via props, and receives updates through callback props to display the aggregated total.</p>
+            <ScoreBoardDemo />
+          </article>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

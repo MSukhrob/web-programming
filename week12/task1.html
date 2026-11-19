@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12 · Task 1: Interactive Shopping Cart</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* Shopping Cart Layout */
+    .shop-container {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+      margin: 20px 0;
+    }
+    @media (max-width: 860px) {
+      .shop-container { grid-template-columns: 1fr; }
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .shop-product-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      box-shadow: 0 4px 12px rgba(15, 27, 61, 0.04);
+    }
+    .shop-product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary);
+    }
+    .product-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: #e2e8f0;
+    }
+    .product-info {
+      padding: 14px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-info h3 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      color: #0f172a;
+    }
+    .product-price-tag {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1a56db;
+      margin: 4px 0 12px;
+    }
+
+    /* Cart Sidebar */
+    .cart-sidebar {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(15, 27, 61, 0.06);
+      position: sticky;
+      top: 80px;
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .cart-header h2 { margin: 0; font-size: 1.25rem; }
+    .cart-count-badge {
+      background: #1a56db;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .cart-items-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      max-height: 320px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      gap: 10px;
+    }
+    .cart-item-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .cart-item-price {
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .qty-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .qty-btn:hover { background: #e2e8f0; }
+    .qty-num {
+      min-width: 18px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .del-item-btn {
+      border: none;
+      background: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 4px;
+    }
+    .cart-summary {
+      border-top: 2px solid var(--border);
+      padding-top: 14px;
+      margin-top: 14px;
+    }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      margin-bottom: 6px;
+      color: #475569;
+    }
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 12px 0 16px;
+    }
+    .checkout-btn {
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+    .empty-cart-msg {
+      text-align: center;
+      padding: 24px 10px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+    .promo-box {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .promo-box input {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+    .promo-box button {
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      border-radius: 6px;
+    }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 6px; margin: 18px 0 0; border-bottom: 2px solid var(--border); }
+    .tab-btn {
+      padding: 8px 16px; border: 0; background: none; font-weight: 600;
+      cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent;
+      margin-bottom: -2px; font-size: 0.9rem;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-content {
+      background: #0f1b3d; color: #e2e8f0; padding: 16px; border-radius: 0 0 10px 10px;
+      overflow-x: auto; font-family: ui-monospace, Consolas, monospace; font-size: 0.85rem;
+      line-height: 1.55; display: none; margin-bottom: 20px;
+    }
+    .tab-content.active { display: block; }
+    pre { margin: 0; }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12 · Task 1 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Interactive Shopping Cart</h1>
+      <p>Week 12 Monday Homework · React State with Objects, Arrays &amp; Immutability</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12 Tasks">
+      <a class="active" href="./task1.html">Task 1: Shopping Cart (Homework)</a>
+      <a href="./task2.html">Task 2: Counter with History</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: State Patterns &amp; Demos</a>
+      <a href="./task5.html">Task 5: Word Counter &amp; Quiz</a>
+    </nav>
+
+    <!-- Requirements Card -->
+    <article class="card reveal">
+      <h2>Homework Requirements (Slide 34)</h2>
+      <p>Implement an interactive shopping cart application demonstrating complete React state management:</p>
+      <ul style="padding-left:22px;line-height:1.7;margin:10px 0">
+        <li><strong>Product List (1):</strong> At least 5 items with name, formatted price (KRW), and image URL.</li>
+        <li><strong>Add / Remove Buttons (2):</strong> Array of cart items stored in React state.</li>
+        <li><strong>Cart Sidebar (3):</strong> Displays added items and computes the real-time total price directly from state.</li>
+        <li><strong>Quantity Controls (4):</strong> <code>+</code> and <code>−</code> per item with immutable array mapping (<code>prev.map()</code> / <code>prev.filter()</code>).</li>
+        <li><strong>ShoppingCart Component (5):</strong> Parent component composing the catalog and cart sidebar via lifting state up.</li>
+        <li><strong>Bonus features:</strong> Promo code discount (try: <code>WEBPRO10</code>), live item badge, and order confirmation.</li>
+      </ul>
+    </article>
+
+    <!-- REACT ROOT MOUNT POINT -->
+    <article class="card reveal">
+      <div id="root">
+        <div style="padding:24px;text-align:center;color:#64748b">Loading Shopping Cart App...</div>
+      </div>
+    </article>
+
+    <!-- Source Code Tabs -->
+    <article class="card reveal">
+      <h2>Source Code Architecture</h2>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-cart-state', this)">ShoppingCart.jsx (State)</button>
+        <button class="tab-btn" onclick="switchTab('tab-products', this)">ProductList.jsx</button>
+        <button class="tab-btn" onclick="switchTab('tab-sidebar', this)">CartSidebar.jsx</button>
+      </div>
+
+      <div id="tab-cart-state" class="tab-content active">
+<pre><code>// ShoppingCart.jsx - Immutable array state management
+const [cart, setCart] = useState([]);
+
+// 1. Add item: Check if exists, increment quantity or append new object
+const addToCart = (product) => {
+  setCart(prev => {
+    const existing = prev.find(item => item.id === product.id);
+    if (existing) {
+      return prev.map(item =>
+        item.id === product.id ? { ...item, qty: item.qty + 1 } : item
+      );
+    }
+    return [...prev, { ...product, qty: 1 }];
+  });
+};
+
+// 2. Update Quantity: Immutably update or remove when qty reaches 0
+const updateQty = (id, delta) => {
+  setCart(prev =>
+    prev
+      .map(item => item.id === id ? { ...item, qty: item.qty + delta } : item)
+      .filter(item => item.qty > 0)
+  );
+};
+
+// 3. Remove Item completely
+const removeFromCart = (id) => {
+  setCart(prev => prev.filter(item => item.id !== id));
+};</code></pre>
+      </div>
+
+      <div id="tab-products" class="tab-content">
+<pre><code>// ProductCard.jsx
+function ProductCard({ product, onAdd }) {
+  return (
+    &lt;div className="shop-product-card"&gt;
+      &lt;img src={product.image} alt={product.name} className="product-img" /&gt;
+      &lt;div className="product-info"&gt;
+        &lt;h3&gt;{product.name}&lt;/h3&gt;
+        &lt;p className="product-price-tag"&gt;{product.price.toLocaleString('ko-KR')}원&lt;/p&gt;
+        &lt;button className="btn" onClick={() =&gt; onAdd(product)}&gt;
+          + Add to Cart
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+
+      <div id="tab-sidebar" class="tab-content">
+<pre><code>// CartSidebar.jsx
+function CartSidebar({ cart, onUpdateQty, onRemove, onClear }) {
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  return (
+    &lt;aside className="cart-sidebar"&gt;
+      &lt;h2&gt;Your Cart ({cart.reduce((s, i) =&gt; s + i.qty, 0)})&lt;/h2&gt;
+      {cart.map(item =&gt; (
+        &lt;div key={item.id} className="cart-item-row"&gt;
+          &lt;div&gt;
+            &lt;div&gt;{item.name}&lt;/div&gt;
+            &lt;div&gt;{(item.price * item.qty).toLocaleString()}원&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;button onClick={() =&gt; onUpdateQty(item.id, -1)}&gt;−&lt;/button&gt;
+            &lt;span&gt;{item.qty}&lt;/span&gt;
+            &lt;button onClick={() =&gt; onUpdateQty(item.id, 1)}&gt;+&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;h3&gt;Total: {subtotal.toLocaleString()}원&lt;/h3&gt;
+    &lt;/aside&gt;
+  );
+}</code></pre>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12 Task 1</p>
+  </footer>
+
+  <!-- Babel Script: Interactive Shopping Cart App -->
+  <script type="text/babel">
+    const { useState, useMemo } = React;
+
+    const PRODUCTS = [
+      {
+        id: 1,
+        name: "Wireless ANC Earbuds",
+        price: 89000,
+        image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 2,
+        name: "Mechanical Keyboard (RGB)",
+        price: 129000,
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 3,
+        name: "4K IPS USB-C Monitor 27\"",
+        price: 450000,
+        image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 4,
+        name: "Ergonomic Vertical Mouse",
+        price: 49000,
+        image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 5,
+        name: "Studio Monitor Headphones",
+        price: 199000,
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 6,
+        name: "Barista Roast Coffee (1kg)",
+        price: 24000,
+        image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    function ProductCard({ product, onAdd }) {
+      return (
+        <div className="shop-product-card">
+          <img src={product.image} alt={product.name} className="product-img" loading="lazy" />
+          <div className="product-info">
+            <div>
+              <h3>{product.name}</h3>
+              <p className="product-price-tag">{product.price.toLocaleString('ko-KR')}원</p>
+            </div>
+            <button
+              type="button"
+              className="btn"
+              style={{padding:'8px 14px',fontSize:'0.88rem'}}
+              onClick={() => onAdd(product)}
+            >
+              + Add to Cart
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    function CartSidebar({ cart, onUpdateQty, onRemove, onClear }) {
+      const [promo, setPromo] = useState('');
+      const [discount, setDiscount] = useState(0);
+      const [checkedOut, setCheckedOut] = useState(false);
+
+      const totalItems = useMemo(() => cart.reduce((sum, item) => sum + item.qty, 0), [cart]);
+      const subtotal = useMemo(() => cart.reduce((sum, item) => sum + item.price * item.qty, 0), [cart]);
+      const discountAmount = useMemo(() => subtotal * discount, [subtotal, discount]);
+      const finalTotal = useMemo(() => subtotal - discountAmount, [subtotal, discountAmount]);
+
+      const applyPromo = () => {
+        if (promo.trim().toUpperCase() === 'WEBPRO10') {
+          setDiscount(0.10);
+          alert('10% discount coupon applied successfully!');
+        } else {
+          alert('Invalid promo code. Try "WEBPRO10" for 10% off.');
+        }
+      };
+
+      const handleCheckout = () => {
+        if (cart.length === 0) return;
+        setCheckedOut(true);
+        setTimeout(() => {
+          onClear();
+          setCheckedOut(false);
+          setDiscount(0);
+          setPromo('');
+          alert('Order placed successfully! Total: ' + finalTotal.toLocaleString('ko-KR') + '원');
+        }, 1200);
+      };
+
+      return (
+        <aside className="cart-sidebar" aria-label="Shopping Cart">
+          <div className="cart-header">
+            <h2>Shopping Cart</h2>
+            <span className="cart-count-badge">{totalItems} items</span>
+          </div>
+
+          {cart.length === 0 ? (
+            <div className="empty-cart-msg">
+              <span style={{fontSize:'2.2rem',display:'block',marginBottom:8}}>🛒</span>
+              Your cart is currently empty.<br />Click "+ Add to Cart" on any product.
+            </div>
+          ) : (
+            <>
+              <ul className="cart-items-list">
+                {cart.map(item => (
+                  <li key={item.id} className="cart-item-row">
+                    <div style={{flex:1}}>
+                      <div className="cart-item-name">{item.name}</div>
+                      <div className="cart-item-price">
+                        {item.price.toLocaleString('ko-KR')}원 &times; {item.qty} = <strong>{(item.price * item.qty).toLocaleString('ko-KR')}원</strong>
+                      </div>
+                    </div>
+                    <div className="qty-controls">
+                      <button
+                        type="button"
+                        className="qty-btn"
+                        onClick={() => onUpdateQty(item.id, -1)}
+                        title="Decrease quantity"
+                      >
+                        −
+                      </button>
+                      <span className="qty-num">{item.qty}</span>
+                      <button
+                        type="button"
+                        className="qty-btn"
+                        onClick={() => onUpdateQty(item.id, 1)}
+                        title="Increase quantity"
+                      >
+                        +
+                      </button>
+                      <button
+                        type="button"
+                        className="del-item-btn"
+                        onClick={() => onRemove(item.id)}
+                        title="Remove from cart"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="cart-summary">
+                <div className="summary-line">
+                  <span>Subtotal</span>
+                  <span>{subtotal.toLocaleString('ko-KR')}원</span>
+                </div>
+                {discount > 0 && (
+                  <div className="summary-line" style={{color:'#16a34a',fontWeight:600}}>
+                    <span>Discount (10%)</span>
+                    <span>- {discountAmount.toLocaleString('ko-KR')}원</span>
+                  </div>
+                )}
+                <div className="total-line">
+                  <span>Total Due</span>
+                  <span style={{color:'#1a56db'}}>{finalTotal.toLocaleString('ko-KR')}원</span>
+                </div>
+
+                <div className="promo-box">
+                  <input
+                    type="text"
+                    placeholder="Promo: WEBPRO10"
+                    value={promo}
+                    onChange={(e) => setPromo(e.target.value)}
+                  />
+                  <button type="button" className="btn" style={{padding:'6px 12px'}} onClick={applyPromo}>
+                    Apply
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  className="btn checkout-btn"
+                  style={{marginTop:14}}
+                  onClick={handleCheckout}
+                  disabled={checkedOut}
+                >
+                  {checkedOut ? 'Processing Order...' : `Checkout (${finalTotal.toLocaleString('ko-KR')}원)`}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={onClear}
+                  style={{width:'100%',background:'none',border:'none',color:'#94a3b8',fontSize:'0.82rem',cursor:'pointer',marginTop:10,textDecoration:'underline'}}
+                >
+                  Clear Cart
+                </button>
+              </div>
+            </>
+          )}
+        </aside>
+      );
+    }
+
+    function ShoppingApp() {
+      const [cart, setCart] = useState([
+        { id: 1, name: "Wireless ANC Earbuds", price: 89000, qty: 1 }
+      ]);
+
+      const addToCart = (product) => {
+        setCart(prev => {
+          const exists = prev.find(i => i.id === product.id);
+          if (exists) {
+            return prev.map(i => i.id === product.id ? { ...i, qty: i.qty + 1 } : i);
+          }
+          return [...prev, { id: product.id, name: product.name, price: product.price, qty: 1 }];
+        });
+      };
+
+      const updateQty = (id, delta) => {
+        setCart(prev =>
+          prev
+            .map(item => item.id === id ? { ...item, qty: item.qty + delta } : item)
+            .filter(item => item.qty > 0)
+        );
+      };
+
+      const removeFromCart = (id) => {
+        setCart(prev => prev.filter(i => i.id !== id));
+      };
+
+      const clearCart = () => setCart([]);
+
+      return (
+        <div className="shop-container">
+          <section>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
+              <h2 style={{margin:0,fontSize:'1.3rem'}}>Available Products</h2>
+              <span style={{fontSize:'0.88rem',color:'#64748b'}}>6 Tech &amp; Desk Items</span>
+            </div>
+            <div className="products-grid">
+              {PRODUCTS.map(p => (
+                <ProductCard key={p.id} product={p} onAdd={addToCart} />
+              ))}
+            </div>
+          </section>
+
+          <CartSidebar
+            cart={cart}
+            onUpdateQty={updateQty}
+            onRemove={removeFromCart}
+            onClear={clearCart}
+          />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<ShoppingApp />);
+  </script>
+
+  <script>
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

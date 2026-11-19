@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12 · Task 4: State Patterns &amp; Immutability Lab</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 14px 0;
+    }
+    .demo-panel {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .demo-panel h3 { margin: 0 0 8px; font-size: 1.1rem; color: #0f172a; }
+
+    .counter-display {
+      font-size: 2.2rem; font-weight: 800; color: #1a56db; margin: 6px 0 12px;
+    }
+    .demo-btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .demo-btn-group button {
+      padding: 7px 14px; font-size: 0.85rem; border-radius: 6px; font-weight: 600;
+      border: 1px solid #cbd5e1; background: #fff; cursor: pointer; transition: all 0.15s;
+    }
+    .demo-btn-group button:hover { background: #e2e8f0; }
+    .demo-btn-group button.primary { background: #1a56db; color: #fff; border-color: #1a56db; }
+    .demo-btn-group button.danger  { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+    .stale-comparison {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0;
+    }
+    @media (max-width: 500px) { .stale-comparison { grid-template-columns: 1fr; } }
+    .stale-box {
+      border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #fff;
+    }
+    .stale-box.bad  { border-left: 4px solid #ef4444; }
+    .stale-box.good { border-left: 4px solid #16a34a; }
+
+    .json-preview {
+      background: #0f1b3d; color: #38bdf8; padding: 12px; border-radius: 8px;
+      font-family: ui-monospace, Consolas, monospace; font-size: 0.82rem; margin-top: 10px;
+      overflow-x: auto;
+    }
+    .form-field { margin-bottom: 10px; }
+    .form-field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .form-field input, .form-field textarea {
+      width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;
+      font-family: inherit; font-size: 0.88rem; box-sizing: border-box;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12 · Task 4 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>State Patterns &amp; Immutability Lab</h1>
+      <p>Demonstrations 01 to 06 from Dr. Toshpulatov's Lecture Demos</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12 Tasks">
+      <a href="./task1.html">Task 1: Shopping Cart (Homework)</a>
+      <a href="./task2.html">Task 2: Counter with History</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a class="active" href="./task4.html">Task 4: State Patterns &amp; Demos</a>
+      <a href="./task5.html">Task 5: Word Counter &amp; Quiz</a>
+    </nav>
+
+    <!-- REACT ROOT -->
+    <div id="root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading State Patterns...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12 Task 4</p>
+  </footer>
+
+  <!-- Babel Script: Interactive Demos 01-06 -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    /* Demo 1: Buggy Regular Variable vs React State */
+    function CounterBugDemo() {
+      const [domLogs, setDomLogs] = useState([]);
+      let regularCount = 0; // resets every render!
+      const [reactCount, setReactCount] = useState(0);
+
+      const handleBugClick = () => {
+        regularCount++;
+        setDomLogs(prev => [...prev, regularCount]);
+      };
+
+      return (
+        <div className="demo-panel">
+          <h3>01. The Problem: Regular Variable vs React State</h3>
+          <p style={{fontSize:'0.88rem',color:'#475569'}}>
+            A plain local variable (<code>let count = 0</code>) resets on every render, and React cannot observe its mutation.
+          </p>
+
+          <div className="stale-comparison">
+            <div className="stale-box bad">
+              <strong style={{color:'#ef4444'}}>❌ Regular variable</strong>
+              <div className="counter-display" style={{color:'#ef4444'}}>{regularCount}</div>
+              <button type="button" onClick={handleBugClick}>Click count++</button>
+              <p style={{fontSize:'0.8rem',margin:'8px 0 0',color:'#64748b'}}>
+                Clicks registered in console: [{domLogs.join(', ')}]
+              </p>
+            </div>
+
+            <div className="stale-box good">
+              <strong style={{color:'#16a34a'}}>✅ useState Hook</strong>
+              <div className="counter-display" style={{color:'#16a34a'}}>{reactCount}</div>
+              <button type="button" onClick={() => setReactCount(c => c + 1)}>Click setCount(+1)</button>
+              <p style={{fontSize:'0.8rem',margin:'8px 0 0',color:'#16a34a'}}>
+                React intercepts setter &amp; re-renders UI!
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* Demo 2: Functional Updates vs Stale State */
+    function CounterStateDemo() {
+      const [count, setCount] = useState(0);
+
+      const addThreeStale = () => {
+        // Stale: all three calls read the same snapshot
+        setCount(count + 1);
+        setCount(count + 1);
+        setCount(count + 1);
+      };
+
+      const addThreeSafe = () => {
+        // Safe: each updater receives the latest queued value
+        setCount(p => p + 1);
+        setCount(p => p + 1);
+        setCount(p => p + 1);
+      };
+
+      return (
+        <div className="demo-panel">
+          <h3>02. Functional Updates vs Batching (Slide 16)</h3>
+          <p style={{fontSize:'0.88rem',color:'#475569'}}>
+            Test what happens when scheduling 3 updates consecutively in the same handler:
+          </p>
+
+          <div className="counter-display">{count}</div>
+          <div className="demo-btn-group">
+            <button type="button" onClick={() => setCount(p => p - 1)}>−1</button>
+            <button type="button" onClick={() => setCount(p => p + 1)}>+1</button>
+            <button type="button" className="danger" onClick={addThreeStale}>+3 (Stale: count+1)</button>
+            <button type="button" className="primary" onClick={addThreeSafe}>+3 (Safe: prev=&gt;prev+1)</button>
+            <button type="button" onClick={() => setCount(0)}>Reset</button>
+          </div>
+          <p style={{fontSize:'0.82rem',color:'#64748b',margin:0}}>
+            Notice: Clicking <em>"+3 (Stale)"</em> only increments by 1 because <code>count</code> is evaluated from the current render snapshot. <em>"+3 (Safe)"</em> increments by 3!
+          </p>
+        </div>
+      );
+    }
+
+    /* Demo 3: Object State with Spread Operator */
+    function ProfileFormDemo() {
+      const [user, setUser] = useState({
+        name: 'Sukhrob Mansurov',
+        email: 'suhrobmansurov20@gmail.com',
+        bio: 'Computer Science student focusing on modern web development.'
+      });
+
+      const handleChange = (field, value) => {
+        // CORRECT: Spread operator ensures new object reference
+        setUser(prev => ({ ...prev, [field]: value }));
+      };
+
+      return (
+        <div className="demo-panel">
+          <h3>04. State with Objects (Spread Operator)</h3>
+          <div className="form-field">
+            <label>Name:</label>
+            <input
+              type="text"
+              value={user.name}
+              onChange={(e) => handleChange('name', e.target.value)}
+            />
+          </div>
+          <div className="form-field">
+            <label>Email:</label>
+            <input
+              type="email"
+              value={user.email}
+              onChange={(e) => handleChange('email', e.target.value)}
+            />
+          </div>
+          <div className="form-field">
+            <label>Bio:</label>
+            <textarea
+              rows="2"
+              value={user.bio}
+              onChange={(e) => handleChange('bio', e.target.value)}
+            />
+          </div>
+          <div className="json-preview">
+            User State Object: {JSON.stringify(user, null, 2)}
+          </div>
+        </div>
+      );
+    }
+
+    /* Demo 4: Lifting State Up (SearchPage) */
+    const FRUITS = ['Apple', 'Apricot', 'Avocado', 'Banana', 'Blueberry', 'Cherry', 'Grape', 'Mango', 'Melon', 'Orange', 'Peach'];
+
+    function SearchPageDemo() {
+      const [query, setQuery] = useState('');
+      const results = FRUITS.filter(f => f.toLowerCase().includes(query.toLowerCase()));
+
+      return (
+        <div className="demo-panel">
+          <h3>06. Lifting State Up (Search &amp; Filter)</h3>
+          <div style={{marginBottom:10}}>
+            <input
+              type="text"
+              placeholder="Search fruit (e.g. ap)..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{padding:'8px 12px',borderRadius:6,border:'1px solid #cbd5e1',width:'100%',boxsizing:'border-box'}}
+            />
+          </div>
+          <p style={{fontSize:'0.85rem',color:'#64748b'}}>
+            {results.length} result(s) found for query "{query}":
+          </p>
+          <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+            {results.map(fruit => (
+              <span key={fruit} style={{background:'#e8eefc',color:'#1e429f',padding:'3px 10px',borderRadius:6,fontSize:'0.85rem',fontWeight:600}}>
+                {fruit}
+              </span>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* Main Container */
+    function App() {
+      return (
+        <div className="demo-grid">
+          <CounterBugDemo />
+          <CounterStateDemo />
+          <ProfileFormDemo />
+          <SearchPageDemo />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

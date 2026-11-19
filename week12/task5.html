@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12 · Task 5: Word Counter &amp; Quiz Companion</title>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* Word counter styling */
+    .analyzer-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 16px 0;
+      box-shadow: 0 4px 14px rgba(15, 27, 61, 0.04);
+    }
+    .analyzer-textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    .analyzer-textarea:focus {
+      outline: 2px solid var(--primary);
+      border-color: var(--primary);
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1a56db;
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Quiz card styling */
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+    .quiz-card.answered-correct { border-left: 5px solid #16a34a; background: #f0fdf4; }
+    .quiz-card.answered-wrong   { border-left: 5px solid #dc2626; background: #fef2f2; }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .quiz-opt-btn {
+      text-align: left;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quiz-opt-btn:hover { background: #f1f5f9; }
+    .quiz-opt-btn.correct { background: #dcfce7; border-color: #86efac; color: #166534; font-weight: 700; }
+    .quiz-opt-btn.wrong   { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+    .quiz-expl {
+      padding: 10px 14px;
+      background: #f8fafc;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #334155;
+      margin-top: 8px;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12 · Task 5 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Word Counter &amp; Quiz Companion</h1>
+      <p>Slide 37 Practice Task &amp; Interactive Concept Mastery Quiz (Quizzes 1–7)</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12 Tasks">
+      <a href="./task1.html">Task 1: Shopping Cart (Homework)</a>
+      <a href="./task2.html">Task 2: Counter with History</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: State Patterns &amp; Demos</a>
+      <a class="active" href="./task5.html">Task 5: Word Counter &amp; Quiz</a>
+    </nav>
+
+    <!-- REACT ROOT -->
+    <div id="root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Word Counter &amp; Quiz...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12 Task 5</p>
+  </footer>
+
+  <!-- Babel Script -->
+  <script type="text/babel">
+    const { useState, useMemo } = React;
+
+    /* ========================================================
+       SECTION 1: Live Word Counter (Slide 37 Practice)
+       ======================================================== */
+    function WordCounter() {
+      const [text, setText] = useState(
+        "React state allows functional components to store and remember dynamic data. When state updates via its setter function, React automatically triggers a component re-render."
+      );
+
+      const stats = useMemo(() => {
+        const chars = text.length;
+        const charsNoSpaces = text.replace(/\s+/g, '').length;
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const sentences = text.trim() ? text.split(/[.!?]+/).filter(Boolean).length : 0;
+        const readTimeSec = Math.ceil((words / 200) * 60);
+
+        return { chars, charsNoSpaces, words, sentences, readTimeSec };
+      }, [text]);
+
+      return (
+        <div className="analyzer-box">
+          <label htmlFor="text-input" style={{display:'block',fontWeight:700,fontSize:'0.95rem',marginBottom:8,color:'#0f172a'}}>
+            Type or paste text below to see live state calculation:
+          </label>
+          <textarea
+            id="text-input"
+            className="analyzer-textarea"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type your notes here..."
+          />
+
+          <div className="stats-row">
+            <div className="stat-card">
+              <div className="stat-value">{stats.words}</div>
+              <div className="stat-label">Words</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">{stats.chars}</div>
+              <div className="stat-label">Characters</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">{stats.charsNoSpaces}</div>
+              <div className="stat-label">No Spaces</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">{stats.sentences}</div>
+              <div className="stat-label">Sentences</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">~{stats.readTimeSec}s</div>
+              <div className="stat-label">Read Time</div>
+            </div>
+          </div>
+
+          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+            <button type="button" className="btn" style={{padding:'6px 12px',fontSize:'0.82rem'}} onClick={() => setText(t => t.toUpperCase())}>UPPERCASE</button>
+            <button type="button" className="btn" style={{padding:'6px 12px',fontSize:'0.82rem'}} onClick={() => setText(t => t.toLowerCase())}>lowercase</button>
+            <button type="button" className="btn" style={{background:'#64748b',padding:'6px 12px',fontSize:'0.82rem'}} onClick={() => setText('')}>Clear Text</button>
+          </div>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       SECTION 2: Conceptual Quiz Companion (Quizzes 1-7)
+       ======================================================== */
+    const QUIZ_DATA = [
+      {
+        id: 1,
+        title: "Quiz 1 · State vs Props",
+        q: "Which statement most accurately distinguishes state from props in React?",
+        options: [
+          "Props are mutable by the child; state is immutable and passed down.",
+          "State is received from a parent; props are a component's private memory.",
+          "Props are read-only inputs from a parent; state is component-owned data whose setter schedules a re-render.",
+          "A local variable declared with let persists across renders like state."
+        ],
+        ans: 2,
+        reason: "Ownership is the decisive criterion: a parent supplies props, while the component itself owns state and updates it only through the setter, which triggers a re-render."
+      },
+      {
+        id: 2,
+        title: "Quiz 2 · The useState Return Value",
+        q: "What does the call useState(0) return?",
+        options: [
+          "The number 0",
+          "An object { value, setValue }",
+          "An array: [currentValue, setterFunction]",
+          "Only a setter function"
+        ],
+        ans: 2,
+        reason: "Position, not name, gives each element meaning: first the current state value, second the function that schedules an update."
+      },
+      {
+        id: 3,
+        title: "Quiz 3 · Rules of Hooks",
+        q: "Which of the following violates the Rules of Hooks?",
+        options: [
+          "const [n, setN] = useState(0); // top of component",
+          "if (open) { const [t, setT] = useState(''); }",
+          "Two useState calls, one after the other, at the top",
+          "An arrow-function component calling useState at its top"
+        ],
+        ans: 1,
+        reason: "React matches Hook calls by their order on each render. A conditional call alters that order, causing later Hooks to receive the wrong state slot."
+      },
+      {
+        id: 4,
+        title: "Quiz 4 · Stale State and Batching",
+        q: "A handler runs setCount(count + 1) three times in a row, and count is 0 in the current render. What is count after the update?",
+        options: [
+          "0",
+          "1",
+          "2",
+          "3"
+        ],
+        ans: 1,
+        reason: "Within one render, count is a constant snapshot (0). All three calls enqueue the value 1 and React batches them, so the final state is 1."
+      },
+      {
+        id: 5,
+        title: "Quiz 5 · Designing State Variables",
+        q: "A form has three independent fields: name, email, and subscribed (boolean). Which design best follows the guidance of this lecture?",
+        options: [
+          "Three separate useState calls, one per field",
+          "One useState holding all fields, always, for performance",
+          "A module-level variable shared by the component",
+          "useState called inside a loop over the field names"
+        ],
+        ans: 0,
+        reason: "Independent values with independent update logic are clearest as separate state variables; each setter changes only its own piece without spread copying."
+      },
+      {
+        id: 6,
+        title: "Quiz 6 · Immutable Updates to Arrays",
+        q: "Which statement adds an item x to the array state todos without mutating it, so that React re-renders?",
+        options: [
+          "todos.push(x); setTodos(todos);",
+          "setTodos(todos.push(x));",
+          "setTodos(prev => [...prev, x]);",
+          "todos.unshift(x); setTodos(todos);"
+        ],
+        ans: 2,
+        reason: "The spread creates a brand new array reference holding the old items plus x. The new reference triggers a re-render, and the functional updater safely reads the latest queued state."
+      },
+      {
+        id: 7,
+        title: "Quiz 7 · Sharing State Between Siblings",
+        q: "Sibling components A and B must display and edit the same value. Which design is idiomatic in React?",
+        options: [
+          "Keep a copy in each sibling and synchronise them manually",
+          "Lift the state to the nearest common parent; pass the value down as props and the setter as a callback",
+          "Let A call B's internal state setter directly",
+          "Store the value in a global mutable variable"
+        ],
+        ans: 1,
+        reason: "One owner holds the state (single source of truth); data flows down through props and events flow up through callbacks."
+      }
+    ];
+
+    function QuizCompanion() {
+      const [answers, setAnswers] = useState({});
+
+      const selectOption = (qId, optIdx) => {
+        setAnswers(prev => ({ ...prev, [qId]: optIdx }));
+      };
+
+      const score = Object.keys(answers).filter(qId => {
+        const q = QUIZ_DATA.find(item => item.id === Number(qId));
+        return q && answers[qId] === q.ans;
+      }).length;
+
+      return (
+        <div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16,flexWrap:'wrap',gap:10}}>
+            <p style={{margin:0,fontSize:'0.95rem',color:'#475569'}}>
+              Answer all 7 multiple-choice questions from the lecture slides:
+            </p>
+            <span style={{background:'#e0f2fe',color:'#0284c7',fontWeight:700,padding:'4px 12px',borderRadius:8}}>
+              Score: {score} / {QUIZ_DATA.length} Correct
+            </span>
+          </div>
+
+          {QUIZ_DATA.map(q => {
+            const userAns = answers[q.id];
+            const isAnswered = userAns !== undefined;
+            const isCorrect = userAns === q.ans;
+
+            return (
+              <div
+                key={q.id}
+                className={`quiz-card ${isAnswered ? (isCorrect ? 'answered-correct' : 'answered-wrong') : ''}`}
+              >
+                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#64748b',textTransform:'uppercase'}}>{q.title}</div>
+                <h4 style={{margin:'6px 0 10px',fontSize:'1.02rem',color:'#0f172a'}}>{q.q}</h4>
+
+                <div className="quiz-options">
+                  {q.options.map((opt, idx) => {
+                    let optClass = 'quiz-opt-btn';
+                    if (isAnswered) {
+                      if (idx === q.ans) optClass += ' correct';
+                      else if (idx === userAns) optClass += ' wrong';
+                    }
+
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        className={optClass}
+                        onClick={() => selectOption(q.id, idx)}
+                      >
+                        {String.fromCharCode(65 + idx)}. {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {isAnswered && (
+                  <div className="quiz-expl">
+                    <strong>{isCorrect ? '✓ Correct!' : '✗ Incorrect.'}</strong> {q.reason}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    /* Main Container */
+    function App() {
+      return (
+        <>
+          <article className="card reveal">
+            <h2>1. Live Text Analyzer with useState (Slide 37 Practice)</h2>
+            <p>From Slide 37: <em>"Practice: Add a live word count to a textarea with useState."</em></p>
+            <WordCounter />
+          </article>
+
+          <article className="card reveal">
+            <h2>2. Conceptual Mastery Quiz (Slide 6–32 Companion)</h2>
+            <QuizCompanion />
+          </article>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>
