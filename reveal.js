@@ -1,6 +1,8 @@
 // reveal.js - Scroll animations & Universal Dark/Light Mode Switcher
 (function () {
+  // ----------------------------------------------------
   // 1. Theme Initialization: Default is 'dark'
+  // ----------------------------------------------------
   function getPreferredTheme() {
     var saved = localStorage.getItem('site-theme');
     if (saved === 'light' || saved === 'dark') {
@@ -30,7 +32,9 @@
   var currentTheme = getPreferredTheme();
   applyTheme(currentTheme);
 
+  // ----------------------------------------------------
   // 2. Inject Theme Toggle Button once DOM is ready
+  // ----------------------------------------------------
   function initThemeButton() {
     if (document.getElementById('theme-toggle-btn')) return;
 
@@ -46,15 +50,13 @@
       applyTheme(nextTheme);
     });
 
-    // Find header or inject fixed
     var header = document.querySelector('header') || document.querySelector('.site-header');
     if (header) {
-      // Ensure header displays items in flex row
       header.style.display = 'flex';
       header.style.justifyContent = 'space-between';
       header.style.alignItems = 'center';
       header.appendChild(btn);
-    } else {
+    } else if (document.body) {
       btn.style.position = 'fixed';
       btn.style.top = '14px';
       btn.style.right = '16px';
@@ -72,29 +74,63 @@
     initThemeButton();
   }
 
-  // Listen for storage changes across tabs
   window.addEventListener('storage', function (e) {
     if (e.key === 'site-theme' && (e.newValue === 'light' || e.newValue === 'dark')) {
       applyTheme(e.newValue);
     }
   });
 
-  // 3. Scroll Reveal Animations
+  // ----------------------------------------------------
+  // 3. Dynamic Scroll Reveal Animations (React & Babel safe)
+  // ----------------------------------------------------
   document.documentElement.classList.add('js');
-  var items = [].slice.call(document.querySelectorAll('.reveal'));
-  items.forEach(function (e, i) { e.style.setProperty('--i', i % 6); });
 
   function checkReveal() {
-    var trigger = window.innerHeight * 0.92;
+    var items = document.querySelectorAll('.reveal');
+    if (!items.length) return;
+    var trigger = window.innerHeight * 0.95;
+
     for (var i = 0; i < items.length; i++) {
       var e = items[i];
-      if (!e.classList.contains('in') && e.getBoundingClientRect().top < trigger) {
-        e.classList.add('in');
+      if (!e.style.getPropertyValue('--i')) {
+        e.style.setProperty('--i', i % 6);
+      }
+      if (!e.classList.contains('in')) {
+        var rect = e.getBoundingClientRect();
+        // Reveal if element top is above viewport bottom, or if element is in viewport
+        if (rect.top < trigger && rect.bottom > -100) {
+          e.classList.add('in');
+        }
       }
     }
   }
 
+  // Check immediately and on events
   checkReveal();
   window.addEventListener('scroll', checkReveal, { passive: true });
   window.addEventListener('resize', checkReveal);
+  window.addEventListener('DOMContentLoaded', checkReveal);
+  window.addEventListener('load', checkReveal);
+
+  // Interval fallbacks for dynamically rendered frameworks (React / Babel)
+  setTimeout(checkReveal, 50);
+  setTimeout(checkReveal, 200);
+  setTimeout(checkReveal, 500);
+  setTimeout(checkReveal, 1000);
+  setTimeout(checkReveal, 2000);
+
+  // MutationObserver to automatically reveal any element dynamically added
+  if (window.MutationObserver) {
+    var observer = new MutationObserver(function () {
+      checkReveal();
+    });
+    var target = document.body || document.documentElement;
+    if (target) {
+      observer.observe(target, { childList: true, subtree: true });
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    }
+  }
 })();

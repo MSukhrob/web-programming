@@ -257,7 +257,7 @@
       return (
         <>
           {/* Section 1: ProfileCard */}
-          <article className="card reveal">
+          <article className="card">
             <span className="exercise-badge">Exercise 1</span>
             <h2>Exercise 1: ProfileCard (Default Props)</h2>
             <p>Demonstrates receiving props (<code>name</code>, <code>role</code>, <code>email</code>) and handling missing values with a default prop fallback for <code>avatarUrl</code>.</p>
@@ -300,7 +300,7 @@ function ProfileCard({ name, role, email, avatarUrl = 'default-avatar.svg' }) {
           </article>
 
           {/* Section 2: Notifications */}
-          <article className="card reveal">
+          <article className="card">
             <span className="exercise-badge">Exercise 2</span>
             <h2>Exercise 2: Notification List (Conditional Rendering)</h2>
             <p>Renders a list of notification items with conditional icons (✅ for <code>success</code>, ⚠️ for <code>warning</code>, ℹ️ for <code>info</code>) mapped with unique <code>key</code> props. Try adding and dismissing items below:</p>
@@ -321,7 +321,7 @@ function NotificationItem({ type, message }) {
           </article>
 
           {/* Section 3: Component Composition */}
-          <article className="card reveal">
+          <article className="card">
             <span className="exercise-badge">Exercise 3</span>
             <h2>Exercise 3: Wrapper Components with <code>props.children</code></h2>
             <p>Creates a reusable <code>Card</code> layout component that wraps diverse child content using <code>props.children</code>.</p>
@@ -360,7 +360,7 @@ function Card({ title, children }) {
           </article>
 
           {/* Section 4: In-Class Lab */}
-          <article className="card reveal">
+          <article className="card">
             <span className="exercise-badge">Monday Lab</span>
             <h2>In-Class Lab: StudentCard Attendance Challenge</h2>
             <p>From Monday Visual Lecture Slide 14: Filling in the blanks to render a student card displaying the student ID.</p>
