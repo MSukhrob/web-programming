@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12_2 · Task 5: Sprint Quiz &amp; Concept Mastery</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .student-badge-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .student-info h3 { margin: 0; font-size: 1.15rem; }
+    .student-meta { font-size: 0.85rem; color: var(--muted); margin-top: 3px; }
+
+    .quiz-mode-switch {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .quiz-tab-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .quiz-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .quiz-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+    .quiz-card.answered-correct {
+      border-left: 5px solid #22c55e !important;
+      background: rgba(34, 197, 94, 0.08) !important;
+    }
+    .quiz-card.answered-wrong {
+      border-left: 5px solid #ef4444 !important;
+      background: rgba(239, 68, 68, 0.08) !important;
+    }
+
+    .quiz-q-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .quiz-q-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-h);
+      margin: 8px 0 14px;
+      line-height: 1.5;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-opt-btn {
+      text-align: left;
+      padding: 11px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quiz-opt-btn:hover {
+      background: var(--border);
+      transform: translateX(4px);
+    }
+    .quiz-opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #86efac !important;
+      font-weight: 700;
+    }
+    .quiz-opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #fca5a5 !important;
+    }
+
+    .quiz-expl {
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-top: 12px;
+      border-left: 3px solid var(--primary);
+      line-height: 1.55;
+    }
+
+    .score-summary-box {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.8));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .score-big {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12_2 · Task 5 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Sprint Quiz &amp; Concept Mastery</h1>
+      <p>Week 12 Friday Official Sprint Quiz (12 Questions) &amp; Lecture Slides Companion (8 Quizzes)</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12_2 Tasks">
+      <a href="./task1.html">Task 1: Weather Dashboard (Homework)</a>
+      <a href="./task2.html">Task 2: GitHub User Lookup</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: Effects Lifecycle &amp; Patterns Lab</a>
+      <a class="active" href="./task5.html">Task 5: Sprint Quiz &amp; Concept Mastery</a>
+    </nav>
+
+    <!-- REACT ROOT FOR QUIZ APP -->
+    <div id="quiz-root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Interactive Quiz System...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12_2 Task 5</p>
+  </footer>
+
+  <!-- Babel Script -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    // 12 Sprint Quiz Questions from WebPro_Week12_Fri_SprintQuiz.html
+    const SPRINT_QUESTIONS = [
+      {
+        q: 'What is a "side effect" in React?',
+        opts: [
+          'A bug caused by incorrect state updates',
+          'Any operation that reaches outside the pure render function (network, timers, DOM)',
+          'A prop that changes unexpectedly',
+          'An error thrown during rendering'
+        ],
+        ans: 1,
+        exp: 'Side effects are operations that interact with the world outside the component\'s render — like data fetching, subscriptions, timers, or document mutations. These must be handled in useEffect.'
+      },
+      {
+        q: 'What does `useEffect(() => { ... }, [])` do?',
+        opts: [
+          'Runs the effect after every render',
+          'Runs the effect once, after the first render only',
+          'Runs the effect before the first render',
+          'Never runs the effect'
+        ],
+        ans: 1,
+        exp: 'An empty dependency array [] means "no dependencies" — the effect runs once after the component first mounts. It never re-runs. This is equivalent to componentDidMount in class components.'
+      },
+      {
+        q: 'What does `useEffect(() => { ... })` with NO dependency array do?',
+        opts: [
+          'Runs once on mount only',
+          'Never runs',
+          'Runs after every render',
+          'Runs only when props change'
+        ],
+        ans: 2,
+        exp: 'Without a dependency array, the effect runs after EVERY render. This is rarely what you want and can cause performance issues or infinite loops.'
+      },
+      {
+        q: 'What is the purpose of the cleanup function returned from useEffect?',
+        opts: [
+          'To reset state to its initial value',
+          'To run code before the NEXT effect and when the component unmounts',
+          'To prevent the component from re-rendering',
+          'To cancel any pending setState calls'
+        ],
+        ans: 1,
+        exp: 'The cleanup function (returned from the effect) runs before the effect runs again (on next dep change) and when the component unmounts. Use it to clear timers, remove event listeners, and cancel subscriptions.'
+      },
+      {
+        q: 'Which of these creates an infinite loop?',
+        opts: [
+          'useEffect(() => { setCount(c => c + 1); }, []);',
+          'useEffect(() => { setCount(count + 1); }, [count]);',
+          'useEffect(() => { document.title = count; }, [count]);',
+          'useEffect(() => { console.log(count); }, [count]);'
+        ],
+        ans: 1,
+        exp: 'Setting count inside an effect that has [count] as a dependency causes: effect runs → setCount → component re-renders → count changed → effect runs again → infinite loop.'
+      },
+      {
+        q: 'Why can\'t you make the useEffect callback itself `async`?',
+        opts: [
+          'Async functions are not supported in React',
+          'An async function returns a Promise, but useEffect expects undefined or a cleanup function',
+          'It would block the browser from rendering',
+          'useEffect only accepts arrow functions'
+        ],
+        ans: 1,
+        exp: 'An async function always returns a Promise. React expects the effect function to return either undefined or a cleanup function. Returning a Promise causes an error.'
+      },
+      {
+        q: 'You have `const [userId, setUserId] = useState(1)`. Which useEffect correctly re-fetches data each time userId changes?',
+        opts: [
+          'useEffect(() => { fetchUser(userId); });',
+          'useEffect(() => { fetchUser(userId); }, []);',
+          'useEffect(() => { fetchUser(userId); }, [userId]);',
+          'useEffect(() => { fetchUser(); }, [setUserId]);'
+        ],
+        ans: 2,
+        exp: '[userId] tells React to run the effect on mount, and re-run it whenever userId changes. This is the correct pattern for prop/state-dependent data fetching.'
+      },
+      {
+        q: 'Which code correctly cleans up a `setInterval` inside useEffect?',
+        opts: [
+          'useEffect(() => { setInterval(tick, 1000); clearInterval(); }, []);',
+          'useEffect(() => { const id = setInterval(tick, 1000); return () => clearInterval(id); }, []);',
+          'useEffect(() => { const id = setInterval(tick, 1000); }, [clearInterval]);',
+          'useEffect(() => { const id = setInterval(tick, 1000); return clearInterval(id); }, []);'
+        ],
+        ans: 1,
+        exp: 'The cleanup must be a function: `return () => clearInterval(id)`. Returning `clearInterval(id)` directly would invoke clearInterval immediately on mount!'
+      },
+      {
+        q: 'Which class-component lifecycle method is equivalent to `useEffect(() => fn, [])`?',
+        opts: [
+          'componentDidUpdate',
+          'componentWillUnmount',
+          'componentDidMount',
+          'render'
+        ],
+        ans: 2,
+        exp: '`useEffect(fn, [])` runs once after the component mounts to the DOM — identical in timing to `componentDidMount`.'
+      },
+      {
+        q: 'What is the correct pattern for fetching data with error handling inside useEffect?',
+        opts: [
+          'useEffect(async () => { const res = await fetch(url); setData(await res.json()); }, []);',
+          'useEffect(() => { async function get() { try { const res = await fetch(url); setData(await res.json()); } catch(e) { setError(e.message); } } get(); }, []);',
+          'useEffect(() => { fetch(url).then(r => setData(r.json())); }, []);',
+          'useEffect(() => { try { const res = fetch(url); } catch(e) { setError(e); } }, []);'
+        ],
+        ans: 1,
+        exp: 'Define an `async function` inside the effect, use try/catch/finally for error handling, call it immediately, and keep the effect callback itself synchronous.'
+      },
+      {
+        q: 'What does `useEffect(() => { return () => { document.title = "WebPro"; }; }, [])` do?',
+        opts: [
+          'Sets the title to "WebPro" immediately on mount',
+          'Sets the title to "WebPro" on every render',
+          'Sets the title to "WebPro" only when the component unmounts',
+          'Never runs because the effect body is empty'
+        ],
+        ans: 2,
+        exp: 'The effect body has nothing; it only returns a cleanup function. Since deps is `[]`, that cleanup function runs once: when the component unmounts.'
+      },
+      {
+        q: 'When does the cleanup function in useEffect run?',
+        opts: [
+          'Only when the component unmounts',
+          'Only before the component renders',
+          'Before the effect runs again (on re-render) AND when the component unmounts',
+          'After the component renders, before the next effect'
+        ],
+        ans: 2,
+        exp: 'Cleanup runs in two situations: (1) before re-running the effect when dependencies change, and (2) when the component unmounts from the DOM.'
+      }
+    ];
+
+    // 8 Lecture Slides Quizzes (Slides 7 to 37)
+    const LECTURE_SLIDE_QUIZZES = [
+      {
+        q: 'Quiz 1 (Slide 7): When does the function passed to useEffect run?',
+        opts: [
+          'During rendering, before the JSX is returned',
+          'After React has committed the render to the DOM (typically after paint)',
+          'Exactly once per page load, whatever the dependencies',
+          'Before every render, to prepare the props'
+        ],
+        ans: 1,
+        exp: 'React first renders and commits; the effect then runs, usually after the browser has painted so rendering remains pure and non-blocking.'
+      },
+      {
+        q: 'Quiz 2 (Slide 10): Which call runs its effect after every render?',
+        opts: [
+          'useEffect(fn, [])',
+          'useEffect(fn, [count])',
+          'useEffect(fn)',
+          'useEffect(fn, [props.id])'
+        ],
+        ans: 2,
+        exp: 'Omitting the dependency array entirely tells React to execute the effect after every single render.'
+      },
+      {
+        q: 'Quiz 3 (Slide 15): Why should the callback passed to useEffect not be declared async?',
+        opts: [
+          'async functions cannot call fetch',
+          'async callbacks are forbidden anywhere inside components',
+          'await blocks the browser main thread until the response arrives',
+          'It returns a Promise, but React expects undefined or a cleanup function'
+        ],
+        ans: 3,
+        exp: 'An async function automatically wraps its return in a Promise. React requires the effect return value to be either undefined or a cleanup function.'
+      },
+      {
+        q: 'Quiz 4 (Slide 19): A component starts setInterval inside an effect with [] and returns nothing. What happens on unmount?',
+        opts: [
+          'The interval keeps firing after unmount (a leak), because only a returned cleanup can stop it',
+          'React automatically clears every timer when the component unmounts',
+          'React throws an error at unmount',
+          'The interval pauses and resumes at the next mount'
+        ],
+        ans: 0,
+        exp: 'Timers live in the browser engine, not React. React has no automatic knowledge of intervals created without a returned cleanup function.'
+      },
+      {
+        q: 'Quiz 5 (Slide 23): A search box fires a request for every keystroke and responses arrive out of order. Which technique best prevents a stale response from replacing a newer one?',
+        opts: [
+          'Add more variables to the dependency array',
+          'Wrap the fetch call in try/catch',
+          'Remove the dependency array so the effect runs more often',
+          'Return a cleanup that aborts (or ignores) the previous request'
+        ],
+        ans: 3,
+        exp: 'The previous run\'s cleanup executes before the next run, so aborting prior in-flight requests ensures only the newest request updates state.'
+      },
+      {
+        q: 'Quiz 6 (Slide 28): Which statement about useState(() => localStorage.getItem("theme") || "light") is correct?',
+        opts: [
+          'The initializer function runs on every render',
+          'It re-reads localStorage whenever theme changes',
+          'The initializer runs only once, on the first render',
+          'Passing a function makes the state update asynchronous'
+        ],
+        ans: 2,
+        exp: 'Passing a function to useState creates a lazy state initializer: React invokes it only on initial mount, avoiding expensive I/O on subsequent renders.'
+      },
+      {
+        q: 'Quiz 7 (Slide 33): Which effect produces an infinite render loop?',
+        opts: [
+          'useEffect(() => { setCount(c => c + 1); }, []);',
+          'useEffect(() => { setCount(count + 1); }, [count]);',
+          'useEffect(() => { document.title = count; }, [count]);',
+          'useEffect(() => { setCount(0); }, [count]);'
+        ],
+        ans: 1,
+        exp: 'Each run sets count to a new number; count is in the dependency array, so the change schedules the effect again, indefinitely.'
+      },
+      {
+        q: 'Quiz 8 (Slide 36): What is the best way to compute fullName from state variables first and last?',
+        opts: [
+          'useEffect(() => setFullName(first + " " + last), [first, last])',
+          'const [fullName] = useState(first + " " + last)',
+          'useEffect(() => { fullName = first + last; })',
+          'const fullName = first + " " + last;'
+        ],
+        ans: 3,
+        exp: 'A value computable from existing props or state needs neither extra state nor an effect: compute it during rendering.'
+      }
+    ];
+
+    function QuizApp() {
+      const [activeTab, setActiveTab] = useState('sprint');
+      const [sprintAnswers, setSprintAnswers] = useState({});
+      const [lectureAnswers, setLectureAnswers] = useState({});
+
+      const curList = activeTab === 'sprint' ? SPRINT_QUESTIONS : LECTURE_SLIDE_QUIZZES;
+      const curAnswers = activeTab === 'sprint' ? sprintAnswers : lectureAnswers;
+      const setCurAnswers = activeTab === 'sprint' ? setSprintAnswers : setLectureAnswers;
+
+      const score = Object.keys(curAnswers).filter(idx => {
+        const q = curList[Number(idx)];
+        return q && curAnswers[idx] === q.ans;
+      }).length;
+
+      const handleSelect = (qIdx, optIdx) => {
+        setCurAnswers(prev => ({ ...prev, [qIdx]: optIdx }));
+      };
+
+      const handleReset = () => {
+        setCurAnswers({});
+      };
+
+      return (
+        <div>
+          {/* Student Information Banner */}
+          <div className="student-badge-bar">
+            <div className="student-info">
+              <h3>🎓 Sukhrob Mansurov</h3>
+              <div className="student-meta">
+                Student ID: <strong>202537508</strong> · Course: <strong>Web Programming (K0126_002)</strong> · Week 12 Friday
+              </div>
+            </div>
+            <div style={{display:'flex',gap:10,alignItems:'center'}}>
+              <span style={{background:'var(--surface2)',padding:'6px 14px',borderRadius:8,fontWeight:700,border:'1px solid var(--border)'}}>
+                Status: <strong>Active Session</strong>
+              </span>
+            </div>
+          </div>
+
+          {/* Mode Tabs */}
+          <div className="quiz-mode-switch">
+            <button
+              type="button"
+              className={`quiz-tab-btn ${activeTab === 'sprint' ? 'active' : ''}`}
+              onClick={() => setActiveTab('sprint')}
+            >
+              📝 Friday Sprint Quiz (12 Questions)
+            </button>
+            <button
+              type="button"
+              className={`quiz-tab-btn ${activeTab === 'lecture' ? 'active' : ''}`}
+              onClick={() => setActiveTab('lecture')}
+            >
+              🎯 Lecture Slides Quizzes 1–8 (Slides 7–37)
+            </button>
+          </div>
+
+          {/* Score Summary Box */}
+          <div className="score-summary-box">
+            <div className="score-big">
+              {score} / {curList.length}
+            </div>
+            <div style={{color:'var(--muted)',fontSize:'0.9rem',marginTop:4}}>
+              Score: <strong>{Math.round((score / curList.length) * 100)}%</strong> ({score} correct of {curList.length} questions)
+            </div>
+            {Object.keys(curAnswers).length > 0 && (
+              <button
+                type="button"
+                className="btn"
+                style={{marginTop:12,padding:'6px 14px',fontSize:'0.82rem',background:'var(--surface2)',color:'var(--text)',border:'1px solid var(--border)'}}
+                onClick={handleReset}
+              >
+                Reset Current Quiz
+              </button>
+            )}
+          </div>
+
+          {/* Questions List */}
+          <div className="quiz-container">
+            {curList.map((item, qIdx) => {
+              const userAns = curAnswers[qIdx];
+              const isAnswered = userAns !== undefined;
+              const isCorrect = userAns === item.ans;
+
+              return (
+                <div
+                  key={qIdx}
+                  className={`quiz-card ${isAnswered ? (isCorrect ? 'answered-correct' : 'answered-wrong') : ''}`}
+                >
+                  <div className="quiz-q-num">
+                    Question {qIdx + 1} of {curList.length}
+                  </div>
+                  <div className="quiz-q-text">
+                    {item.q}
+                  </div>
+
+                  <div className="quiz-options">
+                    {item.opts.map((opt, optIdx) => {
+                      let optClass = 'quiz-opt-btn';
+                      if (isAnswered) {
+                        if (optIdx === item.ans) optClass += ' correct';
+                        else if (optIdx === userAns) optClass += ' wrong';
+                      }
+
+                      return (
+                        <button
+                          key={optIdx}
+                          type="button"
+                          className={optClass}
+                          onClick={() => handleSelect(qIdx, optIdx)}
+                        >
+                          <strong>{String.fromCharCode(65 + optIdx)}.</strong> {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {isAnswered && (
+                    <div className="quiz-expl">
+                      <strong>{isCorrect ? '✅ Correct!' : '❌ Incorrect.'}</strong> {item.exp}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('quiz-root')).render(<QuizApp />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

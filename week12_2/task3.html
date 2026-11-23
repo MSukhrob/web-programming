@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12_2 · Task 3: Study Guide Practice Exercises</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .badge-ex {
+      background: #e0f2fe; color: #0284c7; padding: 3px 10px; border-radius: 6px;
+      font-size: 0.82rem; font-weight: 700; display: inline-block; margin-bottom: 8px;
+    }
+
+    /* Exercise 1 Styling */
+    .title-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .tab-title-preview {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #030712;
+      border: 1px solid var(--border);
+      color: #93c5fd;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.9rem;
+    }
+
+    /* Exercise 2 Styling */
+    .user-picker {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .user-card-display {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+
+    /* Exercise 3 Styling */
+    .stopwatch-stage {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 14px;
+    }
+    .stopwatch-digits {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--text-h);
+      line-height: 1;
+      margin: 10px 0 18px;
+      font-variant-numeric: tabular-nums;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .stopwatch-btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .laps-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px auto 0;
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+    .lap-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 10px;
+      background: var(--surface);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: monospace;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12_2 · Task 3 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Study Guide Practice Exercises</h1>
+      <p>Exercises 1, 2, and 3 from Week 12 Friday Study Guide</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12_2 Tasks">
+      <a href="./task1.html">Task 1: Weather Dashboard (Homework)</a>
+      <a href="./task2.html">Task 2: GitHub User Lookup</a>
+      <a class="active" href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: Effects Lifecycle &amp; Patterns Lab</a>
+      <a href="./task5.html">Task 5: Sprint Quiz &amp; Concept Mastery</a>
+    </nav>
+
+    <!-- REACT ROOT -->
+    <div id="root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Study Guide Exercises...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12_2 Task 3</p>
+  </footer>
+
+  <!-- Babel Script -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    /* ========================================================
+       EXERCISE 1: Page Title Sync (Cleanup on Unmount)
+       ======================================================== */
+    function TitleEditorDemo() {
+      const [text, setText] = useState('Learning useEffect!');
+
+      useEffect(() => {
+        const prevTitle = document.title;
+        document.title = text || 'WebPro · Week 12_2';
+
+        // Cleanup: revert document title on component unmount
+        return () => {
+          document.title = prevTitle;
+        };
+      }, [text]);
+
+      return (
+        <div className="title-box">
+          <label style={{fontSize:'0.9rem',fontWeight:600}}>
+            Type to update the real browser tab title in real-time:
+          </label>
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type tab title here..."
+            style={{padding:'10px 14px',borderRadius:8,border:'1px solid var(--border)',background:'var(--surface)',color:'var(--text)',fontSize:'0.95rem'}}
+          />
+          <div>
+            <span style={{fontSize:'0.82rem',color:'var(--muted)',display:'block',marginBottom:4}}>
+              Current Browser Tab Title:
+            </span>
+            <div className="tab-title-preview">
+              <span>🏷️</span>
+              <strong>{text || 'WebPro · Week 12_2'}</strong>
+            </div>
+          </div>
+          <small style={{color:'var(--muted)'}}>
+            Cleanup rule: When unmounted, the cleanup function restores the previous title to prevent title leakage.
+          </small>
+        </div>
+      );
+    }
+
+    /* ========================================================
+       EXERCISE 2: Fetch User from an API (JSONPlaceholder)
+       ======================================================== */
+    function UserProfileDemo() {
+      const [userId, setUserId] = useState(1);
+      const [user, setUser] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setLoading(true);
+        setError(null);
+
+        async function fetchUser() {
+          try {
+            const res = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+              signal: controller.signal
+            });
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            const data = await res.json();
+            setUser(data);
+          } catch (err) {
+            if (err.name === 'AbortError') return;
+            setError(err.message);
+          } finally {
+            if (!controller.signal.aborted) {
+              setLoading(false);
+            }
+          }
+        }
+
+        fetchUser();
+        return () => controller.abort();
+      }, [userId]);
+
+      return (
+        <div>
+          <div className="user-picker">
+            <span style={{fontWeight:600,fontSize:'0.9rem'}}>Select User ID:</span>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(id => (
+              <button
+                key={id}
+                type="button"
+                className={`btn ${userId === id ? 'active' : ''}`}
+                style={{
+                  padding: '5px 12px',
+                  fontSize: '0.82rem',
+                  background: userId === id ? 'var(--primary)' : 'var(--surface2)',
+                  color: userId === id ? '#fff' : 'var(--text)',
+                  border: '1px solid var(--border)'
+                }}
+                onClick={() => setUserId(id)}
+              >
+                User #{id}
+              </button>
+            ))}
+          </div>
+
+          {loading && (
+            <div style={{padding:16,textAlign:'center',color:'var(--primary)',background:'rgba(59,130,246,0.1)',borderRadius:8}}>
+              🔄 Loading user #{userId} from jsonplaceholder.typicode.com...
+            </div>
+          )}
+
+          {error && (
+            <div style={{padding:16,color:'#ef4444',background:'rgba(239,68,68,0.1)',borderRadius:8}}>
+              ❌ Error loading user: {error}
+            </div>
+          )}
+
+          {user && !loading && !error && (
+            <div className="user-card-display">
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:8}}>
+                <div>
+                  <h3 style={{margin:0,fontSize:'1.3rem',color:'var(--text-h)'}}>{user.name}</h3>
+                  <span style={{color:'var(--primary)',fontWeight:700,fontSize:'0.9rem'}}>@{user.username}</span>
+                </div>
+                <span style={{background:'var(--surface2)',padding:'3px 10px',borderRadius:6,fontSize:'0.82rem',border:'1px solid var(--border)'}}>
+                  ID #{user.id}
+                </span>
+              </div>
+
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',gap:12,marginTop:14,fontSize:'0.88rem'}}>
+                <div>
+                  <strong style={{color:'var(--muted)'}}>Email:</strong> {user.email}
+                </div>
+                <div>
+                  <strong style={{color:'var(--muted)'}}>Phone:</strong> {user.phone}
+                </div>
+                <div>
+                  <strong style={{color:'var(--muted)'}}>Company:</strong> {user.company?.name}
+                </div>
+                <div>
+                  <strong style={{color:'var(--muted)'}}>Website:</strong> {user.website}
+                </div>
+                <div style={{gridColumn:'1 / -1'}}>
+                  <strong style={{color:'var(--muted)'}}>Address:</strong> {user.address?.suite}, {user.address?.street}, {user.address?.city} ({user.address?.zipcode})
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ========================================================
+       EXERCISE 3: Stopwatch with Cleanup
+       ======================================================== */
+    function StopwatchDemo() {
+      const [seconds, setSeconds] = useState(0);
+      const [running, setRunning] = useState(false);
+      const [laps, setLaps] = useState([]);
+
+      useEffect(() => {
+        if (!running) return;
+
+        const intervalId = setInterval(() => {
+          setSeconds(s => s + 1);
+        }, 1000);
+
+        // Crucial cleanup: clearInterval on running toggle or unmount
+        return () => clearInterval(intervalId);
+      }, [running]);
+
+      const handleReset = () => {
+        setRunning(false);
+        setSeconds(0);
+        setLaps([]);
+      };
+
+      const handleLap = () => {
+        if (running && seconds > 0) {
+          setLaps(prev => [seconds, ...prev]);
+        }
+      };
+
+      const formatTime = (totalSec) => {
+        const mins = Math.floor(totalSec / 60);
+        const secs = totalSec % 60;
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      };
+
+      return (
+        <div className="stopwatch-stage">
+          <div className="stopwatch-digits">
+            {formatTime(seconds)}
+          </div>
+
+          <div className="stopwatch-btn-group">
+            {!running ? (
+              <button
+                type="button"
+                className="btn"
+                style={{background:'linear-gradient(135deg, #16a34a, #22c55e)'}}
+                onClick={() => setRunning(true)}
+              >
+                ▶ Start
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn"
+                style={{background:'linear-gradient(135deg, #ea580c, #f97316)'}}
+                onClick={() => setRunning(false)}
+              >
+                ⏸ Pause
+              </button>
+            )}
+
+            <button
+              type="button"
+              className="btn"
+              style={{background:'var(--surface)',color:'var(--text)',border:'1px solid var(--border)'}}
+              onClick={handleLap}
+              disabled={!running}
+            >
+              ⏱ Record Lap
+            </button>
+
+            <button
+              type="button"
+              className="btn"
+              style={{background:'var(--surface)',color:'var(--text)',border:'1px solid var(--border)'}}
+              onClick={handleReset}
+            >
+              🔄 Reset
+            </button>
+          </div>
+
+          {laps.length > 0 && (
+            <div style={{marginTop:16}}>
+              <span style={{fontSize:'0.82rem',color:'var(--muted)',textTransform:'uppercase',fontWeight:700}}>
+                Recorded Laps ({laps.length}):
+              </span>
+              <ul className="laps-list">
+                {laps.map((lap, i) => (
+                  <li key={i} className="lap-item">
+                    <span>Lap #{laps.length - i}</span>
+                    <strong>{formatTime(lap)}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ========================================================
+       MAIN APP CONTAINER
+       ======================================================== */
+    function App() {
+      return (
+        <>
+          {/* Exercise 1 */}
+          <article className="card">
+            <span className="badge-ex">Exercise 1</span>
+            <h2>Exercise 1: Page Title Sync (Document Title Cleanup)</h2>
+            <p><strong>Task:</strong> Build a component with a text input. Use <code>useEffect</code> to update <code>document.title</code> to show whatever is typed into the input. Revert the title when unmounting via cleanup.</p>
+            <TitleEditorDemo />
+          </article>
+
+          {/* Exercise 2 */}
+          <article className="card">
+            <span className="badge-ex">Exercise 2</span>
+            <h2>Exercise 2: Fetch a User from an API (JSONPlaceholder)</h2>
+            <p><strong>Task:</strong> Use <code>https://jsonplaceholder.typicode.com/users/{'{id}'}</code> to fetch a user profile, display their name and email, show a loading state, and handle errors cleanly with <code>AbortController</code>.</p>
+            <UserProfileDemo />
+          </article>
+
+          {/* Exercise 3 */}
+          <article className="card">
+            <span className="badge-ex">Exercise 3</span>
+            <h2>Exercise 3: Precision Stopwatch with Interval Cleanup</h2>
+            <p><strong>Task:</strong> Build a stopwatch with Start, Stop, and Reset buttons. Use <code>setInterval</code> inside <code>useEffect</code> and clear it with <code>clearInterval</code> inside the cleanup return function to prevent memory leaks.</p>
+            <StopwatchDemo />
+          </article>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

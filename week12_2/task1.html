@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12_2 · Task 1: Weather Dashboard (Homework)</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    /* Weather Dashboard Layout */
+    .weather-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .weather-controls {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-group {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-input-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .coords-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .coord-field {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .coord-field input {
+      width: 100px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+
+    .quick-cities {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .quick-city-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quick-city-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Main Weather Card Display */
+    .weather-main-card {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.7));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .weather-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .weather-location-info h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+    }
+
+    .weather-coords-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .temp-badge {
+      font-size: 3.4rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--text-h);
+      margin: 12px 0 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .weather-condition-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #93c5fd;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .metric-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .metric-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-h);
+    }
+
+    /* 7-Day Forecast Grid */
+    .forecast-section {
+      margin-top: 24px;
+    }
+
+    .forecast-title {
+      font-size: 1.1rem;
+      margin: 0 0 14px;
+      color: var(--text-h);
+    }
+
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .forecast-day-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .forecast-day-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .forecast-day-icon {
+      font-size: 1.6rem;
+      margin: 2px 0;
+    }
+
+    .forecast-day-temp {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .forecast-day-temp span {
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    /* Loading and Status */
+    .status-banner {
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+      margin: 14px 0;
+      font-weight: 600;
+    }
+    .status-banner.loading {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    .status-banner.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 6px; margin: 18px 0 0; border-bottom: 2px solid var(--border); }
+    .tab-btn {
+      padding: 8px 16px; border: 0; background: none; font-weight: 600;
+      cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent;
+      margin-bottom: -2px; font-size: 0.9rem;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-content {
+      background: #030712 !important; color: #f1f5f9 !important; padding: 16px;
+      border: 1px solid var(--border) !important; border-top: none !important;
+      border-radius: 0 0 10px 10px; overflow-x: auto;
+      font-family: ui-monospace, Consolas, monospace; font-size: 0.85rem;
+      line-height: 1.55; display: none; margin-bottom: 20px;
+    }
+    .tab-content.active { display: block; }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12_2 · Task 1 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Weather Dashboard</h1>
+      <p>Week 12 Friday Homework · Open-Meteo API, Geocoding, AbortController &amp; Geolocation</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12_2 Tasks">
+      <a class="active" href="./task1.html">Task 1: Weather Dashboard (Homework)</a>
+      <a href="./task2.html">Task 2: GitHub User Lookup</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a href="./task4.html">Task 4: Effects Lifecycle &amp; Patterns Lab</a>
+      <a href="./task5.html">Task 5: Sprint Quiz &amp; Concept Mastery</a>
+    </nav>
+
+    <!-- Homework Requirements Card -->
+    <article class="card">
+      <h2>Homework Specification (Slide 39)</h2>
+      <p>Build a real-time weather dashboard using the <strong>Open-Meteo API</strong> (no key needed). The component must fetch forecast data inside <code>useEffect</code> whenever coordinates change, manage loading and error states, and clean up in-flight requests with <code>AbortController</code>.</p>
+      <ul style="padding-left:20px;margin:8px 0;line-height:1.6;color:var(--muted)">
+        <li><strong>Open-Meteo Forecast API:</strong> Fetches temperature, wind speed, weather code, and 7-day daily forecast.</li>
+        <li><strong>Geocoding Endpoint:</strong> Type a city name (e.g. <em>Seoul, Tashkent, Tokyo</em>) to look up coordinates automatically.</li>
+        <li><strong>AbortController Cleanup:</strong> Cancels pending network requests when switching locations or unmounting.</li>
+        <li><strong>Bonus:</strong> One-click <code>navigator.geolocation</code> auto-detection for current user coordinates.</li>
+      </ul>
+    </article>
+
+    <!-- REACT ROOT FOR WEATHER APP -->
+    <div id="weather-root">
+      <div class="status-banner loading">Loading Weather Dashboard component...</div>
+    </div>
+
+    <!-- Architecture & Source Code Section -->
+    <article class="card" style="margin-top: 36px;">
+      <h2>Source Code Architecture (13-WeatherStarter.jsx Extension)</h2>
+      <p>Extends the professor's starter code with city geocoding, 7-day forecast mapping, unit conversion, and geolocation auto-detection:</p>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('tab-weather')">WeatherDashboard.jsx</button>
+        <button class="tab-btn" onclick="showTab('tab-geocoding')">Geocoding &amp; WMO Mapping</button>
+        <button class="tab-btn" onclick="showTab('tab-abort')">AbortController Pattern</button>
+      </div>
+
+      <div id="tab-weather" class="tab-content active">
+<pre><code>// WeatherDashboard.jsx - Complete implementation
+import { useState, useEffect } from 'react';
+
+export default function WeatherDashboard() {
+  const [coords, setCoords] = useState({ lat: 37.45, lon: 127.13, city: 'Gachon University, Seongnam' });
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setError(null);
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}`
+      + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`
+      + `&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
+
+    fetch(url, { signal: controller.signal })
+      .then(res => {
+        if (!res.ok) throw new Error('Could not load weather for specified coordinates.');
+        return res.json();
+      })
+      .then(data => {
+        setWeather(data.current);
+        setForecast(data.daily);
+        setLoading(false);
+      })
+      .catch(err => {
+        if (err.name === 'AbortError') return; // Request aborted cleanly
+        setError(err.message);
+        setLoading(false);
+      });
+
+    // Cleanup: cancel pending request on coordinates change or unmount
+    return () => controller.abort();
+  }, [coords.lat, coords.lon]);
+  ...
+}</code></pre>
+      </div>
+
+      <div id="tab-geocoding" class="tab-content">
+<pre><code>// Geocoding & WMO Weather Code Interpreter
+async function searchCity(cityName, signal) {
+  const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`;
+  const res = await fetch(geoUrl, { signal });
+  const data = await res.json();
+  if (!data.results || data.results.length === 0) {
+    throw new Error(`City "${cityName}" not found.`);
+  }
+  const top = data.results[0];
+  return { lat: top.latitude, lon: top.longitude, city: `${top.name}, ${top.country}` };
+}
+
+// WMO Standard Weather Code Descriptions & Icons
+function getWeatherMeta(code) {
+  if (code === 0) return { label: 'Clear Sky', icon: '☀️' };
+  if (code === 1 || code === 2) return { label: 'Partly Cloudy', icon: '⛅' };
+  if (code === 3) return { label: 'Overcast', icon: '☁️' };
+  if ([45, 48].includes(code)) return { label: 'Foggy', icon: '🌫️' };
+  if ([51, 53, 55, 61, 63, 65].includes(code)) return { label: 'Rainy', icon: '🌧️' };
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return { label: 'Snowy', icon: '❄️' };
+  if ([95, 96, 99].includes(code)) return { label: 'Thunderstorm', icon: '⛈️' };
+  return { label: 'Variable', icon: '🌤️' };
+}</code></pre>
+      </div>
+
+      <div id="tab-abort" class="tab-content">
+<pre><code>// AbortController Cleanup Lifecycle in useEffect
+useEffect(() => {
+  const controller = new AbortController();
+
+  fetch(url, { signal: controller.signal })
+    .then(res => res.json())
+    .then(data => setData(data))
+    .catch(err => {
+      // Ignore AbortError when user switches cities rapidly
+      if (err.name === 'AbortError') return;
+      setError(err.message);
+    });
+
+  // Cleanup runs BEFORE the next effect execution and on component unmount
+  return () => {
+    controller.abort();
+  };
+}, [coords]);</code></pre>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12_2 Task 1</p>
+  </footer>
+
+  <!-- Babel Script: Interactive Weather Dashboard App -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Preset Cities
+    const PRESET_CITIES = [
+      { name: 'Seoul (Gachon Univ)', lat: 37.45, lon: 127.13 },
+      { name: 'Tashkent', lat: 41.31, lon: 69.24 },
+      { name: 'Tokyo', lat: 35.68, lon: 139.76 },
+      { name: 'New York', lat: 40.71, lon: -74.01 },
+      { name: 'London', lat: 51.51, lon: -0.13 },
+      { name: 'Paris', lat: 48.85, lon: 2.35 }
+    ];
+
+    // WMO Weather Code Mapping
+    function getWeatherMeta(code) {
+      if (code === 0) return { label: 'Clear Sky', icon: '☀️', mood: 'Sunny and clear' };
+      if (code === 1) return { label: 'Mainly Clear', icon: '🌤️', mood: 'Mostly sunny' };
+      if (code === 2) return { label: 'Partly Cloudy', icon: '⛅', mood: 'Scattered clouds' };
+      if (code === 3) return { label: 'Overcast', icon: '☁️', mood: 'Cloudy skies' };
+      if ([45, 48].includes(code)) return { label: 'Foggy', icon: '🌫️', mood: 'Low visibility' };
+      if ([51, 53, 55].includes(code)) return { label: 'Drizzle', icon: '🌦️', mood: 'Light intermittent rain' };
+      if ([61, 63, 65].includes(code)) return { label: 'Rain', icon: '🌧️', mood: 'Showers expected' };
+      if ([71, 73, 75].includes(code)) return { label: 'Snowfall', icon: '🌨️', mood: 'Cold snowy conditions' };
+      if ([77, 85, 86].includes(code)) return { label: 'Snow Showers', icon: '❄️', mood: 'Flurries and ice' };
+      if ([80, 81, 82].includes(code)) return { label: 'Heavy Rain', icon: '🌧️', mood: 'Heavy precipitation' };
+      if ([95, 96, 99].includes(code)) return { label: 'Thunderstorm', icon: '⛈️', mood: 'Severe weather alert' };
+      return { label: 'Variable Weather', icon: '🌤️', mood: 'Moderate conditions' };
+    }
+
+    function WeatherDashboard() {
+      const [coords, setCoords] = useState({ lat: 37.45, lon: 127.13, city: 'Gachon University, Seongnam' });
+      const [citySearch, setCitySearch] = useState('');
+      const [weather, setWeather] = useState(null);
+      const [forecast, setForecast] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const [isFahrenheit, setIsFahrenheit] = useState(false);
+      const [geoLoading, setGeoLoading] = useState(false);
+
+      // Main useEffect: Fetch Weather Data on Coordinate Changes
+      useEffect(() => {
+        const controller = new AbortController();
+        setLoading(true);
+        setError(null);
+
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}`
+          + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`
+          + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
+
+        fetch(url, { signal: controller.signal })
+          .then(res => {
+            if (!res.ok) throw new Error('Could not fetch weather data (check coordinates)');
+            return res.json();
+          })
+          .then(data => {
+            setWeather(data.current);
+            setForecast(data.daily);
+            setLoading(false);
+          })
+          .catch(err => {
+            if (err.name === 'AbortError') return;
+            setError(err.message);
+            setLoading(false);
+          });
+
+        return () => controller.abort();
+      }, [coords.lat, coords.lon]);
+
+      // City Search with Open-Meteo Geocoding API
+      const handleCitySearch = (e) => {
+        if (e) e.preventDefault();
+        const query = citySearch.trim();
+        if (!query) return;
+
+        setLoading(true);
+        setError(null);
+
+        fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=en&format=json`)
+          .then(res => {
+            if (!res.ok) throw new Error('Geocoding service unavailable');
+            return res.json();
+          })
+          .then(data => {
+            if (!data.results || data.results.length === 0) {
+              throw new Error(`Location "${query}" was not found. Try another city.`);
+            }
+            const match = data.results[0];
+            setCoords({
+              lat: Number(match.latitude.toFixed(2)),
+              lon: Number(match.longitude.toFixed(2)),
+              city: `${match.name}, ${match.country || ''}`
+            });
+            setCitySearch('');
+          })
+          .catch(err => {
+            setError(err.message);
+            setLoading(false);
+          });
+      };
+
+      // Bonus: Geolocation Auto-Detection
+      const handleDetectLocation = () => {
+        if (!navigator.geolocation) {
+          setError('Geolocation is not supported by your browser.');
+          return;
+        }
+
+        setGeoLoading(true);
+        setError(null);
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            setGeoLoading(false);
+            setCoords({
+              lat: Number(pos.coords.latitude.toFixed(2)),
+              lon: Number(pos.coords.longitude.toFixed(2)),
+              city: 'Detected GPS Location'
+            });
+          },
+          (err) => {
+            setGeoLoading(false);
+            setError(`Location error: ${err.message}. Using default location.`);
+          },
+          { timeout: 10000 }
+        );
+      };
+
+      // Temperature conversion helper
+      const formatTemp = (celsius) => {
+        if (celsius === undefined || celsius === null) return '--';
+        if (isFahrenheit) {
+          const f = (celsius * 9/5) + 32;
+          return `${f.toFixed(1)}°F`;
+        }
+        return `${celsius.toFixed(1)}°C`;
+      };
+
+      const meta = weather ? getWeatherMeta(weather.weather_code) : { label: 'Loading...', icon: '⌛', mood: '' };
+
+      return (
+        <div className="weather-container">
+          {/* Controls: Search, Coords, Quick Presets */}
+          <div className="weather-controls">
+            <form onSubmit={handleCitySearch} className="search-row">
+              <div className="search-input-group">
+                <input
+                  type="text"
+                  placeholder="Type city name (e.g. Seoul, Tashkent, Tokyo)..."
+                  value={citySearch}
+                  onChange={(e) => setCitySearch(e.target.value)}
+                />
+              </div>
+              <button type="submit" className="btn" style={{padding:'9px 18px'}}>
+                🔍 Search City
+              </button>
+              <button
+                type="button"
+                className="btn"
+                style={{background:'linear-gradient(135deg, #059669, #10b981)',padding:'9px 16px'}}
+                onClick={handleDetectLocation}
+                disabled={geoLoading}
+              >
+                {geoLoading ? 'Detecting...' : '📍 GPS Auto-Detect'}
+              </button>
+              <button
+                type="button"
+                className="btn"
+                style={{background:'var(--surface2)',color:'var(--text)',border:'1px solid var(--border)',padding:'9px 14px'}}
+                onClick={() => setIsFahrenheit(prev => !prev)}
+                title="Toggle temperature scale"
+              >
+                {isFahrenheit ? 'Switch to °C' : 'Switch to °F'}
+              </button>
+            </form>
+
+            {/* Manual Lat/Lon Coordinates */}
+            <div className="coords-row">
+              <span style={{fontSize:'0.82rem',color:'var(--muted)'}}>Coordinates:</span>
+              <label className="coord-field">
+                Lat
+                <input
+                  type="number"
+                  step="0.01"
+                  value={coords.lat}
+                  onChange={(e) => setCoords(c => ({ ...c, lat: Number(e.target.value), city: 'Custom Coordinates' }))}
+                />
+              </label>
+              <label className="coord-field">
+                Lon
+                <input
+                  type="number"
+                  step="0.01"
+                  value={coords.lon}
+                  onChange={(e) => setCoords(c => ({ ...c, lon: Number(e.target.value), city: 'Custom Coordinates' }))}
+                />
+              </label>
+            </div>
+
+            {/* Quick Cities */}
+            <div className="quick-cities">
+              <span style={{fontSize:'0.82rem',color:'var(--muted)'}}>Quick Cities:</span>
+              {PRESET_CITIES.map((c) => (
+                <button
+                  key={c.name}
+                  type="button"
+                  className="quick-city-btn"
+                  onClick={() => setCoords({ lat: c.lat, lon: c.lon, city: c.name })}
+                >
+                  {c.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Error Banner */}
+          {error && (
+            <div className="status-banner error">
+              ⚠️ {error}
+            </div>
+          )}
+
+          {/* Loading Indicator */}
+          {loading && (
+            <div className="status-banner loading">
+              🔄 Fetching latest weather telemetry from Open-Meteo API...
+            </div>
+          )}
+
+          {/* Main Weather Card */}
+          {weather && !loading && !error && (
+            <div className="weather-main-card">
+              <div className="weather-header">
+                <div className="weather-location-info">
+                  <h2>{coords.city}</h2>
+                  <div className="weather-coords-sub">
+                    Latitude: {coords.lat}°N · Longitude: {coords.lon}°E · Timezone: Auto
+                  </div>
+                </div>
+
+                <div className="weather-condition-badge">
+                  <span>{meta.icon}</span>
+                  <span>{meta.label}</span>
+                </div>
+              </div>
+
+              <div style={{display:'flex',alignItems:'baseline',gap:16,flexWrap:'wrap'}}>
+                <div className="temp-badge">
+                  {formatTemp(weather.temperature_2m)}
+                </div>
+                <div style={{color:'var(--muted)',fontSize:'1rem'}}>
+                  Feels like: <strong>{formatTemp(weather.apparent_temperature)}</strong>
+                  <br />
+                  <span style={{fontSize:'0.85rem'}}>{meta.mood}</span>
+                </div>
+              </div>
+
+              {/* Weather Telemetry Metrics */}
+              <div className="metrics-grid">
+                <div className="metric-item">
+                  <span className="metric-label">💨 Wind Speed</span>
+                  <span className="metric-val">{weather.wind_speed_10m} km/h</span>
+                </div>
+                <div className="metric-item">
+                  <span className="metric-label">💧 Humidity</span>
+                  <span className="metric-val">{weather.relative_humidity_2m}%</span>
+                </div>
+                <div className="metric-item">
+                  <span className="metric-label">🌧️ Precipitation</span>
+                  <span className="metric-val">{weather.precipitation} mm</span>
+                </div>
+                <div className="metric-item">
+                  <span className="metric-label">📡 WMO Code</span>
+                  <span className="metric-val">#{weather.weather_code}</span>
+                </div>
+              </div>
+
+              {/* 7-Day Forecast */}
+              {forecast && forecast.time && (
+                <div className="forecast-section">
+                  <h3 className="forecast-title">📅 7-Day Forecast</h3>
+                  <div className="forecast-grid">
+                    {forecast.time.map((dateStr, idx) => {
+                      const dayName = new Date(dateStr).toLocaleDateString('en-US', { weekday: 'short' });
+                      const dayCode = forecast.weather_code[idx];
+                      const dayMeta = getWeatherMeta(dayCode);
+                      const maxT = formatTemp(forecast.temperature_2m_max[idx]);
+                      const minT = formatTemp(forecast.temperature_2m_min[idx]);
+
+                      return (
+                        <div key={dateStr} className="forecast-day-card">
+                          <span className="forecast-day-name">{idx === 0 ? 'Today' : dayName}</span>
+                          <span className="forecast-day-icon" title={dayMeta.label}>{dayMeta.icon}</span>
+                          <div className="forecast-day-temp">
+                            {maxT}
+                            <span>{minT}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('weather-root')).render(<WeatherDashboard />);
+
+    // Tab switcher function
+    window.showTab = function(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+    };
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>

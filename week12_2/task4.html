@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12_2 · Task 4: Effects Lifecycle &amp; Patterns Lab</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .demo-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .demo-panel h3 { margin: 0 0 10px; font-size: 1.2rem; }
+
+    .counter-display {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 8px 0 14px;
+    }
+
+    .demo-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .side-by-side {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 14px 0;
+    }
+    @media (max-width: 600px) { .side-by-side { grid-template-columns: 1fr; } }
+
+    .side-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      background: var(--surface2);
+    }
+    .side-box.bad  { border-left: 4px solid #ef4444; }
+    .side-box.good { border-left: 4px solid #16a34a; }
+
+    .code-preview-box {
+      background: #030712;
+      color: #38bdf8;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.82rem;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    .race-sim-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .race-sim-bar {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 12_2 · Task 4 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Effects Lifecycle &amp; Patterns Lab</h1>
+      <p>Interactive Explorations of Slide 42 Demos (01–06, 08–12)</p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="task-nav" aria-label="Week 12_2 Tasks">
+      <a href="./task1.html">Task 1: Weather Dashboard (Homework)</a>
+      <a href="./task2.html">Task 2: GitHub User Lookup</a>
+      <a href="./task3.html">Task 3: Study Guide Exercises</a>
+      <a class="active" href="./task4.html">Task 4: Effects Lifecycle &amp; Patterns Lab</a>
+      <a href="./task5.html">Task 5: Sprint Quiz &amp; Concept Mastery</a>
+    </nav>
+
+    <!-- REACT ROOT FOR DEMO GRID -->
+    <div id="patterns-root">
+      <div style="padding:20px;text-align:center;color:#64748b">Loading Patterns Lab...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 12_2 Task 4</p>
+  </footer>
+
+  <!-- Babel Script -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    /* --------------------------------------------------------
+       DEMO 1: The Three Dependency Patterns (02-DependencyPatterns.jsx)
+       -------------------------------------------------------- */
+    function DependencyPatternsDemo() {
+      const [count, setCount] = useState(0);
+      const [text, setText] = useState('Alice');
+      const [mountRuns, setMountRuns] = useState(0);
+      const [depRuns, setDepRuns] = useState(0);
+      const [everyRuns, setEveryRuns] = useState(0);
+
+      // Pattern 1: [] -> Runs ONCE after initial mount
+      useEffect(() => {
+        setMountRuns(r => r + 1);
+      }, []);
+
+      // Pattern 2: [count] -> Runs when count changes
+      useEffect(() => {
+        setDepRuns(r => r + 1);
+      }, [count]);
+
+      // Pattern 3: (no array) -> Runs after EVERY render (guarded)
+      useEffect(() => {
+        setEveryRuns(r => r + 1);
+      });
+
+      return (
+        <article className="demo-panel">
+          <h3>01. The Three Dependency Patterns (Slide 9)</h3>
+          <p style={{fontSize:'0.9rem',color:'var(--muted)'}}>
+            Controls <em>WHEN</em> the effect callback runs relative to component re-renders:
+          </p>
+
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',gap:12,margin:'14px 0'}}>
+            <div className="side-box">
+              <strong style={{color:'#0284c7'}}>1. Mount Only: <code>[]</code></strong>
+              <div className="counter-display">{mountRuns}</div>
+              <small style={{color:'var(--muted)'}}>Runs once after first paint. Never re-runs on state updates.</small>
+            </div>
+
+            <div className="side-box">
+              <strong style={{color:'#16a34a'}}>2. On Change: <code>[count]</code></strong>
+              <div className="counter-display">{depRuns}</div>
+              <small style={{color:'var(--muted)'}}>Runs only when <code>count</code> differs from prior render.</small>
+            </div>
+
+            <div className="side-box">
+              <strong style={{color:'#ea580c'}}>3. Every Render: <code>(no array)</code></strong>
+              <div className="counter-display">{everyRuns}</div>
+              <small style={{color:'var(--muted)'}}>Runs after EVERY render. Usually a bug if it sets state!</small>
+            </div>
+          </div>
+
+          <div className="demo-btn-group">
+            <button type="button" className="btn" onClick={() => setCount(c => c + 1)}>
+              Update count: {count}
+            </button>
+            <button
+              type="button"
+              className="btn"
+              style={{background:'var(--surface2)',color:'var(--text)',border:'1px solid var(--border)'}}
+              onClick={() => setText(t => t === 'Alice' ? 'Bob' : 'Alice')}
+            >
+              Update unrelated state (text: {text})
+            </button>
+          </div>
+        </article>
+      );
+    }
+
+    /* --------------------------------------------------------
+       DEMO 2: Timer Cleanup vs Leaky Timer (05-LiveClock.jsx)
+       -------------------------------------------------------- */
+    function TimerCleanupDemo() {
+      const [mounted, setMounted] = useState(true);
+      const [activeTimersCount, setActiveTimersCount] = useState(0);
+
+      return (
+        <article className="demo-panel">
+          <h3>02. Cleanup Functions: Timers &amp; Subscriptions (Slide 18–20)</h3>
+          <p style={{fontSize:'0.9rem',color:'var(--muted)'}}>
+            Timers live in the browser environment outside React. Without <code>return () =&gt; clearInterval(id)</code>, unmounted components leave zombie intervals firing indefinitely in memory.
+          </p>
+
+          <div className="demo-btn-group">
+            <button
+              type="button"
+              className="btn"
+              style={{background: mounted ? '#ea580c' : '#16a34a'}}
+              onClick={() => setMounted(m => !m)}
+            >
+              {mounted ? 'Unmount Clock Component' : 'Mount Clock Component'}
+            </button>
+          </div>
+
+          {mounted ? (
+            <div style={{background:'var(--surface2)',padding:18,borderRadius:10,border:'1px solid var(--border)',textAlign:'center'}}>
+              <span style={{fontSize:'0.82rem',color:'var(--muted)',textTransform:'uppercase',fontWeight:700}}>
+                LiveClock Component Mounted:
+              </span>
+              <ClockComponent />
+            </div>
+          ) : (
+            <div style={{padding:16,background:'rgba(234,88,12,0.1)',borderRadius:8,color:'#f97316',textAlign:'center'}}>
+              Component unmounted! The cleanup function executed: <code>clearInterval(intervalId)</code>. No memory leaks!
+            </div>
+          )}
+        </article>
+      );
+    }
+
+    function ClockComponent() {
+      const [time, setTime] = useState(new Date());
+
+      useEffect(() => {
+        const id = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+
+        // Correct cleanup
+        return () => clearInterval(id);
+      }, []);
+
+      return (
+        <div style={{fontSize:'2.5rem',fontWeight:900,color:'var(--accent)',fontFamily:'monospace',margin:'6px 0'}}>
+          {time.toLocaleTimeString()}
+        </div>
+      );
+    }
+
+    /* --------------------------------------------------------
+       DEMO 3: Race Condition & AbortController (06 & 12)
+       -------------------------------------------------------- */
+    function RaceConditionDemo() {
+      const [query, setQuery] = useState('react');
+      const [result, setResult] = useState('react');
+      const [status, setStatus] = useState('Idle');
+      const [log, setLog] = useState([]);
+
+      const simulateSlowSearch = (text, delayMs) => {
+        setQuery(text);
+        setStatus(`Enqueued "${text}" (delay: ${delayMs}ms)...`);
+        const ts = Date.now();
+
+        setTimeout(() => {
+          setResult(text);
+          setStatus(`Completed: "${text}" arrived after ${delayMs}ms`);
+          setLog(prev => [`[${new Date().toLocaleTimeString()}] "${text}" applied`, ...prev.slice(0, 4)]);
+        }, delayMs);
+      };
+
+      return (
+        <article className="demo-panel">
+          <h3>03. Race Conditions: Why We Abort (Slide 21–24)</h3>
+          <p style={{fontSize:'0.9rem',color:'var(--muted)'}}>
+            When network responses arrive out of order, a slow response for "a" can overwrite a fast response for "abc". <code>AbortController</code> cancels stale requests so only the latest query updates the screen.
+          </p>
+
+          <div className="side-by-side">
+            <div className="side-box bad">
+              <strong>WITHOUT AbortController:</strong>
+              <p style={{fontSize:'0.85rem',color:'var(--muted)',margin:'6px 0'}}>
+                Fast query finishes first, slow stale query finishes second and overwrites UI!
+              </p>
+              <div className="race-sim-timeline">
+                <div className="race-sim-bar" style={{background:'#fca5a5',color:'#7f1d1d'}}>
+                  <span>Typed "a" (slow network)</span>
+                  <span>Arrives in 1500ms ❌</span>
+                </div>
+                <div className="race-sim-bar" style={{background:'#86efac',color:'#14532d'}}>
+                  <span>Typed "abc" (fast network)</span>
+                  <span>Arrives in 300ms</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="side-box good">
+              <strong>WITH AbortController Cleanup:</strong>
+              <p style={{fontSize:'0.85rem',color:'var(--muted)',margin:'6px 0'}}>
+                Cleanup calls <code>controller.abort()</code> on every keystroke. Stale requests are cancelled!
+              </p>
+              <div className="race-sim-timeline">
+                <div className="race-sim-bar" style={{background:'rgba(239,68,68,0.2)',color:'#f87171',textDecoration:'line-through'}}>
+                  <span>Typed "a"</span>
+                  <span>Aborted cleanly ✂️</span>
+                </div>
+                <div className="race-sim-bar" style={{background:'#86efac',color:'#14532d'}}>
+                  <span>Typed "abc" (newest)</span>
+                  <span>Displays safely ✓</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{background:'var(--surface2)',padding:14,borderRadius:8,border:'1px solid var(--border)'}}>
+            <strong>Interactive Simulation:</strong>
+            <div className="demo-btn-group" style={{marginTop:8}}>
+              <button type="button" className="btn" onClick={() => simulateSlowSearch('Slow Request "A"', 2000)}>
+                Trigger Slow Request (2.0s)
+              </button>
+              <button type="button" className="btn" style={{background:'#0284c7'}} onClick={() => simulateSlowSearch('Fast Request "B"', 500)}>
+                Trigger Fast Request (0.5s)
+              </button>
+            </div>
+            <div style={{fontSize:'0.9rem',marginTop:6}}>
+              Current Displayed Value: <strong style={{color:'var(--accent)'}}>{result}</strong> · <em>{status}</em>
+            </div>
+          </div>
+        </article>
+      );
+    }
+
+    /* --------------------------------------------------------
+       DEMO 4: When NOT to Use useEffect: Derived Values (11-DerivedState.jsx)
+       -------------------------------------------------------- */
+    function DerivedValuesDemo() {
+      const [first, setFirst] = useState('Sukhrob');
+      const [last, setLast] = useState('Mansurov');
+
+      // CORRECT: Calculate during render! No state, no effect, no extra render cycle.
+      const fullName = `${first} ${last}`.trim();
+
+      return (
+        <article className="demo-panel">
+          <h3>04. When NOT to Use useEffect: Derived State (Slide 35–37)</h3>
+          <p style={{fontSize:'0.9rem',color:'var(--muted)'}}>
+            If a value can be calculated from existing props or state, <strong>compute it during rendering</strong>. Storing it in redundant state with an effect causes extra renders, lag, and desynchronization.
+          </p>
+
+          <div className="side-by-side">
+            <div className="side-box bad">
+              <strong style={{color:'#ef4444'}}>❌ Redundant Effect + State:</strong>
+              <div className="code-preview-box">
+                {`// BAD: 2 renders for 1 keystroke
+const [fullName, setFullName] = useState('');
+useEffect(() => {
+  setFullName(first + ' ' + last);
+}, [first, last]);`}
+              </div>
+            </div>
+
+            <div className="side-box good">
+              <strong style={{color:'#16a34a'}}>✅ Calculated During Render:</strong>
+              <div className="code-preview-box">
+                {`// GOOD: 1 render, pure & instant!
+const fullName = \`\${first} \${last}\`;`}
+              </div>
+            </div>
+          </div>
+
+          <div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:12}}>
+            <label style={{fontSize:'0.85rem',fontWeight:600}}>
+              First: <input type="text" value={first} onChange={e => setFirst(e.target.value)} style={{padding:'6px 10px',borderRadius:6,border:'1px solid var(--border)',background:'var(--surface2)',color:'var(--text)'}} />
+            </label>
+            <label style={{fontSize:'0.85rem',fontWeight:600}}>
+              Last: <input type="text" value={last} onChange={e => setLast(e.target.value)} style={{padding:'6px 10px',borderRadius:6,border:'1px solid var(--border)',background:'var(--surface2)',color:'var(--text)'}} />
+            </label>
+          </div>
+
+          <div style={{marginTop:12,fontSize:'1.1rem'}}>
+            Live Computed Full Name: <strong style={{color:'var(--primary)'}}>{fullName || '(empty)'}</strong>
+          </div>
+        </article>
+      );
+    }
+
+    /* --------------------------------------------------------
+       DEMO 5: Guarded Infinite Loop Detector (10-InfiniteLoopGuarded.jsx)
+       -------------------------------------------------------- */
+    function InfiniteLoopGuardedDemo() {
+      const [count, setCount] = useState(0);
+      const [isLooping, setIsLooping] = useState(false);
+      const [tripped, setTripped] = useState(false);
+
+      useEffect(() => {
+        if (!isLooping) return;
+
+        if (count > 25) {
+          setIsLooping(false);
+          setTripped(true);
+          return;
+        }
+
+        // Bug simulation: setting state that is in dependency array!
+        setCount(c => c + 1);
+      }, [count, isLooping]);
+
+      return (
+        <article className="demo-panel">
+          <h3>05. Infinite Loop Trap &amp; Guarded Circuit Breaker (Slide 32–34)</h3>
+          <p style={{fontSize:'0.9rem',color:'var(--muted)'}}>
+            Setting state inside an effect when that same state is in the dependency array triggers an infinite cascade: <code>Effect -&gt; setState -&gt; Re-render -&gt; Effect -&gt; ...</code>
+          </p>
+
+          <div style={{background:'var(--surface2)',padding:16,borderRadius:10,border:'1px solid var(--border)'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
+              <div>
+                Counter Value: <strong style={{fontSize:'1.8rem',color: tripped ? '#ef4444' : 'var(--accent)'}}>{count}</strong>
+              </div>
+              <div className="demo-btn-group" style={{margin:0}}>
+                <button
+                  type="button"
+                  className="btn"
+                  style={{background: isLooping ? '#ef4444' : 'var(--primary)'}}
+                  onClick={() => {
+                    setCount(0);
+                    setTripped(false);
+                    setIsLooping(true);
+                  }}
+                  disabled={isLooping}
+                >
+                  {isLooping ? '⚡ Loop Cascading...' : 'Simulate Infinite Loop (Guarded at 25)'}
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  style={{background:'var(--surface)',color:'var(--text)',border:'1px solid var(--border)'}}
+                  onClick={() => {
+                    setIsLooping(false);
+                    setCount(0);
+                    setTripped(false);
+                  }}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+
+            {tripped && (
+              <div style={{marginTop:12,padding:10,background:'rgba(239,68,68,0.15)',borderLeft:'4px solid #ef4444',color:'#fca5a5',borderRadius:6,fontSize:'0.88rem'}}>
+                🚨 Circuit Breaker Tripped! React was about to crash with maximum call stack exceeded.
+                <br />
+                <strong>Fix:</strong> Use functional update <code>setCount(c =&gt; c + 1)</code> with an empty dependency array <code>[]</code> so the effect doesn't re-trigger itself!
+              </div>
+            )}
+          </div>
+        </article>
+      );
+    }
+
+    /* --------------------------------------------------------
+       MAIN LAB CONTAINER
+       -------------------------------------------------------- */
+    function App() {
+      return (
+        <div className="demo-grid">
+          <DependencyPatternsDemo />
+          <TimerCleanupDemo />
+          <RaceConditionDemo />
+          <DerivedValuesDemo />
+          <InfiniteLoopGuardedDemo />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('patterns-root')).render(<App />);
+  </script>
+  <script src="../reveal.js"></script>
+</body>
+</html>
