@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 13 · React Forms &amp; Controlled Components (Monday)</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin: 24px 0;
+    }
+    .task-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      position: relative;
+    }
+    .task-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary);
+    }
+    .task-tile-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--surface2);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .task-tile h3 { margin: 0 0 8px; font-size: 1.25rem; }
+    .task-tile p { font-size: 0.92rem; color: var(--muted); margin: 0 0 16px; line-height: 1.55; }
+    .task-tile .btn { align-self: flex-start; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 13 (Monday) · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Week 13: React Forms &amp; Controlled Components</h1>
+      <p>Controlled Inputs · Computed Keys · Validation · useRef &amp; File Upload · Accessibility</p>
+    </section>
+
+    <div class="task-cards-grid">
+      <article class="task-tile">
+        <div>
+          <span class="task-tile-tag">Official Homework · Slide 37</span>
+          <h3>Task 1: Student Profile Editor</h3>
+          <p>Full controlled profile form with 10-digit student ID validation, major select, year radios, live 200-char bio counter, <code>useRef</code> photo upload preview, interactive skill tags, and live Profile Preview card.</p>
+        </div>
+        <a href="./task1.html" class="btn">Open Task 1 ↗</a>
+      </article>
+
+      <article class="task-tile">
+        <div>
+          <span class="task-tile-tag">Code Challenge · Slide 29</span>
+          <h3>Task 2: Multi-Step Registration Wizard</h3>
+          <p>3-step registration wizard (Personal Info, Account Setup, Preferences &amp; Review) with derived per-step validation, persistent state across steps, accessible ARIA links, and submit payload log.</p>
+        </div>
+        <a href="./task2.html" class="btn">Open Task 2 ↗</a>
+      </article>
+
+      <article class="task-tile">
+        <div>
+          <span class="task-tile-tag">Study Guide · Exercises 1–3</span>
+          <h3>Task 3: Study Guide Practice Exercises</h3>
+          <p>Exercises 1–3 from the Study Guide: 200-character live bio counter, contact form with field-level validation &amp; reset, and 6-skill checkbox picker with max-3 warning.</p>
+        </div>
+        <a href="./task3.html" class="btn">Open Task 3 ↗</a>
+      </article>
+
+      <article class="task-tile">
+        <div>
+          <span class="task-tile-tag">Video Lecture · Slide 13 Challenge</span>
+          <h3>Task 4: Course Feedback Form</h3>
+          <p>Interactive Course Feedback Form with name, student ID format validation, star rating radios, multi-select topics checkboxes, 300-char comments counter, and disabled-when-empty guard.</p>
+        </div>
+        <a href="./task4.html" class="btn">Open Task 4 ↗</a>
+      </article>
+
+      <article class="task-tile">
+        <div>
+          <span class="task-tile-tag">Live Demos &amp; Source · 01–11</span>
+          <h3>Task 5: React Forms Interactive Lab</h3>
+          <p>All lecture demos running live with source code: Controlled vs Uncontrolled, SearchBar, PreferenceForm, One-Handler Form, LoginForm (simulated API), Validation, useRef Focus/File, ARIA &amp; Common Mistakes.</p>
+        </div>
+        <a href="./task5.html" class="btn">Open Task 5 ↗</a>
+      </article>
+
+      <article class="task-tile">
+        <div>
+          <span class="task-tile-tag">Sprint Quiz &amp; Mastery</span>
+          <h3>Task 6: Monday Sprint Quiz &amp; Slide Quizzes</h3>
+          <p>Complete 12-question official Week 13 Monday Sprint Quiz plus all 8 lecture slide conceptual quizzes with instant scoring and detailed explanations.</p>
+        </div>
+        <a href="./task6.html" class="btn">Open Task 6 ↗</a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 13</p>
+  </footer>
+  <script src="../reveal.js"></script>
+</body>
+</html>

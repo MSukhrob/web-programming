@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 13 · Task 4: Course Feedback Form (Video Lecture)</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .fb-shell {
+      max-width: 660px;
+      margin: 12px auto;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+    }
+    .fb-group { margin-bottom: 18px; }
+    .fb-label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-h);
+      margin-bottom: 6px;
+    }
+    .fb-input, .fb-textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .fb-input[aria-invalid="true"], .fb-textarea[aria-invalid="true"] {
+      border-color: #ef4444;
+    }
+    .fb-err {
+      color: #f87171;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin: 5px 0 0;
+    }
+
+    .choice-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .choice-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .choice-chip.active {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.16);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 13 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Course Feedback Form</h1>
+      <p>Video Lecture Slide 13 Practice Challenge — Controlled Radios, Topic Checkboxes &amp; Guarded Submit</p>
+    </section>
+
+    <nav class="task-nav" aria-label="Week 13 tasks">
+      <a href="./index.html">Week 13 Hub</a>
+      <a href="./task1.html">Task 1: Profile Editor (HW)</a>
+      <a href="./task2.html">Task 2: Multi-Step Wizard</a>
+      <a href="./task3.html">Task 3: Study Guide (1–3)</a>
+      <a href="./task4.html" class="active">Task 4: Feedback Form</a>
+      <a href="./task5.html">Task 5: Forms Lab (01–11)</a>
+      <a href="./task6.html">Task 6: Sprint Quiz</a>
+    </nav>
+
+    <article class="card">
+      <div id="root">
+        <div style="padding:24px;text-align:center;color:var(--muted)">Loading Course Feedback Form...</div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 13 Task 4</p>
+  </footer>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="../reveal.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const TOPICS = ['HTML', 'CSS', 'JavaScript', 'Git', 'React'];
+    const RATINGS = [
+      { value: '5', label: '⭐⭐⭐⭐⭐ (5/5 Excellent)' },
+      { value: '4', label: '⭐⭐⭐⭐ (4/5 Great)' },
+      { value: '3', label: '⭐⭐⭐ (3/5 Good)' }
+    ];
+
+    function CourseFeedbackForm() {
+      const [form, setForm] = useState({
+        name: '',
+        studentId: '',
+        rating: '',
+        comments: ''
+      });
+      const [topics, setTopics] = useState(['React', 'JavaScript']);
+      const [errors, setErrors] = useState({});
+      const [submittedData, setSubmittedData] = useState(null);
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        const nextVal = name === 'comments' ? value.slice(0, 300) : value;
+        setForm(prev => ({ ...prev, [name]: nextVal }));
+        if (errors[name]) {
+          setErrors(prev => {
+            const c = { ...prev };
+            delete c[name];
+            return c;
+          });
+        }
+      };
+
+      const toggleTopic = (topic, checked) => {
+        setTopics(prev => (checked ? [...prev, topic] : prev.filter(t => t !== topic)));
+      };
+
+      // Bonus requirement: Disable submit while any required field is empty
+      const hasEmptyRequired = !form.name.trim() || !form.studentId.trim() || !form.rating;
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const errs = {};
+        if (!form.name.trim()) errs.name = 'Student name is required.';
+        if (!/^\d{8,10}$/.test(form.studentId.trim())) {
+          errs.studentId = 'Student ID must be 8 to 10 digits.';
+        }
+        if (!form.rating) errs.rating = 'Please select a course rating.';
+
+        if (Object.keys(errs).length > 0) {
+          setErrors(errs);
+          return;
+        }
+
+        setErrors({});
+        setSubmittedData({
+          ...form,
+          topics: [...topics],
+          submittedAt: new Date().toLocaleTimeString()
+        });
+      };
+
+      const resetForm = () => {
+        setForm({ name: '', studentId: '', rating: '', comments: '' });
+        setTopics(['React', 'JavaScript']);
+        setErrors({});
+        setSubmittedData(null);
+      };
+
+      if (submittedData) {
+        return (
+          <div className="fb-shell" style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '2.8rem', marginBottom: 8 }}>🙌</div>
+            <h2 style={{ margin: '0 0 8px' }}>Thank you, {submittedData.name}!</h2>
+            <p style={{ color: 'var(--muted)', marginBottom: 18 }}>
+              Your feedback for <strong>Web Programming (K0126002)</strong> has been recorded.
+            </p>
+            <div style={{ textAlign: 'left', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 18, marginBottom: 18 }}>
+              <p style={{ margin: '4px 0' }}><strong>Student ID:</strong> {submittedData.studentId}</p>
+              <p style={{ margin: '4px 0' }}><strong>Rating:</strong> {'⭐'.repeat(Number(submittedData.rating))} ({submittedData.rating}/5)</p>
+              <p style={{ margin: '4px 0' }}><strong>Topics Covered Well:</strong> {submittedData.topics.length ? submittedData.topics.join(', ') : 'None selected'}</p>
+              <p style={{ margin: '4px 0' }}><strong>Comments:</strong> {submittedData.comments || '(No extra comments)'}</p>
+            </div>
+            <button type="button" className="btn" onClick={resetForm}>Submit Another Feedback</button>
+          </div>
+        );
+      }
+
+      return (
+        <form className="fb-shell" onSubmit={handleSubmit} noValidate>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
+            <h2 style={{ margin: 0 }}>Web Programming Feedback</h2>
+            <button
+              type="button"
+              onClick={() => setForm({
+                name: 'Sukhrob Mansurov',
+                studentId: '202537508',
+                rating: '5',
+                comments: 'Loved building interactive React forms and learning useEffect cleanup patterns!'
+              })}
+              style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)', padding: '6px 12px', borderRadius: 8, cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600 }}
+            >
+              Fill Sample
+            </button>
+          </div>
+
+          <div className="fb-group">
+            <label className="fb-label" htmlFor="fb-name">1. Student Name (required)</label>
+            <input
+              id="fb-name"
+              name="name"
+              type="text"
+              className="fb-input"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Enter your full name"
+              aria-invalid={!!errors.name}
+            />
+            {errors.name && <p className="fb-err" role="alert">{errors.name}</p>}
+          </div>
+
+          <div className="fb-group">
+            <label className="fb-label" htmlFor="fb-sid">2. Student ID (8–10 digits, required)</label>
+            <input
+              id="fb-sid"
+              name="studentId"
+              type="number"
+              className="fb-input"
+              value={form.studentId}
+              onChange={handleChange}
+              placeholder="e.g. 202537508"
+              aria-invalid={!!errors.studentId}
+            />
+            {errors.studentId && <p className="fb-err" role="alert">{errors.studentId}</p>}
+          </div>
+
+          <div className="fb-group">
+            <span className="fb-label">3. Course Rating (required)</span>
+            <div className="choice-row" role="radiogroup" aria-label="Course rating">
+              {RATINGS.map(r => (
+                <label key={r.value} className={`choice-chip ${form.rating === r.value ? 'active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="rating"
+                    value={r.value}
+                    checked={form.rating === r.value}
+                    onChange={handleChange}
+                  />
+                  {r.label}
+                </label>
+              ))}
+            </div>
+            {errors.rating && <p className="fb-err" role="alert">{errors.rating}</p>}
+          </div>
+
+          <div className="fb-group">
+            <span className="fb-label">4. Topics Covered Well (optional)</span>
+            <div className="choice-row">
+              {TOPICS.map(topic => {
+                const checked = topics.includes(topic);
+                return (
+                  <label key={topic} className={`choice-chip ${checked ? 'active' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={e => toggleTopic(topic, e.target.checked)}
+                    />
+                    {topic}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="fb-group">
+            <label className="fb-label" htmlFor="fb-comments">5. Comments (max 300 chars)</label>
+            <textarea
+              id="fb-comments"
+              name="comments"
+              rows={4}
+              className="fb-textarea"
+              value={form.comments}
+              onChange={handleChange}
+              placeholder="Share what helped you learn best..."
+            />
+            <div style={{ textAlign: 'right', fontSize: '0.82rem', color: form.comments.length > 260 ? '#f59e0b' : 'var(--muted)', marginTop: 4 }}>
+              {form.comments.length} / 300 characters
+            </div>
+          </div>
+
+          <button type="submit" className="btn" disabled={hasEmptyRequired} style={{ width: '100%' }}>
+            {hasEmptyRequired ? 'Fill Name, Student ID & Rating to Submit' : 'Submit Feedback'}
+          </button>
+        </form>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<CourseFeedbackForm />);
+  </script>
+</body>
+</html>

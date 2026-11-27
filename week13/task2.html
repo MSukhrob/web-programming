@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 13 · Task 2: Multi-Step Registration Wizard</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .wizard-box {
+      max-width: 620px;
+      margin: 12px auto;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+    }
+    .step-bars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 14px 0 22px;
+    }
+    .step-seg {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--border);
+      transition: background-color 0.25s;
+    }
+    .step-seg.done, .step-seg.active {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .w-field { margin-bottom: 16px; }
+    .w-field label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text-h);
+      margin-bottom: 6px;
+    }
+    .w-input {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .w-input[aria-invalid="true"] { border-color: #ef4444; }
+    .w-err {
+      color: #f87171;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin: 5px 0 0;
+    }
+
+    .role-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .role-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .role-option.active {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.16);
+    }
+
+    .review-list {
+      list-style: none;
+      padding: 14px 16px;
+      margin: 14px 0 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .review-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.92rem;
+    }
+    .review-list li:last-child { border-bottom: none; }
+
+    .wizard-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    .btn-secondary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 13 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Multi-Step Registration Wizard</h1>
+      <p>Code Challenge (Slide 29 &amp; 08-MultiStepRegistration.jsx) — Derived Validation &amp; Multi-Step State</p>
+    </section>
+
+    <nav class="task-nav" aria-label="Week 13 tasks">
+      <a href="./index.html">Week 13 Hub</a>
+      <a href="./task1.html">Task 1: Profile Editor (HW)</a>
+      <a href="./task2.html" class="active">Task 2: Multi-Step Wizard</a>
+      <a href="./task3.html">Task 3: Study Guide (1–3)</a>
+      <a href="./task4.html">Task 4: Feedback Form</a>
+      <a href="./task5.html">Task 5: Forms Lab (01–11)</a>
+      <a href="./task6.html">Task 6: Sprint Quiz</a>
+    </nav>
+
+    <article class="card">
+      <div id="root">
+        <div style="padding:24px;text-align:center;color:var(--muted)">Loading Multi-Step Registration Wizard...</div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 13 Task 2</p>
+  </footer>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="../reveal.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Validation is derived from form state + current step
+    function validateStep(step, f) {
+      const e = {};
+      if (step === 1) {
+        if (f.name.trim().length < 2) e.name = 'Name must be at least 2 characters.';
+        if (!emailRe.test(f.email)) e.email = 'Enter a valid email address.';
+      }
+      if (step === 2) {
+        if (f.username.length < 3 || /\s/.test(f.username)) {
+          e.username = 'At least 3 characters, no spaces allowed.';
+        }
+        if (f.password.length < 8) {
+          e.password = 'Password must be at least 8 characters.';
+        }
+        if (!f.confirm || f.confirm !== f.password) {
+          e.confirm = 'Passwords must match.';
+        }
+      }
+      return e;
+    }
+
+    function Field({ label, name, type = 'text', value, onChange, onBlur, error, placeholder }) {
+      const id = 'wiz-' + name;
+      return (
+        <div className="w-field">
+          <label htmlFor={id}>{label}</label>
+          <input
+            id={id}
+            name={name}
+            type={type}
+            className="w-input"
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            placeholder={placeholder}
+            aria-invalid={!!error}
+            aria-describedby={error ? id + '-err' : undefined}
+          />
+          {error && <p id={id + '-err'} className="w-err" role="alert">{error}</p>}
+        </div>
+      );
+    }
+
+    function MultiStepRegistration() {
+      const [step, setStep] = useState(1);
+      const [submittedObj, setSubmittedObj] = useState(null);
+      const [touched, setTouched] = useState({});
+      const [form, setForm] = useState({
+        name: '',
+        email: '',
+        username: '',
+        password: '',
+        confirm: '',
+        role: 'student',
+        subscribe: false
+      });
+
+      const errors = validateStep(step, form);
+      const isStepValid = Object.keys(errors).length === 0;
+
+      const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setForm(prev => ({
+          ...prev,
+          [name]: type === 'checkbox' ? checked : value
+        }));
+      };
+
+      const handleBlur = (e) => {
+        setTouched(t => ({ ...t, [e.target.name]: true }));
+      };
+
+      const shown = (name) => (touched[name] ? errors[name] : undefined);
+
+      const next = () => {
+        if (isStepValid) setStep(s => s + 1);
+      };
+
+      const prev = () => setStep(s => s - 1);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const { confirm, ...fullFormObject } = form;
+        console.log('Submitted Registration:', fullFormObject);
+        setSubmittedObj(fullFormObject);
+      };
+
+      const resetWizard = () => {
+        setStep(1);
+        setSubmittedObj(null);
+        setTouched({});
+        setForm({
+          name: '', email: '', username: '', password: '', confirm: '',
+          role: 'student', subscribe: false
+        });
+      };
+
+      if (submittedObj) {
+        return (
+          <div className="wizard-box" style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '2.6rem', marginBottom: 8 }}>🎉</div>
+            <h2 style={{ margin: '0 0 8px' }}>Registration Complete!</h2>
+            <p style={{ color: 'var(--muted)' }}>
+              The full registration object has been logged to the browser console (<code>console.log</code>) and displayed below:
+            </p>
+            <pre style={{ textAlign: 'left', margin: '16px 0' }}><code>{JSON.stringify(submittedObj, null, 2)}</code></pre>
+            <button type="button" className="btn" onClick={resetWizard}>Start Another Registration</button>
+          </div>
+        );
+      }
+
+      const fieldProps = (name, placeholder) => ({
+        name,
+        value: form[name],
+        onChange: handleChange,
+        onBlur: handleBlur,
+        error: shown(name),
+        placeholder
+      });
+
+      const stepTitles = {
+        1: 'Step 1 · Personal Info',
+        2: 'Step 2 · Account Setup',
+        3: 'Step 3 · Preferences & Review'
+      };
+
+      return (
+        <form className="wizard-box" onSubmit={handleSubmit} noValidate>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ margin: 0, fontSize: '1.25rem' }}>{stepTitles[step]}</h2>
+            <span style={{ fontWeight: 700, color: 'var(--accent)', fontSize: '0.9rem' }}>Step {step} of 3</span>
+          </div>
+
+          <div className="step-bars" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={3}>
+            <div className={`step-seg ${step >= 1 ? 'active' : ''}`} />
+            <div className={`step-seg ${step >= 2 ? 'active' : ''}`} />
+            <div className={`step-seg ${step >= 3 ? 'active' : ''}`} />
+          </div>
+
+          {step === 1 && (
+            <div>
+              <Field label="Name (min 2 chars)" {...fieldProps('name', 'e.g. Sukhrob Mansurov')} />
+              <Field label="Email" type="email" {...fieldProps('email', 'e.g. student@gachon.ac.kr')} />
+            </div>
+          )}
+
+          {step === 2 && (
+            <div>
+              <Field label="Username (min 3 chars, no spaces)" {...fieldProps('username', 'e.g. msukhrob')} />
+              <Field label="Password (min 8 chars)" type="password" {...fieldProps('password', 'At least 8 characters')} />
+              <Field label="Confirm Password (must match)" type="password" {...fieldProps('confirm', 'Re-enter password')} />
+            </div>
+          )}
+
+          {step === 3 && (
+            <div>
+              <span style={{ display: 'block', fontWeight: 700, fontSize: '0.88rem', marginBottom: 8 }}>Select Role</span>
+              <div className="role-row">
+                {['student', 'ta', 'instructor'].map(r => (
+                  <label key={r} className={`role-option ${form.role === r ? 'active' : ''}`}>
+                    <input
+                      type="radio"
+                      name="role"
+                      value={r}
+                      checked={form.role === r}
+                      onChange={handleChange}
+                    />
+                    {r === 'ta' ? 'Teaching Assistant (TA)' : r}
+                  </label>
+                ))}
+              </div>
+
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontWeight: 600 }}>
+                <input
+                  type="checkbox"
+                  name="subscribe"
+                  checked={form.subscribe}
+                  onChange={handleChange}
+                />
+                Subscribe to course newsletter
+              </label>
+
+              <h3 style={{ margin: '18px 0 6px', fontSize: '1rem' }}>Review Summary</h3>
+              <ul className="review-list">
+                <li><strong>Name</strong><span>{form.name}</span></li>
+                <li><strong>Email</strong><span>{form.email}</span></li>
+                <li><strong>Username</strong><span>@{form.username}</span></li>
+                <li><strong>Password</strong><span>{'•'.repeat(form.password.length)}</span></li>
+                <li><strong>Role</strong><span style={{ textTransform: 'uppercase' }}>{form.role}</span></li>
+                <li><strong>Newsletter</strong><span>{form.subscribe ? 'Subscribed' : 'No'}</span></li>
+              </ul>
+            </div>
+          )}
+
+          <div className="wizard-actions">
+            {step > 1 ? (
+              <button type="button" className="btn-secondary" onClick={prev}>← Previous</button>
+            ) : <span />}
+
+            {step < 3 ? (
+              <button type="button" className="btn" onClick={next} disabled={!isStepValid}>
+                {isStepValid ? 'Next →' : 'Next (complete valid fields)'}
+              </button>
+            ) : (
+              <button type="submit" className="btn">Submit Registration</button>
+            )}
+          </div>
+        </form>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<MultiStepRegistration />);
+  </script>
+</body>
+</html>

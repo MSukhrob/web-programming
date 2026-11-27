@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 13 · Task 6: Monday Sprint Quiz &amp; Concept Mastery</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .student-badge-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .quiz-mode-switch {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .quiz-tab-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .quiz-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .quiz-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .quiz-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .quiz-card.answered-correct {
+      border-left: 5px solid #22c55e !important;
+      background: rgba(34, 197, 94, 0.08) !important;
+    }
+    .quiz-card.answered-wrong {
+      border-left: 5px solid #ef4444 !important;
+      background: rgba(239, 68, 68, 0.08) !important;
+    }
+    .quiz-q-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .quiz-q-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-h);
+      margin: 8px 0 14px;
+      line-height: 1.5;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .quiz-opt-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 11px 15px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      text-align: left;
+      font-size: 0.92rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+      width: 100%;
+    }
+    .quiz-opt-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.12);
+    }
+    .quiz-opt-btn.selected {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.18);
+      font-weight: 600;
+    }
+    .quiz-opt-btn.correct-reveal {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.22);
+      color: #4ade80;
+      font-weight: 700;
+    }
+    .quiz-opt-btn.wrong-reveal {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.22);
+      color: #f87171;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .quiz-explanation {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: var(--surface2);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .score-banner {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      color: #fff;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 13 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Monday Sprint Quiz &amp; Concept Mastery</h1>
+      <p>Official 12-Question Sprint Quiz + 8 Lecture Slide Conceptual Quizzes (React Forms)</p>
+    </section>
+
+    <nav class="task-nav" aria-label="Week 13 tasks">
+      <a href="./index.html">Week 13 Hub</a>
+      <a href="./task1.html">Task 1: Profile Editor (HW)</a>
+      <a href="./task2.html">Task 2: Multi-Step Wizard</a>
+      <a href="./task3.html">Task 3: Study Guide (1–3)</a>
+      <a href="./task4.html">Task 4: Feedback Form</a>
+      <a href="./task5.html">Task 5: Forms Lab (01–11)</a>
+      <a href="./task6.html" class="active">Task 6: Sprint Quiz</a>
+    </nav>
+
+    <div id="root">
+      <div style="padding:24px;text-align:center;color:var(--muted)">Loading Week 13 Quizzes...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 13 Task 6</p>
+  </footer>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="../reveal.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const SPRINT_QUESTIONS = [
+      {
+        q: 'What makes a form input "controlled" in React?',
+        opts: [
+          'It has a ref attribute',
+          'Its value is tied to React state via the value prop and an onChange handler',
+          'It uses the HTML required attribute',
+          'It is inside a <form> element'
+        ],
+        ans: 1,
+        exp: 'A controlled input has value={stateVar} and onChange={handler}, making React state the single source of truth.'
+      },
+      {
+        q: 'Why must you call e.preventDefault() in a form\'s onSubmit handler?',
+        opts: [
+          'To prevent React from re-rendering',
+          'To stop the browser\'s default behavior of reloading the page on form submission',
+          'To prevent the onChange event from firing',
+          'To stop CSS transitions during submission'
+        ],
+        ans: 1,
+        exp: 'Submitting an HTML form defaults to sending a navigation request and reloading the page. e.preventDefault() stops this.'
+      },
+      {
+        q: 'For a controlled checkbox, which prop holds its state?',
+        opts: ['value', 'defaultChecked', 'checked', 'selected'],
+        ans: 2,
+        exp: 'Checkboxes use checked={booleanState} (not value). The onChange handler reads e.target.checked.'
+      },
+      {
+        q: 'What does e.target.name give you in an onChange handler?',
+        opts: [
+          'The HTML element type (input, select, etc.)',
+          'The name attribute of the form element that triggered the event',
+          'The CSS class name of the element',
+          'The ID of the form'
+        ],
+        ans: 1,
+        exp: 'e.target.name returns the name attribute so a single handler can route updates with { [name]: value }.'
+      },
+      {
+        q: 'What is the computed property name syntax { [name]: value } used for in form handling?',
+        opts: [
+          'Defining a CSS class name dynamically',
+          'Dynamically setting a property key on an object using a variable',
+          'Creating an array from a string',
+          'Calling a function whose name is stored in a variable'
+        ],
+        ans: 1,
+        exp: 'Square brackets evaluate the expression inside as the property name, letting one handler update any field.'
+      },
+      {
+        q: 'How do you correctly update only one field in a form state object { name: "", email: "" }?',
+        opts: [
+          'setForm({ name: "Amir" })',
+          'setForm(prev => ({ ...prev, name: "Amir" }))',
+          'form.name = "Amir"; setForm(form)',
+          'setForm.name("Amir")'
+        ],
+        ans: 1,
+        exp: 'Spread ...prev preserves existing fields while overwriting only the updated field cleanly.'
+      },
+      {
+        q: 'In a controlled <select>, how do you set the selected option?',
+        opts: [
+          'Set the selected attribute on the <option> elements',
+          'Set the value prop on the <select> element',
+          'Set defaultValue on each <option>',
+          'Use document.querySelector("select").selectedIndex'
+        ],
+        ans: 1,
+        exp: 'In React, bind value={stateVar} directly on the <select> element rather than selected on <option>.'
+      },
+      {
+        q: 'In React, how do you set a default value for an UNcontrolled input?',
+        opts: ['value="default"', 'defaultValue="default"', 'initial="default"', 'placeholder="default"'],
+        ans: 1,
+        exp: 'defaultValue sets the initial DOM value without making the input controlled.'
+      },
+      {
+        q: 'Which of the following correctly handles multiple checkboxes (add/remove from array)?',
+        opts: [
+          'onChange={e => setSkills(e.target.value)}',
+          'onChange={e => { if(e.target.checked) setSkills([...skills, e.target.value]); else setSkills(skills.filter(s => s !== e.target.value)); }}',
+          'onChange={e => setSkills(e.target.checked)}',
+          'onChange={e => skills.push(e.target.value)}'
+        ],
+        ans: 1,
+        exp: 'Add immutably with spread when checked and remove with filter() when unchecked.'
+      },
+      {
+        q: 'What is the right approach for validating a form before submission?',
+        opts: [
+          'Use document.querySelector("form").checkValidity() only',
+          'Build an errors object in a validate function, call setErrors if any exist, return early to skip submission',
+          'Only use HTML5 required attributes',
+          'Validate in a useEffect watching the form state'
+        ],
+        ans: 1,
+        exp: 'Returning an errors object allows inline field-level messages and stops submission if Object.keys(errs).length > 0.'
+      },
+      {
+        q: 'What does <input value={text} onChange={e => setText(e.target.value)} /> do when the user types?',
+        opts: [
+          'Updates the DOM directly, React reads it later',
+          'The input is read-only since value is set',
+          'e.target.value captures the new text, setText updates state, React re-renders with the new value',
+          'The onChange handler receives a synthetic event with the old value'
+        ],
+        ans: 2,
+        exp: 'User input -> onChange -> setText -> re-render -> value={text} keeps DOM synced with state.'
+      },
+      {
+        q: 'What is a useRef in forms, and when should you use it?',
+        opts: [
+          'A way to store state that triggers re-renders',
+          'A way to hold a mutable value or reference a DOM element without causing re-renders — use for uncontrolled inputs or .focus()',
+          'An alternative to useState for form objects',
+          'A hook that tracks the form\'s submit history'
+        ],
+        ans: 1,
+        exp: 'useRef gives direct DOM access (focus, select, reading file inputs) without causing re-renders.'
+      }
+    ];
+
+    const LECTURE_QUIZZES = [
+      {
+        q: 'Quiz 1 · Which of these inputs is a controlled component?',
+        opts: [
+          '<input defaultValue="Kim" />',
+          '<input ref={inputRef} />',
+          '<input value={name} onChange={e => setName(e.target.value)} />',
+          '<input onChange={e => setName(e.target.value)} />',
+          '<input type="file" />'
+        ],
+        ans: 2,
+        exp: 'The value prop makes state the single source of truth, and onChange feeds every edit back into state.'
+      },
+      {
+        q: 'Quiz 2 · Which attribute holds the on/off state of a controlled checkbox?',
+        opts: ['value={agree}', 'selected={agree}', 'defaultValue={agree}', 'onClick={agree}', 'checked={agree}'],
+        ans: 4,
+        exp: 'Checkboxes and radios use checked (a boolean); the handler reads e.target.checked, not e.target.value.'
+      },
+      {
+        q: 'Quiz 3 · In setForm(prev => ({ ...prev, [name]: value })), what does [name] do?',
+        opts: [
+          'It creates an array that contains the variable name',
+          'It uses the value of the variable name as the property key',
+          'It copies only the existing property that is called "name"',
+          'It marks the field as required',
+          'It deletes the property from the state object'
+        ],
+        ans: 1,
+        exp: 'Inside an object literal, [name] marks a computed property key, setting the key equal to the string value of name.'
+      },
+      {
+        q: 'Quiz 4 · What happens if an onSubmit handler does NOT call e.preventDefault()?',
+        opts: [
+          'React cancels the submission automatically',
+          'The submit handler is skipped',
+          'React saves the form data to localStorage',
+          'The browser performs its default submission, typically a page reload, and the React state is lost',
+          'Only the first field is submitted'
+        ],
+        ans: 3,
+        exp: 'Without e.preventDefault(), the browser triggers a native form navigation request, reloading the page and wiping React state.'
+      },
+      {
+        q: 'Quiz 5 · In the validate() pattern from this lecture, how does handleSubmit know that the form is valid?',
+        opts: [
+          'The returned errors object has no keys',
+          'validate() returns true',
+          'alert() was never called',
+          'The inputs have aria-invalid set',
+          'The form state is null'
+        ],
+        ans: 0,
+        exp: 'validate() collects one key per invalid field; Object.keys(errs).length === 0 proves no problems were found.'
+      },
+      {
+        q: 'Quiz 6 · Which task REQUIRES reading the DOM through a ref instead of controlled state?',
+        opts: [
+          'Showing validation feedback as the user types',
+          'Converting the typed text to uppercase live',
+          'Reading the file chosen in <input type="file">',
+          'Pre-filling a field with saved data',
+          'Disabling Submit until the fields are valid'
+        ],
+        ans: 2,
+        exp: 'A file input value is read-only in browsers for security reasons, so it must be read via ref.current.files.'
+      },
+      {
+        q: 'Quiz 7 · Which attribute links an error message to its input so that screen readers announce it?',
+        opts: ['htmlFor', 'aria-required', 'aria-label', 'tabIndex', 'aria-describedby="email-error"'],
+        ans: 4,
+        exp: 'aria-describedby references the ID of the error message element so assistive technology reads it alongside the input.'
+      },
+      {
+        q: 'Quiz 8 · A controlled input looks stuck: typing does nothing. The handler is form.name = e.target.value; setForm(form). Why?',
+        opts: [
+          'setForm is asynchronous, so the value arrives later',
+          'The state object is the same reference, so React sees no change and does not re-render',
+          'Controlled inputs cannot hold objects in state',
+          'onChange only fires when the field loses focus',
+          'The name attribute is missing'
+        ],
+        ans: 1,
+        exp: 'React compares old and new state by reference (Object.is); mutating the same object looks unchanged so React skips re-rendering.'
+      }
+    ];
+
+    function QuizRunner({ questions, title }) {
+      const [answers, setAnswers] = useState({});
+      const [submitted, setSubmitted] = useState(false);
+
+      const selectOption = (qIdx, optIdx) => {
+        if (submitted) return;
+        setAnswers(prev => ({ ...prev, [qIdx]: optIdx }));
+      };
+
+      const reset = () => {
+        setAnswers({});
+        setSubmitted(false);
+      };
+
+      const correctCount = questions.reduce((sum, q, idx) => sum + (answers[idx] === q.ans ? 1 : 0), 0);
+      const answeredCount = Object.keys(answers).length;
+      const pct = Math.round((correctCount / questions.length) * 100);
+
+      return (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
+            <h2 style={{ margin: 0 }}>{title} ({questions.length} Questions)</h2>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--accent)' }}>
+              Answered: {answeredCount} / {questions.length}
+            </span>
+          </div>
+
+          <div className="quiz-container">
+            {questions.map((item, qIdx) => {
+              const userChoice = answers[qIdx];
+              const isCorrect = submitted && userChoice === item.ans;
+              const isWrong = submitted && userChoice !== item.ans;
+
+              return (
+                <div key={qIdx} className={`quiz-card ${isCorrect ? 'answered-correct' : isWrong ? 'answered-wrong' : ''}`}>
+                  <div className="quiz-q-num">Question {qIdx + 1} of {questions.length}</div>
+                  <div className="quiz-q-text">{item.q}</div>
+                  <div className="quiz-options">
+                    {item.opts.map((opt, oIdx) => {
+                      const letter = String.fromCharCode(65 + oIdx);
+                      let cls = 'quiz-opt-btn';
+                      if (!submitted && userChoice === oIdx) cls += ' selected';
+                      if (submitted) {
+                        if (oIdx === item.ans) cls += ' correct-reveal';
+                        else if (userChoice === oIdx) cls += ' wrong-reveal';
+                      }
+                      return (
+                        <button
+                          key={oIdx}
+                          type="button"
+                          className={cls}
+                          disabled={submitted}
+                          onClick={() => selectOption(qIdx, oIdx)}
+                        >
+                          <span className="opt-letter">{letter}</span>
+                          <span>{opt}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {submitted && (
+                    <div className="quiz-explanation">
+                      <strong>{isCorrect ? '✅ Correct!' : `❌ Answer: ${String.fromCharCode(65 + item.ans)}`}</strong> — {item.exp}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ marginTop: 22, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {!submitted ? (
+              <button type="button" className="btn" onClick={() => setSubmitted(true)}>
+                Grade &amp; Check Answers
+              </button>
+            ) : (
+              <button type="button" className="btn" onClick={reset}>
+                Retake Quiz
+              </button>
+            )}
+          </div>
+
+          {submitted && (
+            <div className="score-banner">
+              <div style={{ fontSize: '2.8rem', fontWeight: 900 }}>{correctCount} / {questions.length} ({pct}%)</div>
+              <p style={{ margin: '6px 0 0', opacity: 0.9 }}>
+                {pct >= 80 ? 'Excellent mastery of React Forms & Controlled Components!' : 'Review the explanations above and try again!'}
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function QuizPortal() {
+      const [mode, setMode] = useState('sprint');
+
+      return (
+        <div>
+          <div className="student-badge-bar">
+            <div>
+              <h3 style={{ margin: 0 }}>Sukhrob Mansurov</h3>
+              <div style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>Student ID: 202537508 · Web Programming K0126002 · Week 13 Monday</div>
+            </div>
+            <span style={{ background: 'rgba(34, 211, 238, 0.14)', border: '1px solid rgba(34, 211, 238, 0.35)', color: 'var(--accent)', padding: '5px 12px', borderRadius: 999, fontSize: '0.82rem', fontWeight: 700 }}>
+              Session 1 · React Forms
+            </span>
+          </div>
+
+          <div className="quiz-mode-switch">
+            <button type="button" className={`quiz-tab-btn ${mode === 'sprint' ? 'active' : ''}`} onClick={() => setMode('sprint')}>
+              Sprint Quiz (12 Official Questions)
+            </button>
+            <button type="button" className={`quiz-tab-btn ${mode === 'lecture' ? 'active' : ''}`} onClick={() => setMode('lecture')}>
+              Lecture Slide Quizzes (Quiz 1–8)
+            </button>
+          </div>
+
+          {mode === 'sprint' ? (
+            <QuizRunner key="sprint" questions={SPRINT_QUESTIONS} title="Official Monday Sprint Quiz" />
+          ) : (
+            <QuizRunner key="lecture" questions={LECTURE_QUIZZES} title="Lecture Slides Quizzes 1–8" />
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<QuizPortal />);
+  </script>
+</body>
+</html>

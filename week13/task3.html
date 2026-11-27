@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 13 · Task 3: Study Guide Practice Exercises</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .task-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .task-nav a {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all .2s;
+    }
+    .task-nav a:hover, .task-nav a.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .badge-ex {
+      background: rgba(59, 130, 246, 0.16);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .ex-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .ex-input, .ex-textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-top: 6px;
+    }
+    .ex-textarea:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      border-color: #f59e0b;
+    }
+    .ex-err {
+      color: #f87171;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin: 4px 0 0;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .skill-check-card {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-weight: 600;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .skill-check-card.checked {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.14);
+    }
+
+    .btn-ghost {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Week 13 · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Study Guide Practice Exercises (1–3)</h1>
+      <p>From WebPro_Week13_Mon_StudyGuide.html — Bio Counter, Contact Validation &amp; Skill Picker</p>
+    </section>
+
+    <nav class="task-nav" aria-label="Week 13 tasks">
+      <a href="./index.html">Week 13 Hub</a>
+      <a href="./task1.html">Task 1: Profile Editor (HW)</a>
+      <a href="./task2.html">Task 2: Multi-Step Wizard</a>
+      <a href="./task3.html" class="active">Task 3: Study Guide (1–3)</a>
+      <a href="./task4.html">Task 4: Feedback Form</a>
+      <a href="./task5.html">Task 5: Forms Lab (01–11)</a>
+      <a href="./task6.html">Task 6: Sprint Quiz</a>
+    </nav>
+
+    <div id="root">
+      <div style="padding:24px;text-align:center;color:var(--muted)">Loading Study Guide Exercises...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · Week 13 Task 3</p>
+  </footer>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="../reveal.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // Exercise 1 — Live character counter (max 200 chars, disable when limit reached)
+    function BioField() {
+      const [bio, setBio] = useState('');
+      const MAX = 200;
+      const remaining = MAX - bio.length;
+      const isLimitReached = bio.length >= MAX;
+
+      return (
+        <article className="card">
+          <span className="badge-ex">Exercise 1 · Live Character Counter</span>
+          <h2 style={{ marginTop: 0 }}>Controlled Textarea with 200-Char Limit</h2>
+          <p style={{ color: 'var(--muted)', margin: 0 }}>
+            Type into the controlled textarea. The counter turns red when fewer than 20 characters remain, and locks input once <code>200 / 200</code> is reached.
+          </p>
+          <div className="ex-box">
+            <label htmlFor="ex1-bio" style={{ fontWeight: 700, fontSize: '0.9rem' }}>Your Bio</label>
+            <textarea
+              id="ex1-bio"
+              className="ex-textarea"
+              value={bio}
+              onChange={e => setBio(e.target.value.slice(0, MAX))}
+              disabled={isLimitReached}
+              rows={4}
+              placeholder="Write your bio (up to 200 characters)..."
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8, flexWrap: 'wrap', gap: 8 }}>
+              <span style={{
+                color: remaining < 20 ? '#f87171' : 'var(--muted)',
+                fontWeight: remaining < 20 ? 700 : 500,
+                fontSize: '0.88rem'
+              }}>
+                {bio.length} / {MAX} characters ({remaining} remaining)
+                {isLimitReached && ' — Limit reached (textarea disabled)'}
+              </span>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button type="button" className="btn-ghost" onClick={() => setBio('x'.repeat(195))}>Fill 195 chars</button>
+                <button type="button" className="btn-ghost" onClick={() => setBio('')}>Clear</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      );
+    }
+
+    // Exercise 2 — Contact form with validation & reset
+    function ContactForm() {
+      const [form, setForm] = useState({ name: '', email: '', message: '' });
+      const [errors, setErrors] = useState({});
+      const [submittedName, setSubmittedName] = useState('');
+
+      function handleChange(e) {
+        const { name, value } = e.target;
+        setForm(p => ({ ...p, [name]: value }));
+        if (errors[name]) setErrors(p => ({ ...p, [name]: '' }));
+      }
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        const errs = {};
+        if (!form.name.trim()) errs.name = 'Name is required';
+        if (!form.email.trim()) {
+          errs.email = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+          errs.email = 'Please enter a valid email address';
+        }
+        if (!form.message.trim()) errs.message = 'Message is required';
+
+        if (Object.keys(errs).length) {
+          setErrors(errs);
+          return;
+        }
+        setSubmittedName(form.name.trim());
+        setForm({ name: '', email: '', message: '' });
+        setErrors({});
+      }
+
+      return (
+        <article className="card">
+          <span className="badge-ex">Exercise 2 · Contact Form Validation</span>
+          <h2 style={{ marginTop: 0 }}>Contact Form with Field Errors &amp; Reset</h2>
+          <p style={{ color: 'var(--muted)', margin: 0 }}>
+            Validates Name, Email, and Message on submit, clears errors as you type, then resets the form upon confirmation.
+          </p>
+          <div className="ex-box">
+            {submittedName ? (
+              <div style={{ padding: 16, borderRadius: 10, background: 'rgba(34, 197, 94, 0.14)', border: '1px solid rgba(34, 197, 94, 0.4)', textAlign: 'center' }}>
+                <h3 style={{ margin: '0 0 6px', color: '#4ade80' }}>✅ Thank you, {submittedName}!</h3>
+                <p style={{ margin: '0 0 12px', fontSize: '0.92rem' }}>Your message was received and the form has been reset.</p>
+                <button type="button" className="btn" onClick={() => setSubmittedName('')}>Send Another Message</button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate>
+                <div style={{ marginBottom: 12 }}>
+                  <label htmlFor="ex2-name" style={{ fontWeight: 700, fontSize: '0.88rem' }}>Name</label>
+                  <input id="ex2-name" name="name" className="ex-input" value={form.name} onChange={handleChange} placeholder="Your name" />
+                  {errors.name && <p className="ex-err" role="alert">{errors.name}</p>}
+                </div>
+                <div style={{ marginBottom: 12 }}>
+                  <label htmlFor="ex2-email" style={{ fontWeight: 700, fontSize: '0.88rem' }}>Email</label>
+                  <input id="ex2-email" name="email" type="email" className="ex-input" value={form.email} onChange={handleChange} placeholder="you@gachon.ac.kr" />
+                  {errors.email && <p className="ex-err" role="alert">{errors.email}</p>}
+                </div>
+                <div style={{ marginBottom: 14 }}>
+                  <label htmlFor="ex2-msg" style={{ fontWeight: 700, fontSize: '0.88rem' }}>Message</label>
+                  <textarea id="ex2-msg" name="message" className="ex-textarea" rows={3} value={form.message} onChange={handleChange} placeholder="Write your message..." />
+                  {errors.message && <p className="ex-err" role="alert">{errors.message}</p>}
+                </div>
+                <button type="submit" className="btn">Send Message</button>
+              </form>
+            )}
+          </div>
+        </article>
+      );
+    }
+
+    // Exercise 3 — Skills checklist with counter & max-3 warning
+    const SKILLS = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python'];
+
+    function SkillPicker() {
+      const [selected, setSelected] = useState(['HTML', 'React']);
+
+      function toggle(skill, checked) {
+        setSelected(prev => (checked ? [...prev, skill] : prev.filter(s => s !== skill)));
+      }
+
+      const overLimit = selected.length > 3;
+
+      return (
+        <article className="card">
+          <span className="badge-ex">Exercise 3 · Skills Checklist</span>
+          <h2 style={{ marginTop: 0 }}>Array Checkbox State with Live Counter</h2>
+          <p style={{ color: 'var(--muted)', margin: 0 }}>
+            Select skills from the 6 options below. Selecting more than 3 skills triggers a live validation warning.
+          </p>
+          <div className="ex-box">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+              <span style={{ fontWeight: 800, fontSize: '1rem', color: overLimit ? '#f87171' : 'var(--accent)' }}>
+                Selected: {selected.length} / 3
+              </span>
+              <button type="button" className="btn-ghost" onClick={() => setSelected([])}>Clear Selection</button>
+            </div>
+
+            {overLimit && (
+              <div role="alert" style={{ marginTop: 10, padding: '8px 12px', borderRadius: 8, background: 'rgba(239, 68, 68, 0.16)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#f87171', fontWeight: 700, fontSize: '0.9rem' }}>
+                ⚠️ Please select at most 3 skills.
+              </div>
+            )}
+
+            <div className="skills-grid">
+              {SKILLS.map(skill => {
+                const isChecked = selected.includes(skill);
+                return (
+                  <label key={skill} className={`skill-check-card ${isChecked ? 'checked' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={e => toggle(skill, e.target.checked)}
+                    />
+                    {skill}
+                  </label>
+                );
+              })}
+            </div>
+
+            <p style={{ margin: '12px 0 0', fontSize: '0.88rem', color: 'var(--muted)' }}>
+              Active array: <code>{JSON.stringify(selected)}</code>
+            </p>
+          </div>
+        </article>
+      );
+    }
+
+    function StudyGuideApp() {
+      return (
+        <>
+          <BioField />
+          <ContactForm />
+          <SkillPicker />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<StudyGuideApp />);
+  </script>
+</body>
+</html>
