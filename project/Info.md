@@ -7,7 +7,6 @@
 
 - **Live Website:** https://komorebi.uz
 - **GitHub Repository:** https://github.com/MSukhrob/komorebi
-- **Presentation & Guide:** https://komorebi.uz/presentation
 - **Presentation Slides (PPTX):** https://github.com/MSukhrob/komorebi/blob/main/komorebi-presentation.pptx
 - **Public Roadmap:** https://komorebi.uz/roadmap
 
