@@ -6,21 +6,79 @@
   <title>Sukhrob - Web Programming</title>
   <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
   <link rel="stylesheet" href="./theme.css">
-<style>
+  <style>
     .section-title { font-size: 1.15rem; margin: 30px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
     .task-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
     .task-list a { display: block; text-decoration: none; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; text-align: center; font-weight: 600; transition: transform .2s, box-shadow .2s, background-color .2s, color .2s; }
     .task-list a:hover { background: var(--primary); color: #fff; transform: translateY(-3px); box-shadow: var(--shadow); }
+    .final-project-card {
+      background: linear-gradient(145deg, var(--surface2), var(--surface));
+      border: 1px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin: 20px 0 10px;
+      box-shadow: var(--shadow);
+    }
+    .fp-badge {
+      display: inline-block;
+      background: rgba(34, 211, 238, 0.14);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .fp-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .fp-btn-secondary {
+      display: inline-block;
+      padding: 9px 16px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: border-color .2s, transform .2s;
+    }
+    .fp-btn-secondary:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
   <a class="skip-link" href="#main">skip to main content</a>
   <header>
-    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Web Programming · K0126002 · <a href="https://msukhrob.github.io/portfolio/">My portfolio</a></span>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Web Programming · K0126002 · <a href="https://msukhrob.github.io/portfolio/">My portfolio</a> · <a href="./project/index.html">Final Project</a></span>
   </header>
   <div class="container">
     <main id="main" tabindex="-1">
       <section class="banner" style="margin:-30px -18px 10px;border-radius:0 0 22px 22px"><h1>Course tasks</h1><p>All homework and in-class tasks, grouped by week.</p></section>
+
+      <section id="final-project" class="final-project-card" aria-labelledby="fp-heading">
+        <span class="fp-badge">Final Project · Komorebi</span>
+        <h2 id="fp-heading" style="margin:0 0 6px;font-size:1.35rem">Komorebi — Watchlist &amp; Social Cinema Tracker</h2>
+        <p style="margin:0;color:var(--muted);font-size:0.95rem">
+          Full-stack web app for tracking movies, series, and cartoons (Planned / Watching / Watched), rating &amp; reviewing titles, viewing stats, and sharing lists with friends. Built with <strong>Node.js, Express 5, PostgreSQL, TMDB API</strong>.
+        </p>
+        <div class="fp-actions">
+          <a href="./project/index.html" class="btn">Final Project Info ↗</a>
+          <a href="https://komorebi.uz" target="_blank" rel="noopener" class="fp-btn-secondary">Live: komorebi.uz ↗</a>
+          <a href="https://github.com/MSukhrob/komorebi" target="_blank" rel="noopener" class="fp-btn-secondary">GitHub Repo ↗</a>
+          <a href="https://github.com/MSukhrob/komorebi/blob/main/komorebi-presentation.pptx" target="_blank" rel="noopener" class="fp-btn-secondary">Slides (PPTX) ↗</a>
+          <a href="https://komorebi.uz/roadmap" target="_blank" rel="noopener" class="fp-btn-secondary">Roadmap ↗</a>
+        </div>
+      </section>
       <h2 class="section-title reveal">Week 2</h2>
       <ul class="task-list reveal">
         <li><a href="./week2/task1.html">Task 1</a></li>

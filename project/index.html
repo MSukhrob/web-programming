@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Project · Komorebi — Web Programming</title>
+  <script>(function(){var t=localStorage.getItem("site-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.classList.add("js");})();</script>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .fp-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .fp-link-tile {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+    }
+    .fp-link-tile:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow);
+    }
+    .fp-link-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .fp-link-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin: 6px 0 4px;
+      color: var(--text-h);
+    }
+    .fp-link-url {
+      font-size: 0.84rem;
+      color: var(--muted);
+      word-break: break-all;
+    }
+    .stack-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .stack-chip {
+      background: rgba(59, 130, 246, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #93c5fd;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to main content</a>
+  <header>
+    <strong>Sukhrob</strong> <span style="margin-left:10px;font-size:.9rem;opacity:.85">Final Project · <a href="../" style="color:#fff">All tasks</a></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="banner" style="margin:-30px -18px 20px;border-radius:0 0 22px 22px">
+      <h1>Final Project: Komorebi</h1>
+      <p>Keep track of everything you watch (movies, series and cartoons) and share your list with friends.</p>
+    </section>
+
+    <article class="card">
+      <h2 style="margin-top:0">Project Links</h2>
+      <div class="fp-links-grid">
+        <a class="fp-link-tile" href="https://komorebi.uz" target="_blank" rel="noopener">
+          <div>
+            <div class="fp-link-label">Production Live</div>
+            <div class="fp-link-title">komorebi.uz ↗</div>
+          </div>
+          <div class="fp-link-url">https://komorebi.uz</div>
+        </a>
+
+        <a class="fp-link-tile" href="https://github.com/MSukhrob/komorebi" target="_blank" rel="noopener">
+          <div>
+            <div class="fp-link-label">Source Code</div>
+            <div class="fp-link-title">GitHub Repository ↗</div>
+          </div>
+          <div class="fp-link-url">github.com/MSukhrob/komorebi</div>
+        </a>
+
+        <a class="fp-link-tile" href="https://github.com/MSukhrob/komorebi/blob/main/komorebi-presentation.pptx" target="_blank" rel="noopener">
+          <div>
+            <div class="fp-link-label">Slides</div>
+            <div class="fp-link-title">Presentation (PPTX) ↗</div>
+          </div>
+          <div class="fp-link-url">komorebi-presentation.pptx</div>
+        </a>
+
+        <a class="fp-link-tile" href="https://komorebi.uz/roadmap" target="_blank" rel="noopener">
+          <div>
+            <div class="fp-link-label">Future Plans</div>
+            <div class="fp-link-title">Public Roadmap ↗</div>
+          </div>
+          <div class="fp-link-url">https://komorebi.uz/roadmap</div>
+        </a>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2 style="margin-top:0">About Komorebi</h2>
+      <p>
+        <strong>Komorebi</strong> (木漏れ日 — sunlight filtering through leaves) is a full-stack web application built for Web Programming (<code>K0126002</code>) by <strong>Sukhrob Mansurov</strong> (<code>202537508</code>).
+      </p>
+      <ul style="color:var(--muted);line-height:1.8;padding-left:20px">
+        <li><strong>Watchlist &amp; Progress:</strong> Organize titles as <em>Planned</em>, <em>Watching</em>, or <em>Watched</em>, track seasons/episodes with Next Episode actions, rate 1–10 stars, and write reviews.</li>
+        <li><strong>Discovery &amp; Radar:</strong> Real-time TMDB search (<code>/</code> or <code>Ctrl+K</code>), browse by genre/rating, Release Radar, and Film &amp; TV news feeds.</li>
+        <li><strong>Social &amp; Privacy:</strong> Public, Friends-only, or Private profiles (<code>/u/&lt;username&gt;</code>), friend requests, and friend activity feeds.</li>
+        <li><strong>Stats &amp; Export:</strong> Personal watch-hour charts, rating breakdowns, and one-click CSV/JSON export.</li>
+      </ul>
+      <div class="stack-chips">
+        <span class="stack-chip">Node.js</span>
+        <span class="stack-chip">Express 5</span>
+        <span class="stack-chip">PostgreSQL</span>
+        <span class="stack-chip">TMDB API</span>
+        <span class="stack-chip">HTML5 &amp; CSS3</span>
+        <span class="stack-chip">Vanilla JS</span>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sukhrob (202537508) · Web Programming K0126002 · <a href="./Info.md">Info.md</a></p>
+  </footer>
+  <script src="../reveal.js"></script>
+</body>
+</html>
